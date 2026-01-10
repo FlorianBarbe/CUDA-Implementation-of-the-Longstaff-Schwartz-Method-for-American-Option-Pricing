@@ -60,11 +60,11 @@
 \contentsline {subsection}{\numberline {7.4}Outils et environnement collaboratif}{25}{subsection.7.4}%
 \contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{25}{subsection.7.5}%
 \contentsline {section}{\numberline {8}Conclusion}{25}{section.8}%
-\contentsline {section}{\numberline {A}Rsolution de l'EDS du GBM du mouvement brownien géométrique sous la mesure risque-neutre}{26}{appendix.A}%
+\contentsline {section}{\numberline {A}Rsolution de l'EDS du GBM du mouvement brownien géométrique sous la mesure risque-neutre}{27}{appendix.A}%
 \contentsline {section}{\numberline {B}Détails mathématiques de l’algorithme LSMC}{27}{appendix.B}%
 \contentsline {subsection}{\numberline {B.1}Valeur de continuation}{27}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Approximation par régression}{27}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}Critère d’exercice}{27}{subsection.B.3}%
-\contentsline {section}{\numberline {C}Pseudo-code de l’algorithme LSMC}{27}{appendix.C}%
-\contentsline {section}{\numberline {D}Extrait de kernel CUDA (illustratif)}{27}{appendix.D}%
-\contentsline {section}{\numberline {E}Analyse de scalabilité OpenMP}{27}{appendix.E}%
+\contentsline {subsection}{\numberline {B.2}Approximation par régression}{28}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Critère d’exercice}{28}{subsection.B.3}%
+\contentsline {section}{\numberline {C}Pseudo-code de l’algorithme LSMC}{28}{appendix.C}%
+\contentsline {section}{\numberline {D}Extrait de kernel CUDA (illustratif)}{28}{appendix.D}%
+\contentsline {section}{\numberline {E}Analyse de scalabilité OpenMP}{28}{appendix.E}%
