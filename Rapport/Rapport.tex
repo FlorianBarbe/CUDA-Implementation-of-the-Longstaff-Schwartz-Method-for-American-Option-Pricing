@@ -400,6 +400,27 @@ Cette version met en évidence le caractère fortement coûteux des méthodes de
 Monte Carlo lorsque la précision recherchée impose un grand nombre de trajectoires.
 Elle justifie pleinement le recours à des techniques de parallélisation.
 
+Les figures ci-dessous illustrent la validation empirique de la complexité linéaire de l'implémentation séquentielle.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_paths.png}
+        \caption{Temps vs $N_{paths}$ (CPU Séquentiel)}
+        \label{fig:linearity_paths}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_steps.png}
+        \caption{Temps vs $N_{steps}$ (CPU Séquentiel)}
+        \label{fig:linearity_steps}
+    \end{minipage}
+\end{figure}
+
+L'alignement quasi-parfait des points mesurés avec la régression linéaire confirme que l'implémentation respecte la complexité théorique sans overhead significatif cachés.
+
 \subsection{Accélération par parallélisation CPU avec OpenMP}
 
 La version OpenMP exploite le parallélisme multi-cœurs du processeur.  

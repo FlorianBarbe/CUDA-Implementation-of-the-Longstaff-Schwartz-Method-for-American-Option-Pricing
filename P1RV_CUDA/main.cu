@@ -10,7 +10,7 @@
 #include "fdm.hpp"
 #include "lsmc.hpp"
 
-int main() {
+int main(int argc, char *argv[]) {
   // ================================
   // Paramètres du produit
   // ================================
@@ -19,6 +19,29 @@ int main() {
   const double r = 0.05;
   const double sigma = 0.2;
   const double T = 1.0;
+
+  // ================================
+  // CLI Mode for Linearity Benchmark
+  // Usage: ./P1RV_CUDA [N_paths] [N_steps]
+  // ================================
+  if (argc == 3) {
+    int cli_paths = std::atoi(argv[1]);
+    int cli_steps = std::atoi(argv[2]);
+
+// Warm-up ignored for CPU seq
+#ifdef _OPENMP
+    omp_set_num_threads(1);
+#endif
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+    LSMC::priceAmericanPut(S0, K, r, sigma, T, cli_steps, cli_paths,
+                           RegressionBasis::Monomial, 2);
+    auto t1 = std::chrono::high_resolution_clock::now();
+    double dt = std::chrono::duration<double, std::milli>(t1 - t0).count();
+
+    std::cout << dt << std::endl;
+    return 0;
+  }
 
   // ================================
   // Paramètres Benchmark
