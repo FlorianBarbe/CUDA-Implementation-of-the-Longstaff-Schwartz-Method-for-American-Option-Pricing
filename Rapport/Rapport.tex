@@ -644,9 +644,7 @@ importantes lorsque le nombre de trajectoires augmente.
 
 Les résultats expérimentaux (voir Figures ci-dessous) montrent un gain de performance croissant avec la
 taille du problème, atteignant des facteurs d’accélération supérieurs à $30$
-pour de grands nombres de trajectoires. En revanche, la backward induction
-introduit une dépendance temporelle forte entre les dates, ce qui limite la
-parallélisation complète et impose des synchronisations coûteuses.
+pour de grands nombres de trajectoires.
 
 \begin{figure}[H]
     \centering
@@ -664,6 +662,20 @@ parallélisation complète et impose des synchronisations coûteuses.
         \label{fig:linearity_steps_gpu}
     \end{minipage}
 \end{figure}
+
+En revanche, la backward induction impose une dépendance temporelle forte entre les dates successives.
+Cette contrainte limite la parallélisation complète de l'algorithme et réduit le gain théorique maximal.
+Les performances dépendent notamment :
+\begin{itemize}
+    \item du nombre de trajectoires simulées ;
+    \item de l'occupation effective du GPU ;
+    \item de l'efficacité des réductions parallèles ;
+    \item de la limitation des transferts mémoire CPU-GPU.
+\end{itemize}
+
+\textbf{Synthèse :} Le GPU excelle sur le parallélisme de données (trajectoires), offrant des speedups d'un ordre
+de grandeur, mais l'accélération globale reste structurellement bornée par la nature séquentielle temporelle
+de l'algorithme (loi d'Amdahl appliquée à la backward induction).
 
 Par ailleurs, une légère différence entre les prix CPU et GPU a été observée.
 Elle s’explique par la nature statistique de la méthode de Monte Carlo, les

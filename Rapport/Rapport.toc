@@ -35,7 +35,7 @@
 \contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{16}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{16}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{16}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{16}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{17}{subsection.6.3}%
 \contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{17}{subsection.6.4}%
 \contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{17}{subsection.6.5}%
 \contentsline {section}{\numberline {7}Organisation du travail}{18}{section.7}%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -567,13 +567,13 @@ Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 160639.png  used on
 <images/linearity_paths_gpu.png, id=440, 505.89pt x 361.35pt>
 File: images/linearity_paths_gpu.png Graphic file (type png)
 <use images/linearity_paths_gpu.png>
-Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 655
+Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 653
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
 <images/linearity_steps_gpu.png, id=441, 505.89pt x 361.35pt>
 File: images/linearity_steps_gpu.png Graphic file (type png)
 <use images/linearity_steps_gpu.png>
-Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 662
+Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 660
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
  [15 <./images/linearity_paths_gpu.png> <./images/linearity_steps_gpu.png>] [16
@@ -583,16 +583,16 @@ pt>
 File: images/Capture d'Ã©cran 2026-01-10 161107.png Graphic file (type png)
 <use images/Capture d'Ã©cran 2026-01-10 161107.png>
 Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 161107.png  used on
- input line 741.
+ input line 753.
 (pdftex.def)             Requested size: 306.81741pt x 250.39944pt.
-
-Overfull \hbox (1.38707pt too wide) in paragraph at lines 747--748
+ [17 <./images/Capture d'Ã©cran 2026-01-10 161107.png>]
+Overfull \hbox (1.38707pt too wide) in paragraph at lines 759--760
 []\T1/cmr/m/n/10 des méth-odes ré-centes basées sur l'apprentissage au-toma-tiq
 ue (réseaux de neu-rones pour l'approximation
  []
 
-[17 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [18] [19]
-Overfull \hbox (4.66158pt too wide) in paragraph at lines 873--874
+[18] [19]
+Overfull \hbox (4.66158pt too wide) in paragraph at lines 885--886
 []\T1/cmr/m/n/10 La val-i-da-tion croisée avec des méth-odes déter-min-istes de
  dif-férences finies a con-firmé la co-hérence numérique
  []
@@ -656,7 +656,7 @@ fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs
 /MiKTeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Pr
 ograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/Ap
 pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (26 pages, 2125571 bytes).
+Output written on Rapport.pdf (26 pages, 2126011 bytes).
 PDF statistics:
  1240 PDF objects out of 1440 (max. 8388607)
  137 named destinations out of 1000 (max. 500000)
