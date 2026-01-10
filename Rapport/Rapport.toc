@@ -1,62 +1,70 @@
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
 \contentsline {paragraph}{Cadre probabiliste et filtrations}{3}{section*.3}%
-\contentsline {paragraph}{Processus stochastiques}{3}{section*.4}%
+\contentsline {paragraph}{Processus stochastiques}{4}{section*.4}%
 \contentsline {paragraph}{Sous-jacent et dynamique}{4}{section*.5}%
 \contentsline {paragraph}{Temps, discrétisation et simulation}{4}{section*.6}%
 \contentsline {paragraph}{Espérances et opérateurs}{4}{section*.7}%
 \contentsline {paragraph}{Option et payoffs}{4}{section*.8}%
-\contentsline {paragraph}{Valeur de l’option et arrêt optimal}{4}{section*.9}%
+\contentsline {paragraph}{Valeur de l’option et arrêt optimal}{5}{section*.9}%
 \contentsline {paragraph}{Algorithme de Longstaff--Schwartz}{5}{section*.10}%
 \contentsline {paragraph}{Implémentation numérique et performance}{5}{section*.11}%
 \contentsline {section}{\numberline {2}Cadre théorique}{5}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Options américaines et problématique de l’exercice anticipé}{5}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Modélisation stochastique du sous-jacent}{5}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Mouvement brownien géométrique}{5}{subsubsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2}Modélisation stochastique du sous-jacent}{6}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Mouvement brownien géométrique}{6}{subsubsection.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.2}Discrétisation temporelle}{8}{subsubsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.3}Algorithme de Longstaff--Schwartz (LSMC)}{8}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}Valeur de continuation et problème d’arrêt optimal}{8}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2}Régression par moindres carrés}{9}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}Stratégie d’exercice optimale}{9}{subsubsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3}Algorithme de Longstaff--Schwartz (LSMC)}{9}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Valeur de continuation et problème d’arrêt optimal}{9}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Régression par moindres carrés}{10}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Stratégie d’exercice optimale}{10}{subsubsection.2.3.3}%
 \contentsline {subsection}{\numberline {2.4}Synthèse algorithmique et pseudo-algorithme du LSMC}{10}{subsection.2.4}%
-\contentsline {section}{\numberline {3}Travail réalisé : implémentation et méthodologie}{10}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Environnement de développement}{11}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Implémentation CPU séquentielle}{11}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Parallélisation CPU avec OpenMP}{12}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Accélération GPU avec CUDA}{12}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Méthodes de Différences Finies (FDM) pour comparaison}{12}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{13}{subsection.3.6}%
-\contentsline {section}{\numberline {4}Résultats et analyse des performances}{13}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Protocole expérimental et résultats}{13}{subsection.4.1}%
-\contentsline {paragraph}{Analyse des résultats :}{14}{section*.12}%
-\contentsline {subsection}{\numberline {4.2}Validation numérique}{14}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Performances CPU séquentiel}{14}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Accélération par parallélisation CPU avec OpenMP}{14}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Accélération GPU avec CUDA}{15}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Comparaison globale des architectures}{15}{subsection.4.6}%
-\contentsline {subsection}{\numberline {4.7}Discussion sur les limites du parallélisme}{15}{subsection.4.7}%
-\contentsline {section}{\numberline {5}Difficultés rencontrées}{16}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Complexité de l’exercice anticipé}{16}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Choix et stabilité de la régression}{16}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Extension : Bases de Régression Avancées}{16}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Limites de la parallélisation CPU}{16}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Spécificités et contraintes de l’implémentation GPU}{17}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Compromis précision--performance}{17}{subsection.5.6}%
-\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{17}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{17}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{17}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{18}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{18}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{18}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Organisation du travail}{18}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Découpage du projet}{19}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{19}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{19}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Outils et environnement collaboratif}{20}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{20}{subsection.7.5}%
-\contentsline {section}{\numberline {8}Conclusion}{20}{section.8}%
-\contentsline {section}{\numberline {A}Détails mathématiques de l’algorithme LSMC}{22}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Valeur de continuation}{22}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Approximation par régression}{22}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Critère d’exercice}{22}{subsection.A.3}%
-\contentsline {section}{\numberline {B}Pseudo-code de l’algorithme LSMC}{22}{appendix.B}%
-\contentsline {section}{\numberline {C}Extrait de kernel CUDA (illustratif)}{23}{appendix.C}%
+\contentsline {section}{\numberline {3}Travail réalisé : implémentation et méthodologie}{13}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Environnement de développement}{13}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Implémentation CPU séquentielle}{13}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Parallélisation CPU avec OpenMP}{13}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Accélération GPU avec CUDA}{14}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Méthodes de Différences Finies (FDM) pour comparaison}{14}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{15}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Résultats et analyse des performances}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Configuration matérielle}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Première approche : comparaison des méthodes de parallélisme}{15}{subsection.4.2}%
+\contentsline {paragraph}{Analyse des résultats :}{16}{section*.12}%
+\contentsline {subsection}{\numberline {4.3}Pour aller plus loin : analyse de l'impact de la base de régression}{16}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Validation numérique}{16}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Performances CPU séquentiel}{17}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Accélération par parallélisation CPU avec OpenMP}{17}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Accélération GPU avec CUDA}{17}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Comparaison globale des architectures}{18}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Discussion sur les limites du parallélisme}{18}{subsection.4.9}%
+\contentsline {section}{\numberline {5}Difficultés rencontrées}{18}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{18}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Échec de l'intégration CUDA dans Visual Studio}{19}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{19}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{19}{subsection.5.4}%
+\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{19}{section*.13}%
+\contentsline {paragraph}{Extensions et bases avancées.}{19}{section*.14}%
+\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{20}{section*.15}%
+\contentsline {subsection}{\numberline {5.5}Limites de la parallélisation CPU}{21}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Spécificités et contraintes de l’implémentation GPU}{21}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Compromis précision--performance}{21}{subsection.5.7}%
+\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{21}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{22}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{22}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{22}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{22}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{23}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Organisation du travail}{23}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Découpage du projet}{23}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{24}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{24}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Outils et environnement collaboratif}{25}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{25}{subsection.7.5}%
+\contentsline {section}{\numberline {8}Conclusion}{25}{section.8}%
+\contentsline {section}{\numberline {A}Rsolution de l'EDS du GBM du mouvement brownien géométrique sous la mesure risque-neutre}{26}{appendix.A}%
+\contentsline {section}{\numberline {B}Détails mathématiques de l’algorithme LSMC}{27}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}Valeur de continuation}{27}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Approximation par régression}{27}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Critère d’exercice}{27}{subsection.B.3}%
+\contentsline {section}{\numberline {C}Pseudo-code de l’algorithme LSMC}{27}{appendix.C}%
+\contentsline {section}{\numberline {D}Extrait de kernel CUDA (illustratif)}{27}{appendix.D}%
+\contentsline {section}{\numberline {E}Analyse de scalabilité OpenMP}{27}{appendix.E}%

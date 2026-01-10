@@ -30,31 +30,32 @@ public:
   static double
   priceAmericanPut(double S0, double K, double r, double sigma, double T,
                    int N_steps, int N_paths,
-                   RegressionBasis basis = RegressionBasis::Monomial);
+                   RegressionBasis basis = RegressionBasis::Monomial,
+                   int poly_degree = 3);
 
 #ifdef LSMC_ENABLE_CUDA
   // Version GPU
   static double
   priceAmericanPutGPU(double S0, double K, double r, double sigma, double T,
                       int N_steps, int N_paths,
-                      RegressionBasis basis = RegressionBasis::Monomial);
+                      RegressionBasis basis = RegressionBasis::Monomial,
+                      int poly_degree = 3);
+
 #endif
 };
 
 // =======================================
-// Structures pour la régression GPU (Max 4x4)
+// Structures pour la régression GPU (Max deg=10 => N=11)
 // =======================================
-// On stocke les coefficients de A (Symétrique) et B pour Ax=B
-// Max deg=3 (Cubic) => 4 coefficients => A 4x4 (10 valeurs triangle sup), B 4
-// valeurs On utilise un tableau plat pour simplifier
+// A (Symétrique) de taille N*N. Triangle sup = N*(N+1)/2.
+// Pour N=11 (deg 10), taille = 66.
 struct RegressionSumsGPU {
-  double A[10]; // Triangle supérieur de A en row-major: 00, 01, 02, 03, 11, 12,
-                // 13, 22, 23, 33
-  double B[4]; // Vecteur B
+  double A[66];
+  double B[11];
 };
 
 struct BetaGPU {
-  double beta[4]; // Coefficients résultants
+  double beta[11];
 };
 
 // =======================================
@@ -66,11 +67,13 @@ struct BetaGPU {
 void computeRegressionSumsGPU(const float *d_paths, const float *d_payoff,
                               const float *d_cashflows, int t, int N_steps,
                               int N_paths, float discount,
-                              RegressionSumsGPU &out, RegressionBasis basis);
+                              RegressionSumsGPU &out, RegressionBasis basis,
+                              int poly_degree);
 
 // Mise à jour des cashflows
 void updateCashflowsGPU(const float *d_paths, const float *d_payoff,
                         float *d_cashflows, const BetaGPU &beta, float discount,
-                        int t, int N_steps, int N_paths, RegressionBasis basis);
+                        int t, int N_steps, int N_paths, RegressionBasis basis,
+                        int poly_degree);
 
 #endif // LSMC_ENABLE_CUDA

@@ -13,7 +13,7 @@ CudaRuntime=Static
 CudaToolkitCustomDir=
 DebugInformationFormat=None
 DebugInformationFormat=None
-Defines=;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";_MBCS;;WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"
+Defines=;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="Release";_MBCS;;WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="Release"
 Emulation=false
 EnableVirtualArchInFatbin=true
 ExtensibleWholeProgramCompilation=false

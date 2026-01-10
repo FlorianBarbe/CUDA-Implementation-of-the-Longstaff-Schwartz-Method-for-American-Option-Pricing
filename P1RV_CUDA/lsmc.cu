@@ -31,6 +31,51 @@ __device__ __forceinline__ int idx_t_path(int t, int path, int N_paths) {
 }
 
 // ======================================================
+// GENERIC BASIS EVALUATION (Recurrence)
+// ======================================================
+__device__ void eval_basis_generic(double S, int degree, int basis_type,
+                                   double *phi, double min_S, double max_S) {
+  // basis_type: 0=Monomial, 1=Hermite, 2=Laguerre, 3=Chebyshev
+
+  // Always start with order 0
+  phi[0] = 1.0;
+  if (degree >= 1) {
+    if (basis_type == 3) { // Chebyshev map to [-1, 1]
+      double width = max_S - min_S;
+      double x_norm = (width > 1e-6) ? (2.0 * (S - min_S) / width - 1.0) : 0.0;
+      phi[1] = x_norm;
+    } else if (basis_type == 2) { // Laguerre
+      phi[1] = 1.0 - S;
+    } else { // Monomial, Hermite
+      phi[1] = S;
+    }
+  }
+
+  for (int k = 2; k <= degree; ++k) {
+    if (basis_type == 0) { // Monomial
+      phi[k] = phi[k - 1] * S;
+    } else if (basis_type == 1) { // Hermite (Probabilists: He_{n} = x*He_{n-1}
+                                  // - (n-1)*He_{n-2})
+      phi[k] = S * phi[k - 1] - (double)(k - 1) * phi[k - 2];
+    } else if (basis_type == 2) { // Laguerre: (n)L_{n} = (2n-1-x)L_{n-1} -
+                                  // (n-1)L_{n-2} -> shifted k
+      // Recurrence: (k)*L_k = (2k-1 - x)*L_{k-1} - (k-1)*L_{k-2}
+      phi[k] =
+          ((2.0 * (k - 1.0) + 1.0 - S) * phi[k - 1] - (k - 1.0) * phi[k - 2]) /
+          (double)k;
+    } else if (basis_type == 3) { // Chebyshev: T_k = 2xT_{k-1} - T_{k-2}
+      double x_norm = phi[1];     // Stored in phi[1]
+      phi[k] = 2.0 * x_norm * phi[k - 1] - phi[k - 2];
+    } else if (basis_type == 4) { // Cubic special case in original code -> Now
+                                  // Treated as Monomial
+      // If user asks for "Cubic" explicitly, we map it to Monomial with
+      // degree=3 in logic
+      phi[k] = phi[k - 1] * S;
+    }
+  }
+}
+
+// ======================================================
 // PAYOFF KERNEL (put amricain)
 // ======================================================
 __global__ void payoff_kernel(const float *__restrict__ d_paths,
@@ -75,22 +120,39 @@ __global__ void init_cashflows_kernel(const float *__restrict__ d_payoff,
 // ======================================================
 // REGRESSION GPU OPTIMISE (SHARED MEMORY REDUCTION)
 // ======================================================
+// ======================================================
+// REGRESSION GPU OPTIMISE (SHARED MEMORY REDUCTION)
+// ======================================================
 __global__ void regression_sums_shared_kernel(
     const float *__restrict__ d_paths, const float *__restrict__ d_payoff,
     const float *__restrict__ d_cashflows, int t, int N_steps, int N_paths,
-    float discount, double *__restrict__ d_sums, int basis_type, double min_S,
-    double max_S) {
+    float discount, double *__restrict__ d_sums, int basis_type, int degree,
+    double min_S, double max_S) {
 
-  // Max needed = 14 doubles (4x4 sym A + 4 B)
-  __shared__ double s_block[14];
-  if (threadIdx.x < 14)
+  // Max size dependent on degree. Max degree 10 => N=11.
+  // Triangle A: 11*12/2 = 66. Vector B: 11. Total 77.
+  // Let's alloc ample space: 80 doubles.
+  __shared__ double s_block[80];
+
+  int N_basis = degree + 1;
+  int size_A = (N_basis * (N_basis + 1)) / 2;
+  int total_size = size_A + N_basis;
+
+  if (threadIdx.x < total_size)
     s_block[threadIdx.x] = 0.0;
   __syncthreads();
 
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = gridDim.x * blockDim.x;
 
-  double r[14] = {0.0};
+  // Local accumulation
+  // Max degree 10 -> 11 basis functions -> 77 doubles max.
+  // Registers usage high? If N=11, simple loop is fine.
+  double r[80];
+  for (int k = 0; k < total_size; ++k)
+    r[k] = 0.0;
+
+  double phi[11]; // Max degree 10
 
   for (int i = tid; i < N_paths; i += stride) {
     int id_xt = idx_t_path(t, i, N_paths);
@@ -102,35 +164,8 @@ __global__ void regression_sums_shared_kernel(
     double S = (double)d_paths[id_xt];
     double Y = (double)d_cashflows[i] * (double)discount;
 
-    double phi[4];
-    int N_basis = 3;
-
-    if (basis_type == 0) { // Monomial
-      phi[0] = 1.0;
-      phi[1] = S;
-      phi[2] = S * S;
-    } else if (basis_type == 1) { // Hermite
-      phi[0] = 1.0;
-      phi[1] = S;
-      phi[2] = S * S - 1.0;
-    } else if (basis_type == 2) { // Laguerre
-      phi[0] = 1.0;
-      phi[1] = 1.0 - S;
-      phi[2] = 0.5 * (S * S - 4.0 * S + 2.0);
-    } else if (basis_type == 3) { // Chebyshev
-      // Map [min, max] -> [-1, 1]
-      double width = max_S - min_S;
-      double x_norm = (width > 1e-6) ? (2.0 * (S - min_S) / width - 1.0) : 0.0;
-      phi[0] = 1.0;
-      phi[1] = x_norm;
-      phi[2] = 2.0 * x_norm * x_norm - 1.0;
-    } else if (basis_type == 4) { // Cubic
-      phi[0] = 1.0;
-      phi[1] = S;
-      phi[2] = S * S;
-      phi[3] = S * S * S;
-      N_basis = 4;
-    }
+    // Eval Basis
+    eval_basis_generic(S, degree, basis_type, phi, min_S, max_S);
 
     // Accumulate A (Upper triangular)
     int idx = 0;
@@ -140,36 +175,34 @@ __global__ void regression_sums_shared_kernel(
       }
     }
 
-    // Accumulate B (Start idx is 10 because max A is 10 for N=4, for N=3 it is
-    // 6 but we use fixed layout?) Let's stick to dense packing for generic N
-    // Current Generic Packer above puts A sequentially.
-    // If N=3, A has 6 elements. If N=4, A has 10.
-    // To simplify: We always assume max layout of 10 for A, and B starts at 10.
-    // B indices: 10, 11, 12, 13
-
+    // Accumulate B (Start idx is size_A)
     for (int k = 0; k < N_basis; ++k) {
-      r[10 + k] += phi[k] * Y;
+      r[size_A + k] += phi[k] * Y;
     }
   }
 
   // Reduction in shared
-  for (int k = 0; k < 14; ++k) {
+  for (int k = 0; k < total_size; ++k) {
     atomicAdd(&s_block[k], r[k]);
   }
 
   __syncthreads();
 
-  if (threadIdx.x < 14) {
+  if (threadIdx.x < total_size) {
     atomicAdd(&d_sums[threadIdx.x], s_block[threadIdx.x]);
   }
 }
 
 #include "minmax_kernel.cuh"
 
+// ======================================================
+// COMPUTE SUMS Wrapper
+// ======================================================
 void computeRegressionSumsGPU(const float *d_paths, const float *d_payoff,
                               const float *d_cashflows, int t, int N_steps,
                               int N_paths, float discount,
-                              RegressionSumsGPU &out, RegressionBasis basis) {
+                              RegressionSumsGPU &out, RegressionBasis basis,
+                              int poly_degree) {
   double *d_sums = nullptr;
   // Reduce min/max if Chebyshev
   double *d_minmax = nullptr;
@@ -199,11 +232,10 @@ void computeRegressionSumsGPU(const float *d_paths, const float *d_payoff,
     CUDA_CHECK(cudaFree(d_minmax));
   }
 
-  CUDA_CHECK(cudaMalloc(&d_sums, 14 * sizeof(double)));
-  CUDA_CHECK(cudaMemset(d_sums, 0, 14 * sizeof(double)));
-
-  // On limite la grille pour viter trop d'overhead si N_paths est immense
-  // Mais bon, N_paths=300k, grid=1000 blocks, a va.
+  // Max degree 10 -> N=11 -> 77 doubles.
+  // Alloc 80
+  CUDA_CHECK(cudaMalloc(&d_sums, 80 * sizeof(double)));
+  CUDA_CHECK(cudaMemset(d_sums, 0, 80 * sizeof(double)));
 
   int b_type = 0;
   if (basis == RegressionBasis::Monomial)
@@ -214,38 +246,44 @@ void computeRegressionSumsGPU(const float *d_paths, const float *d_payoff,
     b_type = 2;
   else if (basis == RegressionBasis::Chebyshev)
     b_type = 3;
+  // Cubic is just Monomial deg 3, but if enum is used:
   else if (basis == RegressionBasis::Cubic)
     b_type = 4;
 
-  regression_sums_shared_kernel<<<grid, block>>>(d_paths, d_payoff, d_cashflows,
-                                                 t, N_steps, N_paths, discount,
-                                                 d_sums, b_type, min_S, max_S);
+  regression_sums_shared_kernel<<<grid, block>>>(
+      d_paths, d_payoff, d_cashflows, t, N_steps, N_paths, discount, d_sums,
+      b_type, poly_degree, min_S, max_S);
   CUDA_CHECK(cudaPeekAtLastError());
 
-  // Pas besoin de sync ici si on copie juste aprs (le copy synchronise
-  // implicitement ou stream 0) Mais pour scurit:
-  // CUDA_CHECK(cudaDeviceSynchronize()); // On laisse le memcpy sync.
-
-  double h_sums[14];
+  double h_sums[80];
   CUDA_CHECK(
-      cudaMemcpy(h_sums, d_sums, 14 * sizeof(double), cudaMemcpyDeviceToHost));
+      cudaMemcpy(h_sums, d_sums, 80 * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CHECK(cudaFree(d_sums));
 
-  // Copy A (10 vals)
-  for (int i = 0; i < 10; ++i)
+  int N_basis = poly_degree + 1;
+  int size_A = (N_basis * (N_basis + 1)) / 2;
+
+  // Copy A
+  for (int i = 0; i < size_A; ++i)
     out.A[i] = h_sums[i];
-  // Copy B (4 vals, start at offset 10)
-  for (int i = 0; i < 4; ++i)
-    out.B[i] = h_sums[10 + i];
+  // Copy B
+  for (int i = 0; i < N_basis; ++i)
+    out.B[i] = h_sums[size_A + i];
 }
 
 // ======================================================
 // UPDATE CASHFLOWS (dcision exercice / continuation)
 // ======================================================
-__global__ void update_cashflows_kernel(
-    const float *__restrict__ d_paths, const float *__restrict__ d_payoff,
-    float *__restrict__ d_cashflows, BetaGPU beta, float discount, int t,
-    int N_steps, int N_paths, int basis_type, double min_S, double max_S) {
+// ======================================================
+// UPDATE CASHFLOWS (dcision exercice / continuation)
+// ======================================================
+__global__ void update_cashflows_kernel(const float *__restrict__ d_paths,
+                                        const float *__restrict__ d_payoff,
+                                        float *__restrict__ d_cashflows,
+                                        BetaGPU beta, float discount, int t,
+                                        int N_steps, int N_paths,
+                                        int basis_type, int degree,
+                                        double min_S, double max_S) {
   int path = blockIdx.x * blockDim.x + threadIdx.x;
   if (path >= N_paths)
     return;
@@ -257,30 +295,12 @@ __global__ void update_cashflows_kernel(
 
   if (immediate > 0.0f) {
     double cont = 0.0;
+    double phi[11]; // Max degree 10
 
-    double phi[4];
-    // Monomial default
-    phi[0] = 1.0;
-    phi[1] = S;
-    phi[2] = S * S;
-    phi[3] = 0.0;
+    eval_basis_generic((double)S, degree, basis_type, phi, min_S, max_S);
 
-    if (basis_type == 1) { // Hermite
-      phi[2] = S * S - 1.0;
-    } else if (basis_type == 2) { // Laguerre
-      phi[1] = 1.0 - S;
-      phi[2] = 0.5 * (S * S - 4.0 * S + 2.0);
-    } else if (basis_type == 3) { // Chebyshev
-      double width = max_S - min_S;
-      double x_norm = (width > 1e-6) ? (2.0 * (S - min_S) / width - 1.0) : 0.0;
-      phi[1] = x_norm;
-      phi[2] = 2.0 * x_norm * x_norm - 1.0;
-    } else if (basis_type == 4) { // Cubic
-      phi[3] = S * S * S;
-    }
-
-    // Dot product with beta (size 4)
-    for (int i = 0; i < 4; ++i)
+    // Dot product with beta (size degree+1)
+    for (int i = 0; i <= degree; ++i)
       cont += beta.beta[i] * phi[i];
 
     if ((double)immediate > cont)
@@ -298,8 +318,8 @@ __global__ void update_cashflows_kernel(
 
 void updateCashflowsGPU(const float *d_paths, const float *d_payoff,
                         float *d_cashflows, const BetaGPU &beta, float discount,
-                        int t, int N_steps, int N_paths,
-                        RegressionBasis basis) {
+                        int t, int N_steps, int N_paths, RegressionBasis basis,
+                        int poly_degree) {
   int block = 256;
   int grid = (N_paths + block - 1) / block;
 
@@ -339,49 +359,41 @@ void updateCashflowsGPU(const float *d_paths, const float *d_payoff,
 
   update_cashflows_kernel<<<grid, block>>>(d_paths, d_payoff, d_cashflows, beta,
                                            discount, t, N_steps, N_paths,
-                                           b_type, min_S, max_S);
+                                           b_type, poly_degree, min_S, max_S);
   CUDA_CHECK(cudaPeekAtLastError());
   CUDA_CHECK(cudaDeviceSynchronize());
 }
 
 // ======================================================
-// Rsolution 33 (Cramer)
-// ======================================================
-// ======================================================
 // Helper: Solve NxN System (Gaussian Elimination)
-// N <= 4 (Hardcoded limit for registers)
+// N <= 11 (Max Degree 10)
 // ======================================================
-static BetaGPU solveSystem(int N, const double A_flat[10], const double B[4]) {
-  // Reconstruct full matrix A from flat upper triangular
-  double A[4][4];
-
-  // Mapping flat idx to (i,j)
-  // 00, 01, 02, 03 -> 0, 1, 2, 3
-  // 11, 12, 13     -> 4, 5, 6
-  // 22, 23         -> 7, 8
-  // 33             -> 9
-
-  // 3x3 Case (indices: 0, 1, 2, 4, 5, 7)
-  // 4x4 Case (all indices)
+static BetaGPU solveSystem(int N, const double A_flat[66], const double B[11]) {
+  // Reconstruct full matrix A
+  double A[11][11];
 
   int idx = 0;
   for (int i = 0; i < N; ++i) {
     for (int j = i; j < N; ++j) {
-      A[i][j] = A_flat[idx++];
-      A[j][i] = A[i][j]; // Symmetry
+      if (idx < 66) {
+        A[i][j] = A_flat[idx++];
+        A[j][i] = A[i][j]; // Symmetry
+      }
     }
   }
 
-  double rhs[4];
+  double rhs[11];
   for (int i = 0; i < N; ++i)
     rhs[i] = B[i];
 
   // Forward Elimination
   for (int i = 0; i < N; ++i) {
-    // Pivot
     double pivot = A[i][i];
-    if (fabs(pivot) < 1e-12)
-      return {0}; // Singularity check
+    if (fabs(pivot) < 1e-12) {
+      // Simple regularization or return 0
+      BetaGPU err{};
+      return err;
+    }
 
     for (int j = i + 1; j < N; ++j) {
       double factor = A[j][i] / pivot;
@@ -393,7 +405,7 @@ static BetaGPU solveSystem(int N, const double A_flat[10], const double B[4]) {
   }
 
   // Backward Substitution
-  double x[4] = {0};
+  double x[11] = {0};
   for (int i = N - 1; i >= 0; --i) {
     double sum = 0.0;
     for (int j = i + 1; j < N; ++j) {
@@ -402,17 +414,15 @@ static BetaGPU solveSystem(int N, const double A_flat[10], const double B[4]) {
     x[i] = (rhs[i] - sum) / A[i][i];
   }
 
-  BetaGPU out;
-  for (int i = 0; i < 4; ++i)
+  BetaGPU out{};
+  for (int i = 0; i < N; ++i)
     out.beta[i] = x[i];
   return out;
 }
 
 static BetaGPU solveRegression(const RegressionSumsGPU &s,
-                               RegressionBasis basis) {
-  int N = 3;
-  if (basis == RegressionBasis::Cubic)
-    N = 4;
+                               RegressionBasis basis, int degree) {
+  int N = degree + 1;
   return solveSystem(N, s.A, s.B);
 }
 
@@ -460,7 +470,7 @@ __global__ void sum_reduce_kernel(const float *__restrict__ input,
 // ======================================================
 double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
                                  double T, int N_steps, int N_paths,
-                                 RegressionBasis basis) {
+                                 RegressionBasis basis, int poly_degree) {
   // 1) Paramtres GBM
   GbmParams params;
   params.S0 = (float)S0;
@@ -511,12 +521,12 @@ double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
 
     RegressionSumsGPU sums{};
     computeRegressionSumsGPU(d_paths, d_payoff, d_cashflows, t, N_steps,
-                             N_paths, discount, sums, basis);
+                             N_paths, discount, sums, basis, poly_degree);
 
-    BetaGPU beta = solveRegression(sums, basis);
+    BetaGPU beta = solveRegression(sums, basis, poly_degree);
 
     updateCashflowsGPU(d_paths, d_payoff, d_cashflows, beta, discount, t,
-                       N_steps, N_paths, basis);
+                       N_steps, N_paths, basis, poly_degree);
   }
 
   // 6) Moyenne des cashflows initiaux (Reduction GPU)
@@ -526,8 +536,6 @@ double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
 
   // Lancement kernel reduction
   int gridRed = (N_paths + 256 - 1) / 256;
-  // Si N_paths est trs grand, peut-tre plusieurs pass.
-  // Ici on fait atomicAdd global  la fin de chaque bloc, donc 1 pass suffit.
   sum_reduce_kernel<<<gridRed, 256>>>(d_cashflows, d_totalSum, N_paths);
 
   double totalSum = 0.0;

@@ -1,5 +1,8 @@
-\documentclass{article}
+﻿\documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{eurosym}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -66,9 +69,9 @@ Ce rapport présente le travail réalisé durant le premier semestre de la deuxi
 
 Le sujet central du projet porte sur l’évaluation et la comparaison de différentes stratégies de calcul pour le pricing d’options américaines, en s’appuyant sur l’algorithme LSMC (\emph{Least Squares Monte Carlo}), également appelé méthode de Monte Carlo avec régression par moindres carrés ou méthode de Longstaff--Schwartz. Cette approche est aujourd’hui largement utilisée pour la valorisation de produits dérivés complexes lorsque les solutions analytiques fermées ne sont pas disponibles.
 
-La valorisation des options américaines est intrinsèquement plus complexe que celle des options européennes en raison de la possibilité d’un exercice anticipé à tout instant avant la maturité. Cette caractéristique impose la détermination d’une politique d’exercice optimale, rendant inadaptées les méthodes classiques fondées uniquement sur des formules fermées (c'est-à-dire une formule explicite, finie, calculable directement et sans itération). L’algorithme LSMC tente de répondre à cette difficulté en combinant des simulations de Monte Carlo avec des régressions par moindres carrés, permettant d’estimer, à chaque date d’exercice possible, la valeur de continuation associée au maintien de l’option.
+La valorisation des options américaines est intrinsèquement plus complexe que celle des options européennes en raison de la possibilité d’un exercice anticipé à tout instant avant la maturité. Cette caractéristique impose la détermination d’une politique d’exercice optimale, rendant inadaptées les méthodes classiques fondées uniquement sur des formules fermées (c'est-à-dire une formule explicite, finie, calculable directement et sans itération). L’algorithme LSMC tente de répondre à cette difficulté en combinant des simulations de Monte Carlo avec des régressions par moindres carrés, permettant d’estimer, à chaque date d’exercice possible, la valeur de continuation associée au maintien de l’option\footnote{Un produit dérivé est un instrument financier dont la valeur dépend (dérive) de celle d'un actif sous-jacent, comme une action, un indice ou une matière première.}.
 
-Au-delà de l’aspect théorique, ce projet s’inscrit dans une problématique de performance numérique, car les méthodes de Monte Carlo nécessitent la simulation d’un très grand nombre de trajectoires afin de garantir la convergence statistique et la précision des résultats, entraînant des coûts de calcul élevés. Le travail réalisé s'étend donc également à l'évaluation de l’impact de différentes architectures de calcul sur les performances de notre algorithme.
+Au-delà de l’aspect théorique, ce projet s’inscrit dans une problématique de performance numérique, car les méthodes de Monte Carlo nécessitent la simulation d’un très grand nombre de trajectoires afin de garantir la convergence statistique\footnote{La convergence des estimateurs de Monte Carlo est garantie par la Loi Forte des Grands Nombres. La vitesse de convergence est typiquement en $\mathcal{O}(1/\sqrt{N})$, où $N$ est le nombre de simulations.} et la précision des résultats, entraînant des coûts de calcul élevés. Le travail réalisé s'étend donc également à l'évaluation de l’impact de différentes architectures de calcul sur les performances de notre algorithme.
 
 Nous avons donc décidé de décliner notre objectif principal en trois volets complémentaires:
 \begin{itemize}
@@ -85,7 +88,7 @@ Nous avons donc décidé de décliner notre objectif principal en trois volets c
     espace probabilisé filtré satisfaisant les conditions usuelles (complétude et continuité à droite).
     \item \(\mathbb{P}\) : mesure de probabilité historique (ou réelle), décrivant la dynamique statistique observée du marché.
     \item \(\mathbb{Q}\) : mesure de probabilité risque-neutre, équivalente à \(\mathbb{P}\), sous laquelle les prix actualisés sont des martingales.
-    \item \(\mathcal{F}_t\) : filtration représentant l’ensemble de l’information disponible jusqu’à la date \(t\).
+    \item \(\mathcal{F}_t\) : filtration représentant l’ensemble de l’information disponible jusqu’à la date \(t\)\footnote{Intuitivement, une filtration modélise le flux d'information croissant au fil du temps. $\mathcal{F}_t$ représente toute l'information historique disponible jusqu'à l'instant $t$.}.
 \end{itemize}
 
 \paragraph{Processus stochastiques}
@@ -228,7 +231,7 @@ Les trajectoires d’un mouvement brownien sont continues mais presque sûrement
 
 Pour modéliser l’évolution d’un prix d’actif financier, l’utilisation d’un tel mouvement brownien n’est cependant pas appropriée, notamment parce qu'elle autoriserait des valeurs négatives du prix. On préfère donc une dynamique multiplicative plutôt qu'additive, dans laquelle l’aléa porte sur les rendements plutôt que sur les variations absolues de prix. Cette approche conduit naturellement au \emph{mouvement brownien géométrique}, qui constitue le modèle de référence pour la dynamique du prix d’un sous-jacent \(S_t\).
 
-Le mouvement brownien géométrique est défini comme la solution de l’équation différentielle stochastique
+Le mouvement brownien géométrique est défini comme la solution de l’équation différentielle stochastique \cite{Hull}
 \[
 \mathrm{d}S_t = \mu S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t,
 \]
@@ -278,7 +281,7 @@ et admet pour solution explicite
 \[
 S_t = S_0 \exp\!\left(\left(r - \tfrac12\sigma^2\right)t + \sigma W_t^{\mathbb{Q}}\right),
 \]
-la démonstration du passage de l’équation différentielle stochastique à cette expression explicite étant détaillée en annexe~A.
+la démonstration du passage de l’équation différentielle stochastique à cette expression explicite étant détaillée en annexe~A (inspirée de \cite{Hull}).
 
 
 Cette modélisation constitue le cadre théorique retenu pour la simulation des trajectoires du sous-jacent et l’application de l’algorithme de Longstaff--Schwartz dans la suite de ce travail.
@@ -317,7 +320,7 @@ Cette discrétisation correspond à l’utilisation de la solution exacte du mou
 
 \subsection{Algorithme de Longstaff--Schwartz (LSMC)}
 
-L’algorithme de Longstaff--Schwartz, également appelé \emph{Least Squares Monte Carlo (LSMC)}, est une méthode de Monte Carlo spécifiquement conçue pour la valorisation des options américaines. Il permet d’estimer la valeur de continuation à chaque date d’exercice possible à partir des trajectoires simulées.
+L’algorithme de Longstaff--Schwartz, également appelé \emph{Least Squares Monte Carlo (LSMC)} \cite{LSM2001}, est une méthode de Monte Carlo spécifiquement conçue pour la valorisation des options américaines. Il permet d’estimer la valeur de continuation à chaque date d’exercice possible à partir des trajectoires simulées.
 
 \subsubsection{Valeur de continuation et problème d’arrêt optimal}
 
@@ -375,10 +378,10 @@ où \(
 \{t_0,\dots,t_N\}
 \right\}
 \)
-, c'est-à-dire l’ensemble des temps d’arrêt \(\tau\) tels que \(\tau \ge t_n\). Cette formulation met en évidence que le prix de l’option américaine correspond à la meilleure espérance actualisée que l’on puisse obtenir en choisissant de manière optimale la date d’exercice.
+, c'est-à-dire l’ensemble des temps d’arrêt\footnote{Un temps d'arrêt est une variable aléatoire dont la valeur est déterminée uniquement par l'information disponible jusqu'à cet instant, sans anticipation du futur (condition de non-anticipation).} \(\tau\) tels que \(\tau \ge t_n\). Cette formulation met en évidence que le prix de l’option américaine correspond à la meilleure espérance actualisée que l’on puisse obtenir en choisissant de manière optimale la date d’exercice.
 
 En pratique, le principal enjeu numérique est l’évaluation de \(C(t_n,S_{t_n})\) : il s’agit d’une espérance conditionnelle (donc d’une \textit{quantité fonctionnelle  de l’état} \footnote{On entend par \emph{quantité fonctionnelle de l’état} une grandeur qui dépend uniquement de l’état courant du système (ici la valeur du sous-jacent à la date considérée), et non de l’historique complet de sa trajectoire.}
-) qui n’admet pas, en général, de forme fermée. L’algorithme de Longstaff--Schwartz répond à cette difficulté en approximant la valeur de continuation par régression sur une base de fonctions de \(S_{t_n}\) à partir de trajectoires simulées, permettant ainsi d’implémenter la règle d’exercice précédente par induction arrière.
+) qui n’admet pas, en général, de forme fermée. L’algorithme de Longstaff--Schwartz répond à cette difficulté en approximant la valeur de continuation par régression sur une base de fonctions de \(S_{t_n}\) à partir de trajectoires simulées \cite{LSM2001}, permettant ainsi d’implémenter la règle d’exercice précédente par induction arrière.
 \subsubsection{Régression par moindres carrés}
 
 Dans l’algorithme LSMC, la valeur de continuation n’est pas calculée analytiquement mais approximée par régression. À chaque date d’exercice, les flux futurs actualisés sont projetés sur un espace de fonctions de base $\{ \psi_k(S_{t_n}) \}$ :
@@ -397,6 +400,10 @@ Cette procédure est appliquée de manière récursive en remontant dans le temp
 
 L’algorithme LSMC constitue ainsi un compromis efficace entre flexibilité du cadre stochastique et faisabilité numérique, ce qui en fait une méthode particulièrement adaptée à l’étude de la performance des architectures de calcul.
 
+
+La figure~\ref{fig:lsmc_flow} illustre le flux de l'algorithme LSMC dans un contexte parallèle distribué.
+
+
 \subsection{Synthèse algorithmique et pseudo-algorithme du LSMC}
 
 Les sections précédentes ont permis de formuler rigoureusement le problème
@@ -410,7 +417,7 @@ L’algorithme repose sur une discrétisation du temps et sur la simulation Mont
 Carlo d’un grand nombre de trajectoires du sous-jacent. Pour chaque trajectoire,
 l’évolution du prix est simulée sur la grille temporelle
 $(t_n)_{n=0,\dots,N}$. Les décisions d’exercice sont ensuite déterminées par
-\emph{induction arrière}, en partant de la maturité et en remontant jusqu’à la
+\emph{induction arrière}\footnote{Une méthode de résolution caractéristique de la programmation dynamique, consistant à résoudre le problème à la maturité puis à remonter le temps pas à pas jusqu'à la date initiale.}, en partant de la maturité et en remontant jusqu’à la
 date initiale.
 
 À la date de maturité $t_N = T$, la valeur de l’option est donnée uniquement par
@@ -428,7 +435,7 @@ $V_{t_{n+1}}^{(i)}$ connues, l’algorithme procède selon les étapes suivantes
     \[
     Y^{(i)} = e^{-r \Delta t_n} V_{t_{n+1}}^{(i)} ;
     \]
-    \item seules les trajectoires \emph{in-the-money} à la date $t_n$ sont
+    \item seules les trajectoires \emph{in-the-money}\footnote{Une option est dite \emph{in-the-money} (dans la monnaie) si son exercice immédiat génèrerait un flux positif. Pour un Put, cela correspond à $S < K$.} à la date $t_n$ sont
     retenues pour la régression ;
     \item une régression par moindres carrés est effectuée afin d’approximer la
     valeur de continuation $C(t_n,S_{t_n})$ sous la forme
@@ -483,6 +490,13 @@ $V_{t_N}^{(i)} = \Phi(S_{t_N}^{(i)})$.
 $V_0 = \frac{1}{N_{\text{paths}}} \sum_i e^{-r t_1} V_{t_1}^{(i)}$.
 \end{algorithmic}
 \end{algorithm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\linewidth]{images/Distributed-LSMC-algorithm-flow-chart.png}
+    \caption{Diagramme de flux de l'algorithme LSMC parallélisé.}
+    \label{fig:lsmc_flow}
+\end{figure}
 
 
 \section{Travail réalisé : implémentation et méthodologie}
@@ -547,7 +561,7 @@ Les sections parallélisées sont notamment :
 
 Les réductions OpenMP sont utilisées pour agréger efficacement les contributions
 des différentes trajectoires, tout en garantissant l’absence de conditions de
-course. Le schéma \texttt{schedule(static)} est privilégié afin d’assurer une
+course\footnote{Une \emph{race condition} (condition de course) survient lorsque le résultat d'un programme dépend de l'ordre d'exécution imprévisible de threads accédant simultanément à des données partagées en écriture.}. Le schéma \texttt{schedule(static)} est privilégié afin d’assurer une
 répartition homogène de la charge de travail et un bon comportement mémoire.
 
 Cette parallélisation permet d’exploiter efficacement les cœurs du processeur,
@@ -557,7 +571,7 @@ l’algorithme.
 \subsection{Accélération GPU avec CUDA}
 
 Une version accélérée sur GPU a été développée afin d’exploiter le parallélisme
-massif offert par les architectures CUDA. Le GPU est particulièrement adapté à
+massif offert par les architectures CUDA, une approche explorée dans des travaux similaires \cite{Oger, Croain}. Le GPU est particulièrement adapté à
 la simulation Monte Carlo, chaque trajectoire pouvant être associée à un thread
 indépendant.
 
@@ -575,7 +589,7 @@ spatiaux (trajectoires) tout en conservant une synchronisation globale entre les
 dates.
 
 Une attention particulière est portée à l’organisation mémoire des données afin
-de garantir des accès coalescents et de limiter les transferts entre l’hôte
+de garantir des accès coalescents\footnote{L'accès coalescent désigne le regroupement par le matériel de plusieurs requêtes mémoire provenant de threads voisins en une seule transaction physique, optimisant ainsi l'utilisation de la bande passante.} et de limiter les transferts entre l’hôte
 (CPU) et le périphérique (GPU).
 
 Cette implémentation permet d’évaluer concrètement les gains de performance
@@ -584,13 +598,13 @@ dans un contexte massivement parallèle.
 
 \subsection{Méthodes de Différences Finies (FDM) pour comparaison}
 
-Afin de valider nos résultats Monte Carlo et de disposer d'un point de comparaison déterministe performant, nous avons également implémenté des solveurs basés sur les différences finies (FDM) pour l'équation de Black-Scholes-Merton (PDE). Bien que ces méthodes soient limitées en dimension (difficiles à étendre au-delà de 2 ou 3 sous-jacents), elles sont extrêmement efficaces pour les options vanilles et américaines sur un seul sous-jacent.
+Afin de valider nos résultats Monte Carlo et de disposer d'un point de comparaison déterministe performant, nous avons également implémenté des solveurs basés sur les différences finies (FDM) pour l'équation de Black-Scholes-Merton (PDE) \cite{Hull}. Bien que ces méthodes soient limitées en dimension (difficiles à étendre au-delà de 2 ou 3 sous-jacents), elles sont extrêmement efficaces pour les options vanilles et américaines sur un seul sous-jacent.
 
 Trois schémas numériques ont été implémentés dans le fichier \texttt{fdm.cpp} :
 \begin{itemize}
     \item Le schéma de \textbf{Runge-Kutta 4 (RK4)} a été choisi comme méthode de référence ("baseline") pour sa haute précision ($O(\Delta t^4)$). Bien que plus coûteux en calcul que les méthodes d'Euler, il fournit une valeur quasi-exacte pour valider les résultats Monte Carlo.
-    \item \textbf{Euler Implicite} : Schéma inconditionnellement stable, nécessitant la résolution d'un système linéaire tridiagonal à chaque pas de temps (algorithme de Thomas).
-    \item \textbf{Runge-Kutta 4 (RK4)} : Méthode d'ordre 4 en temps, offrant une très grande précision mais plus coûteuse en calculs par itération.
+    \item \textbf{Euler Implicite} : Schéma inconditionnellement stable, nécessitant la résolution d'un système linéaire tridiagonal à chaque pas de temps (algorithme de Thomas\footnote{L'algorithme de Thomas, également appelé TDMA (TriDiagonal Matrix Algorithm), est une forme simplifiée de l'élimination de Gauss optimisée pour les systèmes tridiagonaux. Sa complexité est (n)$ contre (n^3)$ pour l'élimination de Gauss générale.}).
+    \item \textbf{Euler Explicite} : Schéma simple et rapide, mais conditionnellement stable (nécessite un pas de temps suffisamment petit pour éviter les instabilités numériques).
 \end{itemize}
 
 Ces méthodes nous ont servi de "vérité terrain" pour vérifier la convergence de nos prix LSMC.
@@ -618,13 +632,17 @@ Le projet est organisé de manière modulaire pour séparer les responsabilités
 
 \section{Résultats et analyse des performances}
 
+\subsection{Configuration matérielle}
+
+Tous les benchmarks présentés dans cette section ont été réalisés sur une machine équipée d'un processeur \textbf{Intel® Core™ i7-13620H} (13ème génération) et d'une carte graphique \textbf{NVIDIA GeForce RTX 4060}. Cette dernière, basée sur l'architecture Ada Lovelace, dispose de \textbf{3072 cœurs CUDA} et de \textbf{8 Go de mémoire GDDR6}, offrant une puissance de calcul théorique adaptée aux simulations massivement parallèles.
+
 Cette section présente les résultats obtenus lors de l’exécution de l’algorithme
 de Longstaff--Schwartz selon les différentes architectures étudiées : CPU
 séquentiel, CPU parallélisé avec OpenMP et GPU via CUDA.  
 L’analyse porte à la fois sur la validité numérique des résultats et sur les
 performances de calcul observées.
 
-\subsection{Protocole expérimental et résultats}
+\subsection{Première approche : comparaison des méthodes de parallélisme}
 
 Les performances ont été évaluées sur un ensemble de simulations Monte Carlo
 pour une option de type put américain. Nous avons comparé les temps d'exécution et la précision des prix obtenus par nos trois implémentations (CPU Séquentiel, OpenMP, GPU CUDA) ainsi que par les méthodes de différences finies.
@@ -652,7 +670,7 @@ OpenMP & 50 & 1,000,000 & 6.059 & 6562.99 & -0.008 \\
 CPU Séquentiel & 50 & 5,000,000 & 6.057 & 35352.25 & -0.010 \\
 \hline
 \end{tabular}
-\caption{Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma=0.2, T=1$).}
+\caption{Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma=0.2, T=1$). (Matériel : i7-13620H + RTX 4060)}
 \label{tab:results}
 \end{table}
 
@@ -662,6 +680,68 @@ CPU Séquentiel & 50 & 5,000,000 & 6.057 & 35352.25 & -0.010 \\
     \item \textbf{Performance GPU} : Le GPU démontre une accélération spectaculaire. Pour 1 million de trajectoires, le calcul prend environ \textbf{455 ms} sur GPU contre près de \textbf{7 secondes} (6914 ms) sur CPU séquentiel, soit un facteur d'accélération (speedup) d'environ $\times 15$.
     \item \textbf{Comparaison FDM} : Les méthodes de différences finies (surtout l'implicite) sont extrêmement rapides (< 1ms) pour ce problème 1D. Cela confirme que pour des options simples, les PDE restent supérieures. Cependant, l'intérêt du LSMC (et donc de notre implémentation GPU) réside dans sa capacité à traiter des problèmes de plus haute dimension où les méthodes de grille échouent.
 \end{itemize}
+
+\subsection{Pour aller plus loin : analyse de l'impact de la base de régression}
+
+Les benchmarks réalisés ("boosted", voir tableau~\ref{tab:boosted}) révèlent que l'augmentation du degré de la base est bénéfique. La base Cubique permet d'atteindre un prix de $\approx 6.06$, nettement plus proche de la référence théorique ($\approx 6.08$) que les bases quadratiques/monomiales ($\approx 5.58$ dans cette configuration CPU non-optimisée). 
+
+Cette amélioration de précision justifie le léger surcoût calculatoire lié à la résolution de systèmes linéaires $4 \times 4$, désormais gérée par notre solveur de Gauss générique sur GPU.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabular}{|l|l|c|r|r|r|}
+\hline
+\textbf{Base} & \textbf{Architecture} & \textbf{Trajectoires} & \textbf{Prix (\euro)} & \textbf{Temps (ms)} & \textbf{Throughput (ops/s)} \\
+\hline
+\multicolumn{6}{|c|}{\textbf{N = 100,000}} \\
+\hline
+Monomiale & CPU Séquentiel & 100k & 5.586 & 261.96 & 19.1 M \\
+Monomiale & CPU OpenMP & 100k & 5.586 & 274.97 & 18.2 M \\
+Monomiale & GPU & 100k & 6.070 & 45.46 & 109.9 M \\
+\hline
+Hermite & CPU Séquentiel & 100k & 5.586 & 265.94 & 18.8 M \\
+Hermite & CPU OpenMP & 100k & 5.586 & 266.81 & 18.7 M \\
+Hermite & GPU & 100k & 6.070 & 43.40 & 115.2 M \\
+\hline
+Laguerre & CPU Séquentiel & 100k & 5.586 & 268.81 & 18.6 M \\
+Laguerre & CPU OpenMP & 100k & 5.586 & 265.83 & 18.8 M \\
+Laguerre & GPU & 100k & 6.070 & 35.44 & 141.1 M \\
+\hline
+Chebyshev & CPU Séquentiel & 100k & 5.586 & 263.63 & 18.9 M \\
+Chebyshev & CPU OpenMP & 100k & 5.586 & 265.64 & 18.8 M \\
+Chebyshev & GPU & 100k & 6.070 & 41.66 & 120.0 M \\
+\hline
+Cubique & CPU Séquentiel & 100k & 5.586 & 266.56 & 18.7 M \\
+Cubique & CPU OpenMP & 100k & 5.586 & 265.21 & 18.8 M \\
+Cubique & GPU & 100k & 6.086 & 38.66 & 129.3 M \\
+\hline
+\multicolumn{6}{|c|}{\textbf{N = 1,000,000}} \\
+\hline
+Monomiale & CPU Séquentiel & 1M & 5.565 & 2653.88 & 18.8 M \\
+Monomiale & CPU OpenMP & 1M & 5.565 & 2688.26 & 18.6 M \\
+Monomiale & GPU & 1M & 6.047 & 334.53 & 149.5 M \\
+\hline
+Hermite & CPU Séquentiel & 1M & 5.565 & 2672.32 & 18.7 M \\
+Hermite & CPU OpenMP & 1M & 5.565 & 2704.67 & 18.5 M \\
+Hermite & GPU & 1M & 6.047 & 594.25 & 84.1 M \\
+\hline
+Laguerre & CPU Séquentiel & 1M & 5.565 & 2710.66 & 18.4 M \\
+Laguerre & CPU OpenMP & 1M & 5.565 & 2841.14 & 17.6 M \\
+Laguerre & GPU & 1M & 6.047 & 649.80 & 76.9 M \\
+\hline
+Chebyshev & CPU Séquentiel & 1M & 5.565 & 2633.49 & 18.9 M \\
+Chebyshev & CPU OpenMP & 1M & 5.565 & 2638.32 & 18.9 M \\
+Chebyshev & GPU & 1M & 6.047 & 626.32 & 79.8 M \\
+\hline
+Cubique & CPU Séquentiel & 1M & 5.565 & 2677.14 & 18.7 M \\
+Cubique & CPU OpenMP & 1M & 5.565 & 2628.52 & 19.0 M \\
+Cubique & GPU & 1M & 6.063 & 687.69 & 72.7 M \\
+\hline
+\end{tabular}
+\caption{Benchmarks "Boosted" complets : Impact du choix de la base et de l'architecture. (Matériel : i7-13620H + RTX 4060)}
+\label{tab:boosted}
+\end{table}
 
 Les temps mesurés confirment l'efficacité de l'approche massivement parallèle pour la phase de simulation. Le goulot d'étranglement restant sur GPU est la régression séquentielle à chaque pas de temps.
 
@@ -777,6 +857,31 @@ La réalisation de ce projet a mis en évidence plusieurs difficultés, principa
 liées à la nature algorithmique du LSMC et à son implémentation parallèle sur
 différentes architectures de calcul.
 
+\subsection{Organisation du projet et évolution des dépôts}
+
+Le développement du projet s'est articulé autour de \textbf{deux dépôts Git distincts}, reflétant une évolution technique majeure :
+
+\begin{enumerate}
+    \item \textbf{lsmc-openmp} (Octobre 2025) : Le premier dépôt a été consacré au développement de la logique métier de l'algorithme LSMC en C++ avec parallélisation OpenMP. Le système de build reposait sur des solutions \texttt{Visual Studio} (.sln, .vcxproj). Ce dépôt inclut également une interface graphique en Python (Streamlit/Matplotlib) pour la visualisation des trajectoires.
+    
+    \item \textbf{CUDA-Implementation} (Janvier 2026) : Face aux difficultés d'intégration CUDA dans le premier dépôt, un second dépôt a été créé avec une architecture repensée autour de \textbf{CMake}. C'est dans ce dépôt que les fonctionnalités avancées (5 bases de régression, solveur générique, kernels optimisés) ont été développées et validées.
+\end{enumerate}
+
+Cette organisation permet de conserver une \textbf{version CPU de référence} (premier dépôt) tout en disposant d'une \textbf{version HPC/GPU complète} (second dépôt).
+
+\subsection{Échec de l'intégration CUDA dans Visual Studio}
+
+L'historique des commits du premier dépôt témoigne des tentatives infructueuses d'intégration CUDA :
+\begin{itemize}
+    \item \textit{"Début intégration CUDA"} : ajout initial des fichiers .cu et configuration NVCC.
+    \item \textit{"On continue de debug CUDA car rien ne marche"} : erreurs de compilation persistantes.
+    \item \textit{"Suppression complète de tout le code lié à CUDA/GPU"} : abandon de l'approche.
+\end{itemize}
+
+\textbf{Cause identifiée :} Visual Studio peinait à gérer correctement la cohabitation entre le compilateur C++ standard (MSVC) et le compilateur CUDA (\texttt{nvcc}). Les conflits de flags de compilation, les incompatibilités d'architectures cibles et la gestion des dépendances rendaient la configuration instable.
+
+\textbf{Solution adoptée :} La migration vers \textbf{CMake} a résolu ces problèmes. CMake intègre nativement le support CUDA via \texttt{enable\_language(CUDA)} et permet une séparation propre entre le code hôte (.cpp) et le code device (.cu). Cette architecture a permis de finaliser l'implémentation GPU avec succès.
+
 \subsection{Complexité de l’exercice anticipé}
 
 La difficulté théorique majeure provient de la possibilité d’un exercice anticipé
@@ -787,25 +892,55 @@ quantité conduit rapidement à des erreurs de logique dans la backward inductio
 Un soin particulier a donc été apporté à la séparation claire entre valeur
 d’exercice immédiat et valeur de continuation estimée.
 
-\subsection{Choix et stabilité de la régression}
+\subsection{Choix, stabilité et extensions de la régression}
 
 L’estimation de la valeur de continuation par régression constitue un point
 sensible de l’algorithme. Le choix des fonctions de base représente un compromis
 entre précision et stabilité numérique. Des bases trop simples introduisent un
 biais, tandis que des bases trop riches peuvent engendrer des instabilités ou un
-surcoût de calcul.  
-Dans ce cadre, une étude comparative a été menée entre la base canonique $(1, S, S^2)$ et la base de \textbf{polynômes d'Hermite de degré 2} $(1, S, S^2-1)$. Les benchmarks montrent que pour ce problème spécifique, le choix de la base n'impacte pas significativement la précision ou le temps de calcul sur GPU. Toutefois, la base d'Hermite a été retenue par défaut pour ses propriétés théoriques de meilleure stabilité numérique (conditionnement de la matrice $A^T A$).
+surcoût de calcul.
 
-\subsection{Extension : Bases de Régression Avancées}
-Au-delà des bases quadratiques, nous avons implémenté et testé trois bases supplémentaires pour capturer plus finement la valeur de continuation :
+\paragraph{Étude initiale : Bases quadratiques.}
+Dans un premier temps, une étude comparative a été menée entre la base canonique $(1, S, S^2)$ et la base de \textbf{polynômes d'Hermite de degré 2} $(1, S, S^2-1)$. Bien que les benchmarks montrent peu de différence en termes de précision pour ce problème spécifique, la base d'Hermite a été retenue par défaut pour ses meilleures propriétés théoriques de conditionnement (matrice $A^T A$).
+
+\paragraph{Extensions et bases avancées.}
+Afin d'affiner la capture de la valeur de continuation, nous avons étendu l'implémentation à trois autres familles de bases, souvent citées dans la littérature spécialisée \cite{Hull} :
+\begin{enumerate}
+    \item \textbf{Laguerre} : Polynômes orthogonaux sur $[0, \infty[$, historiquement suggérés par Longstaff et Schwartz \cite{LSM2001} pour leur adaptation naturelle aux prix d'actifs positifs (pondération par exponentielle décroissante).
+    \item \textbf{Tchebychev} : Polynômes minimisant l'erreur d'interpolation sur $[-1, 1]$. Cette base a nécessité l'implémentation d'un kernel de réduction Min-Max sur GPU pour normaliser les prix à chaque pas de temps.
+    \item \textbf{Cubique} : Base monômiale enrichie au degré 3 $(1, S, S^2, S^3)$.
+\end{enumerate}
+
+
+La figure~\ref{fig:basis_comparison} illustre l'impact du choix de la base de régression sur la précision de l'estimation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Capture d'écran 2026-01-10 160639.png}
+    \caption{Comparaison de la précision selon les fonctions de base utilisées pour la régression LSMC (Source: \cite{ArealParallelMethods}).}
+    \label{fig:basis_comparison}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{images/precision_convergence_full.png}
+    \caption{Comparaison de la convergence de l'erreur relative selon le nombre de trajectoires ($N=10^4, 10^5$) et l'architecture.}
+    \label{fig:degree_convergence_full}
+\end{figure}
+
+
+
+\paragraph{Analyse de la convergence (Figure~\ref{fig:degree_convergence_full}).}
+Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{ArealParallelMethods}) qui illustre les attentes théoriques de convergence.
+Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière.
+Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
 \begin{itemize}
-    \item \textbf{Laguerre} : Polynômes orthogonaux sur $[0, \infty[$, naturellement adaptés aux prix d'actifs positifs.
-    \item \textbf{Tchebychev} : Polynômes minimisant l'erreur d'interpolation sur $[-1, 1]$. Une étape de normalisation (Min-Max) a été intégrée, nécessitant un kernel de réduction dédié sur GPU.
-    \item \textbf{Cubique} : Base monômiale enrichie $(1, S, S^2, S^3)$.
+    \item \textbf{Phénomène de Runge :} L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Glasserman}.
+    \item \textbf{Conditionnement de la matrice :} Pour des degrés élevés ($d > 5$), la matrice de Gram $A^T A$ devient mal conditionnée, en particulier pour la base Monomiale, ce qui amplifie les erreurs numériques lors de la résolution du système linéaire. Bien que les bases orthogonales (Laguerre, Hermite) soient censées atténuer ce problème, le bruit de Monte Carlo semble ici dominer les gains théoriques.
+    \item \textbf{Compromis Biais-Variance :} Augmenter le degré réduit le biais de modélisation (capacité à fitter la "vraie" fonction de continuation) mais augmente la variance de l'estimateur, car le modèle capture le bruit statistique des trajectoires (sur-apprentissage).
 \end{itemize}
+Ces observations soulignent la difficulté pratique d'obtenir une convergence "parfaite" avec des méthodes de régression globale sur des degrés élevés sans un nombre de trajectoires extrêmement grand ($N \gg 10^5$).
 
-\textbf{Analyse des résultats :}
-Les benchmarks (voir \texttt{benchmark\_boosted.csv}) indiquent que la base \textbf{Cubique} permet d'atteindre un prix de $\approx 6.06$, plus proche de la référence théorique ($\approx 6.08$) que les bases quadratiques ($\approx 5.58$ dans nos tests "boosted"). Cela confirme l'intérêt d'augmenter le degré de la base pour ce type d'option, malgré le surcoût lié à la résolution de systèmes linéaires $4 \times 4$. L'implémentation GPU via un solveur de Gauss générique permet de traiter ces bases efficacement sans impact majeur sur le temps total d'exécution.
 
 \subsection{Limites de la parallélisation CPU}
 
@@ -818,7 +953,7 @@ confirme le caractère fortement \emph{memory-bound} de l’algorithme LSMC sur 
 
 \subsection{Spécificités et contraintes de l’implémentation GPU}
 
-L’implémentation GPU avec CUDA a mis en évidence un contraste marqué entre les
+L’implémentation GPU avec CUDA a mis en évidence \cite{Benguigui} un contraste marqué entre les
 différentes phases de l’algorithme. La simulation des trajectoires et le calcul
 des payoffs bénéficient pleinement du parallélisme massif, avec des accélérations
 importantes lorsque le nombre de trajectoires augmente.
@@ -854,7 +989,7 @@ Une première piste d’amélioration concerne le choix des fonctions de base ut
 \begin{itemize}
     \item des bases polynomiales de degré plus élevé ;
     \item des polynômes orthogonaux (Laguerre, Hermite), souvent utilisés dans la littérature ;
-    \item des bases adaptatives dépendant de la distribution du sous-jacent.
+    \item des bases adaptatives dépendant de la distribution du sous-jacent, comme suggéré dans des publications récentes \cite{Risks}.
 \end{itemize}
 
 Ces choix peuvent améliorer la précision de l’estimation de la valeur de continuation, au prix d’un coût de calcul plus élevé et d’un risque accru de sur-apprentissage.
@@ -899,7 +1034,14 @@ Une telle approche permettrait de réduire encore les coûts de communication et
 
 Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Il serait intéressant de confronter les performances du LSMC à :
 \begin{itemize}
-    \item des méthodes par arbres (binomiaux, trinômiaux) ;
+    \item .
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{images/Capture d'écran 2026-01-10 161107.png}
+    \caption{Tableau comparatif des méthodes de pricing : arbres, itératives, Monte Carlo et transformée de Fourier \cite{ArealParallelMethods}.}
+    \label{fig:methods_comparison}
+\end{figure}
+On pourrait ainsi comparer ;
     \item des approches par équations aux dérivées partielles résolues numériquement ;
     \item des méthodes récentes basées sur l’apprentissage automatique (réseaux de neurones pour l’approximation de la valeur de continuation).
 \end{itemize}
@@ -959,7 +1101,7 @@ Cette approche incrémentale a permis de maintenir un code fonctionnel à chaque
 
 \subsection{Répartition des tâches et binôme}
 
-Ce projet a été réalisé en binôme par \textbf{Florian Barbe} et \textbf{Narjisse}. Afin d'optimiser notre efficacité, nous nous sommes réparti les tâches selon nos affinités et compétences techniques :
+Afin d'optimiser notre efficacité, nous nous sommes réparti les tâches selon nos affinités et compétences techniques :
 
 \begin{itemize}
     \item \textbf{Florian Barbe} : Responsable du "cœur de calcul" (\emph{Core Engine}).
@@ -1036,7 +1178,7 @@ Enfin, ce travail a constitué une introduction approfondie aux problématiques 
 
 \appendix
 
-\section*{Annexe A — Résolution de l’équation différentielle stochastique du mouvement brownien géométrique sous la mesure risque-neutre}
+\section{Rsolution de l'EDS du GBM du mouvement brownien géométrique sous la mesure risque-neutre}
 
 On considère le processus \((S_t)_{t \ge 0}\) solution, sous la mesure risque-neutre \(\mathbb{Q}\), de l’équation différentielle stochastique
 \[
@@ -1178,5 +1320,77 @@ sinon l’option est conservée.
 % Code is available in src/lsmc.cu
 
 
+
+
+\section{Analyse de scalabilité OpenMP}
+
+Les figures suivantes illustrent la scalabilité de l'implémentation OpenMP en fonction du nombre de trajectoires et de threads.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Surface de scalabilité OpenMP.png}
+    \caption{Surface de scalabilité OpenMP : temps d'exécution en fonction du nombre de trajectoires et de threads.}
+    \label{fig:scalability_openmp}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/heatmap.png}
+    \caption{Heatmap des performances OpenMP.}
+    \label{fig:heatmap}
+\end{figure}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{LSM2001}
+Longstaff, F. A., \& Schwartz, E. S. (2001).
+\textit{Valuing American Options by Simulation: A Simple Least-Squares Approach}.
+The Review of Financial Studies, 14(1), 113-147.
+
+\bibitem{Hull}
+Hull, J. C.
+\textit{Options, Futures, and Other Derivatives}.
+Pearson Education.
+
+\bibitem{Glasserman}
+Glasserman, P. (2004).
+\textit{Monte Carlo Methods in Financial Engineering}.
+Springer.
+
+\bibitem{Oger}
+Oger, G.
+\textit{Mémoire de Magistère : Valorisation d'options américaines sur GPU}.
+
+\bibitem{Croain}
+Croain, D., \& Poulette.
+\textit{Projet GPU : Pricing d'options américaines}.
+
+\bibitem{Risks}
+Risks Journal (2023).
+\textit{Recent Advances in American Option Pricing}.
+risks-11-00145.
+
+
+\bibitem{Benguigui}
+Benguigui, M. (2015).
+\textit{Valorisation d'options américaines et Value At Risk sur cluster GPU/CPU hétérogène}.
+Thèse de doctorat, Université Nice Sophia Antipolis.
+
+\bibitem{Reesor}
+Reesor, R. M., Stentoft, L., \& Zhu, X. (2024).
+\textit{A Critical Analysis of the Weighted Least Squares Monte Carlo Method for Pricing American Options}.
+Finance Research Letters.
+
+\bibitem{ArealParallelMethods}
+Areal, N., Rodrigues, A., \& Armada, M. J. R.
+\textit{Improvements to the Least Squares Monte Carlo Option Valuation Method}.
+Source file: \texttt{Areal\_Parallel\_Methods.pdf}.
+
+\bibitem{Detra}
+Detra (2023).
+\textit{Risk Management with Local Least Squares Monte Carlo}.
+Technical Note.
+\end{thebibliography}
 
 \end{document}

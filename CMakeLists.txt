@@ -26,7 +26,12 @@ add_executable(P1RV_CUDA
     ${SRC_DIR}/main.cu
     ${SRC_DIR}/gbm.cu
     ${SRC_DIR}/lsmc.cu
+    ${SRC_DIR}/lsmc.cpp
+    ${SRC_DIR}/gbm.cpp
+    ${SRC_DIR}/fdm.cpp
 )
+
+
 
 set_target_properties(P1RV_CUDA PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
@@ -40,12 +45,14 @@ find_package(OpenMP REQUIRED)
 
 target_link_libraries(cuda_core PUBLIC OpenMP::OpenMP_CXX)
 target_link_libraries(P1RV_CUDA PRIVATE
-    cuda_core
     CUDA::cudart
     CUDA::curand
     OpenMP::OpenMP_CXX
 )
 
+
 if(MSVC)
     target_compile_options(P1RV_CUDA PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=/openmp>)
+    target_compile_definitions(P1RV_CUDA PRIVATE NOMINMAX)
 endif()
+

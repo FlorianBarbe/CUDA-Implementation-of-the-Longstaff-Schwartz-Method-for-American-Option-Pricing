@@ -102,16 +102,16 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NOMINMAX;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;NOMINMAX;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <CudaCompile>
       <Include>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(Include)</Include>
-      <Defines>%(Defines);_WINDOWS;CMAKE_INTDIR="Debug"</Defines>
+      <Defines>%(Defines);_WINDOWS;NOMINMAX;CMAKE_INTDIR="Debug"</Defines>
       <AdditionalOptions>%(AdditionalOptions) -std=c++17 --generate-code=arch=compute_89,code=[compute_89,sm_89] -Xcompiler="/EHsc -Zi -Ob0 /openmp"</AdditionalOptions>
       <CodeGeneration></CodeGeneration>
       <CompileOut>$(IntDir)%(Filename).obj</CompileOut>
@@ -134,7 +134,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>Debug\cuda_core.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -166,18 +166,18 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <CudaCompile>
       <Include>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(Include)</Include>
-      <Defines>%(Defines);_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</Defines>
+      <Defines>%(Defines);_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="Release"</Defines>
       <AdditionalOptions>%(AdditionalOptions) -std=c++17 --generate-code=arch=compute_89,code=[compute_89,sm_89] -Xcompiler="/EHsc -Ob2 /openmp"</AdditionalOptions>
       <CodeGeneration></CodeGeneration>
       <CompileOut>$(IntDir)%(Filename).obj</CompileOut>
@@ -199,7 +199,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>Release\cuda_core.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -231,18 +231,18 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <CudaCompile>
       <Include>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(Include)</Include>
-      <Defines>%(Defines);_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</Defines>
+      <Defines>%(Defines);_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="MinSizeRel"</Defines>
       <AdditionalOptions>%(AdditionalOptions) -std=c++17 --generate-code=arch=compute_89,code=[compute_89,sm_89] -Xcompiler="/EHsc -Ob1 /openmp"</AdditionalOptions>
       <CodeGeneration></CodeGeneration>
       <CompileOut>$(IntDir)%(Filename).obj</CompileOut>
@@ -264,7 +264,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>MinSizeRel\cuda_core.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -297,16 +297,16 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <CudaCompile>
       <Include>C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\include;%(Include)</Include>
-      <Defines>%(Defines);_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</Defines>
+      <Defines>%(Defines);_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="RelWithDebInfo"</Defines>
       <AdditionalOptions>%(AdditionalOptions) -std=c++17 --generate-code=arch=compute_89,code=[compute_89,sm_89] -Xcompiler="/EHsc -Zi -Ob1 /openmp"</AdditionalOptions>
       <CodeGeneration></CodeGeneration>
       <CompileOut>$(IntDir)%(Filename).obj</CompileOut>
@@ -328,7 +328,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>RelWithDebInfo\cuda_core.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\cudart.lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\lib\x64\curand.lib;cudadevrt.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -404,8 +404,19 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="..\P1RV_CUDA\main.cu" />
-    <CudaCompile Include="..\P1RV_CUDA\gbm.cu" />
-    <CudaCompile Include="..\P1RV_CUDA\lsmc.cu" />
+    <CudaCompile Include="..\P1RV_CUDA\gbm.cu">
+      <CompileOut>$(IntDir)/P1RV_CUDA/gbm.cu.obj</CompileOut>
+    </CudaCompile>
+    <CudaCompile Include="..\P1RV_CUDA\lsmc.cu">
+      <CompileOut>$(IntDir)/P1RV_CUDA/lsmc.cu.obj</CompileOut>
+    </CudaCompile>
+    <ClCompile Include="C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA\lsmc.cpp">
+      <ObjectFileName>$(IntDir)/P1RV_CUDA/lsmc.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA\gbm.cpp">
+      <ObjectFileName>$(IntDir)/P1RV_CUDA/gbm.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="C:\Users\flole\Desktop\P1RV_CUDA\P1RV_CUDA\fdm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\flole\Desktop\P1RV_CUDA\build\ZERO_CHECK.vcxproj">
@@ -413,10 +424,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\flole\Desktop\P1RV_CUDA\build\cuda_core.vcxproj">
-      <Project>{E339D425-DC5B-3D47-904C-EA0DEA617E4F}</Project>
-      <Name>cuda_core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

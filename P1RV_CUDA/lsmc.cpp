@@ -17,8 +17,8 @@ static inline size_t idx(int i, int t, int N_steps) {
 }
 
 // Solveur 3x3 (Gauss avec pivot partiel minimal)
-// Max basis functions (Quartic = 5)
-#define MAX_BASIS_FUNCTIONS 5
+// Max basis functions (Degree 10 = 11 functions)
+#define MAX_BASIS_FUNCTIONS 11
 
 // Solveur NxN (Gauss avec pivot partiel minimal)
 static inline void solveNxN(double A[MAX_BASIS_FUNCTIONS][MAX_BASIS_FUNCTIONS],
@@ -76,12 +76,45 @@ static inline void solveNxN(double A[MAX_BASIS_FUNCTIONS][MAX_BASIS_FUNCTIONS],
     x[i] = rhs[i];
 }
 
-// Old 3x3 solver removed (superseded by solveNxN)
-// static inline void solve3x3(...)
+// GENERIC BASIS EVAL (Min/Max needed for Chebyshev)
+static void eval_basis_cpu(double S, int degree, RegressionBasis basis,
+                           double *phi, double min_S, double max_S) {
+  phi[0] = 1.0;
+  if (degree >= 1) {
+    if (basis == RegressionBasis::Chebyshev) {
+      double width = max_S - min_S;
+      double x_norm = (width > 1e-6) ? (2.0 * (S - min_S) / width - 1.0) : 0.0;
+      phi[1] = x_norm;
+    } else if (basis == RegressionBasis::Laguerre) {
+      phi[1] = 1.0 - S;
+    } else { // Monomial, Hermite
+      phi[1] = S;
+    }
+  }
+
+  for (int k = 2; k <= degree; ++k) {
+    if (basis == RegressionBasis::Monomial) {
+      phi[k] = phi[k - 1] * S;
+    } else if (basis == RegressionBasis::Hermite) {
+      phi[k] = S * phi[k - 1] - (double)(k - 1) * phi[k - 2];
+    } else if (basis == RegressionBasis::Laguerre) {
+      // (k)*L_k = (2k-1 - x)*L_{k-1} - (k-1)*L_{k-2}
+      phi[k] =
+          ((2.0 * (k - 1.0) + 1.0 - S) * phi[k - 1] - (k - 1.0) * phi[k - 2]) /
+          (double)k;
+    } else if (basis == RegressionBasis::Chebyshev) {
+      double x_norm = phi[1];
+      phi[k] = 2.0 * x_norm * phi[k - 1] - phi[k - 2];
+    } else if (basis == RegressionBasis::Cubic) {
+      // Explicit Cubic mapped to Monomial
+      phi[k] = phi[k - 1] * S;
+    }
+  }
+}
 
 double LSMC::priceAmericanPut(double S0, double K, double r, double sigma,
                               double T, int N_steps, int N_paths,
-                              RegressionBasis basis) {
+                              RegressionBasis basis, int poly_degree) {
   const double dt = T / static_cast<double>(N_steps);
   const double discount = std::exp(-r * dt);
 
@@ -116,48 +149,135 @@ double LSMC::priceAmericanPut(double S0, double K, double r, double sigma,
 
   // 4) Backward induction: t = N_steps-1 ... 1
   for (int t = N_steps - 1; t > 0; --t) {
-    // Determine N_basis for current regression
-    int N_basis;
-    if (basis == RegressionBasis::Cubic) {
-      N_basis = 4;
-    } else {
-      N_basis = 3; // Hermite, Laguerre, Monomial, Chebyshev (default to 3)
+    int N_basis = poly_degree + 1;
+
+    // Min/Max for Chebyshev
+    double min_S = 1e30, max_S = -1e30;
+    // Manual reduction for min/max (MSVC OpenMP 2.0 does not support min/max
+    // reduction)
+    double local_min = 1e30;
+    double local_max = -1e30;
+
+#ifdef _OPENMP
+    int max_threads = omp_get_max_threads();
+    std::vector<double> t_mins(max_threads, 1e30);
+    std::vector<double> t_maxs(max_threads, -1e30);
+
+#pragma omp parallel
+    {
+      int tid = omp_get_thread_num();
+      double th_min = 1e30;
+      double th_max = -1e30;
+
+#pragma omp for nowait
+      for (int i = 0; i < N_paths; ++i) {
+        double val = paths[idx(i, t, N_steps)];
+        if (payoff[idx(i, t, N_steps)] > 0.0) {
+          if (val < th_min)
+            th_min = val;
+          if (val > th_max)
+            th_max = val;
+        }
+      }
+      t_mins[tid] = th_min;
+      t_maxs[tid] = th_max;
+    }
+
+    for (double v : t_mins)
+      if (v < min_S)
+        min_S = v;
+    for (double v : t_maxs)
+      if (v > max_S)
+        max_S = v;
+
+#else
+    for (int i = 0; i < N_paths; ++i) {
+      double val = paths[idx(i, t, N_steps)];
+      if (payoff[idx(i, t, N_steps)] > 0.0) {
+        if (val < min_S)
+          min_S = val;
+        if (val > max_S)
+          max_S = val;
+      }
+    }
+#endif
+
+    if (min_S > max_S) {
+      min_S = 0.0;
+      max_S = 1.0;
     }
 
     // Initialize matrix A and vector B for regression
+    // Defined outside ifdef to be visible for solveNxN
     double A_sum[MAX_BASIS_FUNCTIONS][MAX_BASIS_FUNCTIONS] = {{0.0}};
     double B_sum[MAX_BASIS_FUNCTIONS] = {0.0};
 
-    // Check if any ITM paths contributed to regression
-    bool all_zero = true;
-    for (int k = 0; k < N_basis; ++k) {
-      if (std::fabs(B_sum[k]) > 1e-15) {
-        all_zero = false;
-        break;
-      }
-    }
+#ifdef _OPENMP
+    {
+      int max_threads = omp_get_max_threads();
+      std::vector<std::vector<double>> thread_A(
+          max_threads,
+          std::vector<double>(MAX_BASIS_FUNCTIONS * MAX_BASIS_FUNCTIONS, 0.0));
+      std::vector<std::vector<double>> thread_B(
+          max_threads, std::vector<double>(MAX_BASIS_FUNCTIONS, 0.0));
 
-    if (all_zero) {
-      for (int r = 0; r < N_basis; ++r) {
-        for (int c = 0; c < N_basis; ++c) {
-          if (std::fabs(A_sum[r][c]) > 1e-15) {
-            all_zero = false;
-            break;
+#pragma omp parallel
+      {
+        int tid = omp_get_thread_num();
+        double phi[MAX_BASIS_FUNCTIONS];
+
+#pragma omp for schedule(static) nowait
+        for (int i = 0; i < N_paths; ++i) {
+          double immediate = payoff[idx(i, t, N_steps)];
+          if (immediate <= 0.0)
+            continue;
+
+          double S = paths[idx(i, t, N_steps)];
+          double Y = cashflows[static_cast<size_t>(i)] * discount;
+
+          eval_basis_cpu(S, poly_degree, basis, phi, min_S, max_S);
+
+          for (int r = 0; r < N_basis; ++r) {
+            for (int c = 0; c < N_basis; ++c) {
+              thread_A[tid][r * MAX_BASIS_FUNCTIONS + c] += phi[r] * phi[c];
+            }
+            thread_B[tid][r] += phi[r] * Y;
           }
         }
-        if (!all_zero)
-          break;
+      }
+
+      // Reduction
+      for (int th = 0; th < max_threads; ++th) {
+        for (int r = 0; r < N_basis; ++r) {
+          for (int c = 0; c < N_basis; ++c) {
+            A_sum[r][c] += thread_A[th][r * MAX_BASIS_FUNCTIONS + c];
+          }
+          B_sum[r] += thread_B[th][r];
+        }
       }
     }
+#else
+    {
+      double phi[MAX_BASIS_FUNCTIONS];
+      for (int i = 0; i < N_paths; ++i) {
+        double immediate = payoff[idx(i, t, N_steps)];
+        if (immediate <= 0.0)
+          continue;
 
-    if (all_zero) {
-#ifdef _OPENMP
-#pragma omp parallel for schedule(static)
-#endif
-      for (int i = 0; i < N_paths; ++i)
-        cashflows[static_cast<size_t>(i)] *= discount;
-      continue;
+        double S = paths[idx(i, t, N_steps)];
+        double Y = cashflows[static_cast<size_t>(i)] * discount;
+
+        eval_basis_cpu(S, poly_degree, basis, phi, min_S, max_S);
+
+        for (int r = 0; r < N_basis; ++r) {
+          for (int c = 0; c < N_basis; ++c) {
+            A_sum[r][c] += phi[r] * phi[c];
+          }
+          B_sum[r] += phi[r] * Y;
+        }
+      }
     }
+#endif
 
     // Solve (A^T A) beta = (A^T y)
     double beta[MAX_BASIS_FUNCTIONS];
@@ -173,33 +293,9 @@ double LSMC::priceAmericanPut(double S0, double K, double r, double sigma,
       if (immediate > 0.0) {
         const double S = paths[idx(i, t, N_steps)];
         double continuation = 0.0;
+        double phi_path[MAX_BASIS_FUNCTIONS];
 
-        // Recompute basis functions for this path to evaluate continuation
-        // value
-        double phi_path[MAX_BASIS_FUNCTIONS] = {0.0};
-        if (basis == RegressionBasis::Hermite) {
-          phi_path[0] = 1.0;
-          phi_path[1] = S;
-          phi_path[2] = S * S - 1.0;
-        } else if (basis == RegressionBasis::Laguerre) {
-          phi_path[0] = 1.0;
-          phi_path[1] = 1.0 - S;
-          phi_path[2] = 0.5 * (S * S - 4.0 * S + 2.0);
-        } else if (basis == RegressionBasis::Chebyshev) {
-          phi_path[0] = 1.0;
-          phi_path[1] = S;
-          phi_path[2] = 2.0 * S * S - 1.0;
-        } else if (basis == RegressionBasis::Cubic) {
-          phi_path[0] = 1.0;
-          phi_path[1] = S;
-          phi_path[2] = S * S;
-          phi_path[3] = S * S * S;
-        } else {
-          // Monomial
-          phi_path[0] = 1.0;
-          phi_path[1] = S;
-          phi_path[2] = S * S;
-        }
+        eval_basis_cpu(S, poly_degree, basis, phi_path, min_S, max_S);
 
         for (int k = 0; k < N_basis; ++k) {
           continuation += beta[k] * phi_path[k];
