@@ -830,7 +830,85 @@ On considère le processus \((S_t)_{t \ge 0}\) solution, sous la mesure risque-n
 \mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}},
 \]
 
-[...Dérivation...]
+où \(r\) est le taux sans risque, \(\sigma>0\) la volatilité constante, et \((W_t^{\mathbb{Q}})_{t\ge 0}\) un mouvement brownien standard sous \(\mathbb{Q}\).
+
+Comme \(S_t>0\) presque sûrement, la fonction \(\ln\) est bien définie. En appliquant la formule d’Itô à \(f(S_t)=\ln(S_t)\), on obtient
+\[
+\mathrm{d}\ln(S_t)
+=
+f'(S_t)\,\mathrm{d}S_t
++\frac12 f''(S_t)\,(\mathrm{d}S_t)^2
+=
+\frac{1}{S_t}\,\mathrm{d}S_t
+-\frac{1}{2S_t^2}(\mathrm{d}S_t)^2.
+\]
+
+En utilisant les règles du calcul stochastique
+\[
+(\mathrm{d}W_t^{\mathbb{Q}})^2=\mathrm{d}t,
+\qquad
+\mathrm{d}t\,\mathrm{d}W_t^{\mathbb{Q}}=0,
+\qquad
+(\mathrm{d}t)^2=0,
+\]
+on a
+\[
+\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}}
+\quad \Longrightarrow \quad
+(\mathrm{d}S_t)^2 = \sigma^2 S_t^2\,(\mathrm{d}W_t^{\mathbb{Q}})^2=\sigma^2 S_t^2\,\mathrm{d}t.
+\]
+
+En substituant dans la formule d’Itô, il vient
+\[
+\mathrm{d}\ln(S_t)
+=
+\frac{1}{S_t}\Bigl(r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}}\Bigr)
+-\frac{1}{2S_t^2}\Bigl(\sigma^2 S_t^2\,\mathrm{d}t\Bigr),
+\]
+soit
+\[
+\mathrm{d}\ln(S_t)
+=
+\left(r-\frac{\sigma^2}{2}\right)\mathrm{d}t
++\sigma\,\mathrm{d}W_t^{\mathbb{Q}}.
+\]
+
+En intégrant entre \(t_n\) et \(t_{n+1}\) (avec \(\Delta t = t_{n+1}-t_n\)) :
+\[
+\ln(S_{t_{n+1}})-\ln(S_{t_n})
+=
+\left(r-\frac{\sigma^2}{2}\right)\Delta t
++\sigma\bigl(W_{t_{n+1}}^{\mathbb{Q}}-W_{t_n}^{\mathbb{Q}}\bigr).
+\]
+
+Les incréments du mouvement brownien sous \(\mathbb{Q}\) vérifient
+\[
+W_{t_{n+1}}^{\mathbb{Q}}-W_{t_n}^{\mathbb{Q}} \sim \mathcal{N}(0,\Delta t).
+\]
+Il existe donc \(Z_n \sim \mathcal{N}(0,1)\) tel que
+\[
+W_{t_{n+1}}^{\mathbb{Q}}-W_{t_n}^{\mathbb{Q}}=\sqrt{\Delta t}\,Z_n.
+\]
+
+En prenant l'exponentielle, on obtient la formule discrète exacte
+\[
+S_{t_{n+1}}
+=
+S_{t_n}\exp\!\left(
+\left(r-\frac{\sigma^2}{2}\right)\Delta t
++\sigma\sqrt{\Delta t}\,Z_n
+\right),
+\]
+et, en particulier, l’expression explicite en temps continu
+\[
+S_t
+=
+S_0\exp\!\left(
+\left(r-\frac{\sigma^2}{2}\right)t
++\sigma W_t^{\mathbb{Q}}
+\right).
+\]
+
 
 
 

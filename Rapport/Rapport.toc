@@ -47,9 +47,9 @@
 \contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{20}{appendix.A}%
 \contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{20}{appendix.B}%
 \contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{20}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{20}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{20}{subsection.B.3}%
-\contentsline {section}{\numberline {C}Notations et Conventions}{21}{appendix.C}%
-\contentsline {paragraph}{Cadre probabiliste}{21}{section*.6}%
-\contentsline {paragraph}{Modèle de marché}{21}{section*.7}%
-\contentsline {paragraph}{Paramètres numériques}{21}{section*.8}%
+\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{21}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{21}{subsection.B.3}%
+\contentsline {section}{\numberline {C}Notations et Conventions}{22}{appendix.C}%
+\contentsline {paragraph}{Cadre probabiliste}{22}{section*.6}%
+\contentsline {paragraph}{Modèle de marché}{22}{section*.7}%
+\contentsline {paragraph}{Paramètres numériques}{22}{section*.8}%

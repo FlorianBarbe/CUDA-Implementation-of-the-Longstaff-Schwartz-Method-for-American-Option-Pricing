@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -365,14 +365,7 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 27.
 tex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count326
-) (Rapport.aux
-
-LaTeX Warning: Label `fig:scalability_openmp' multiply defined.
-
-
-LaTeX Warning: Label `fig:heatmap' multiply defined.
-
-)
+) (Rapport.aux)
 \openout1 = `Rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
@@ -485,7 +478,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.50 ...du Mouvement Brownien}{21}{subsection.C.1}
+l.51 ...ombres et Monte Carlo}{20}{subsection.B.3}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `Rapport.toc'.
@@ -493,7 +486,7 @@ l.50 ...du Mouvement Brownien}{21}{subsection.C.1}
  [2]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 97.
-<images/Distributed-LSMC-algorithm-flow-chart.png, id=271, 102.3825pt x 275.950
+<images/Distributed-LSMC-algorithm-flow-chart.png, id=266, 102.3825pt x 275.950
 94pt>
 File: images/Distributed-LSMC-algorithm-flow-chart.png Graphic file (type png)
 <use images/Distributed-LSMC-algorithm-flow-chart.png>
@@ -511,25 +504,25 @@ Overfull \hbox (5.71321pt too wide) in paragraph at lines 148--151
  []
 
 [5] [6] [7] [8]
-<images/linearity_paths.png, id=357, 505.89pt x 361.35pt>
+<images/linearity_paths.png, id=352, 505.89pt x 361.35pt>
 File: images/linearity_paths.png Graphic file (type png)
 <use images/linearity_paths.png>
 Package pdftex.def Info: images/linearity_paths.png  used on input line 409.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps.png, id=358, 505.89pt x 361.35pt>
+<images/linearity_steps.png, id=353, 505.89pt x 361.35pt>
 File: images/linearity_steps.png Graphic file (type png)
 <use images/linearity_steps.png>
 Package pdftex.def Info: images/linearity_steps.png  used on input line 416.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
  [9 <./images/linearity_paths.png> <./images/linearity_steps.png>] [10] [11]
-<images/Capture d'écran 2026-01-10 160639.png, id=380, 980.91469pt x 412.54124
+<images/Capture d'écran 2026-01-10 160639.png, id=375, 980.91469pt x 412.54124
 pt>
 File: images/Capture d'écran 2026-01-10 160639.png Graphic file (type png)
 <use images/Capture d'écran 2026-01-10 160639.png>
 Package pdftex.def Info: images/Capture d'écran 2026-01-10 160639.png  used on
  input line 564.
 (pdftex.def)             Requested size: 354.02342pt x 148.88612pt.
-<images/precision_convergence_full.png, id=383, 1078.7502pt x 571.6557pt>
+<images/precision_convergence_full.png, id=378, 1078.7502pt x 571.6557pt>
 File: images/precision_convergence_full.png Graphic file (type png)
 <use images/precision_convergence_full.png>
 Package pdftex.def Info: images/precision_convergence_full.png  used on input l
@@ -537,7 +530,7 @@ ine 571.
 (pdftex.def)             Requested size: 472.03123pt x 250.14236pt.
  [12 <./images/Capture d'écran 2026-01-10 160639.png>] [13 <./images/precision
 _convergence_full.png>] [14]
-<images/Capture d'écran 2026-01-10 161107.png, id=418, 429.85594pt x 350.81062
+<images/Capture d'écran 2026-01-10 161107.png, id=413, 429.85594pt x 350.81062
 pt>
 File: images/Capture d'écran 2026-01-10 161107.png Graphic file (type png)
 <use images/Capture d'écran 2026-01-10 161107.png>
@@ -558,9 +551,9 @@ Overfull \hbox (4.66158pt too wide) in paragraph at lines 817--818
 
 [18] [19] [20
 
-] [21
+] [21] [22
 
-] [22
+] [23
 
 ] (Rapport.aux)
  ***********
@@ -569,79 +562,57 @@ L3 programming layer <2025-12-24>
  ***********
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-
-Package rerunfilecheck Warning: File `Rapport.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Rapport.out':
-(rerunfilecheck)             Before: 7923C0BE9EE9ADAA9AA8F4D83CF5B131;12071
-(rerunfilecheck)             After:  9B0368893724BC5C0857AC480D6363EF;11849.
+Package rerunfilecheck Info: File `Rapport.out' has not changed.
+(rerunfilecheck)             Checksum: 9B0368893724BC5C0857AC480D6363EF;11849.
  ) 
 Here is how much of TeX's memory you used:
- 12531 strings out of 467871
- 190602 string characters out of 5418376
- 628902 words of memory out of 5000000
- 41110 multiletter control sequences out of 15000+600000
+ 12524 strings out of 467871
+ 190491 string characters out of 5418376
+ 628622 words of memory out of 5000000
+ 41106 multiletter control sequences out of 15000+600000
  645811 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,9n,79p,631b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{appendix.D} has been referenced but does not exist,
- replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.C.3} has been referenced but does not ex
-ist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.C.2} has been referenced but does not ex
-ist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.C.1} has been referenced but does not ex
-ist, replaced by a fixed one
-
- <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx07
-00.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
-tcbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
-pi600\ecti0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappe
-n/ec/dpi600\ecrm0600.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/j
-knappen/ec/dpi600\ectt1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/lj
-four/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\flole\AppData\Local\MiKTeX
-\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\flole\AppData\Local\
-MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\flole\AppData\
-Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\flole\Ap
-pData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\fl
-ole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Us
-ers\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> 
-<C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx100
-0.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\e
-cti1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
-i600\ecbx1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen
-/ec/dpi600\ecbx2488.pk><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmex10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/flole/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/flole/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/flole/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/flol
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Us
-ers/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb
-><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mr6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmr7.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmr8.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmsy10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (23 pages, 1612078 bytes).
+ <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx
+0700.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\tcbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecti0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ecrm0600.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\flole\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\flole\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\flole\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\flole\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\flole\
+AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\
+flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\
+Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk
+> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1
+000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600
+\ecti1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/
+dpi600\ecbx1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknapp
+en/ec/dpi600\ecbx2488.pk><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmex10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/flole/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/flole/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/flole/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/fl
+ole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/
+Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.p
+fb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmr6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmr7.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmr8.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmsy10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on Rapport.pdf (24 pages, 1615446 bytes).
 PDF statistics:
- 1193 PDF objects out of 1200 (max. 8388607)
- 128 named destinations out of 1000 (max. 500000)
- 423 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1188 PDF objects out of 1200 (max. 8388607)
+ 125 named destinations out of 1000 (max. 500000)
+ 415 words of extra memory for PDF output out of 10000 (max. 10000000)
 
