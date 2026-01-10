@@ -717,18 +717,11 @@ Une telle approche permettrait de réduire encore les coûts de communication et
 
 \subsection{Perspectives méthodologiques}
 
-Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Il serait intéressant de confronter les performances du LSMC à :
+Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Comme illustré par la Figure \ref{fig:methods_comparison}, il serait intéressant de confronter les performances du LSMC à :
 \begin{itemize}
-    \item .
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.65\linewidth]{images/Capture d'écran 2026-01-10 161107.png}
-    \caption{Tableau comparatif des méthodes de pricing : arbres, itératives, Monte Carlo et transformée de Fourier \cite{ArealParallelMethods}.}
-    \label{fig:methods_comparison}
-\end{figure}
-On pourrait ainsi comparer ;
-    \item des approches par équations aux dérivées partielles résolues numériquement ;
-    \item des méthodes récentes basées sur l’apprentissage automatique (réseaux de neurones pour l’approximation de la valeur de continuation).
+    \item \textbf{les méthodes par arbres} (Binomiaux, Trinômiaux) : très utilisées pour leur flexibilité sur les options américaines (simple dimension) ;
+    \item \textbf{les méthodes itératives} (Différences Finies) : qui résolvent l'EDP de Black-Scholes-Merton avec condition de frontière libre ($P \ge (K-S)^+$) ;
+    \item \textbf{les méthodes spectrales} (Transformée de Fourier) : permettant des évaluations très rapides pour certains modèles (e.g., Heston, Lévy), bien que moins naturellement adaptées à l'exercice anticipé américain (nécessitant des techniques type méthodes de Spitzer).
 \end{itemize}
 
 Ces perspectives permettraient d’évaluer plus finement les compromis entre précision, coût de calcul et flexibilité des différentes méthodes, dans un contexte de finance quantitative moderne.
