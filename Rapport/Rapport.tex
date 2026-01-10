@@ -534,6 +534,14 @@ différences de générateurs pseudo-aléatoires et les effets d’arrondis en
 arithmétique flottante. Ces écarts restent toutefois compatibles avec la variance
 attendue de l’estimateur.
 
+En ce qui concerne la stabilité des temps de calcul, on observe une variance plus élevée sur GPU que sur CPU.
+Ceci s'explique par plusieurs facteurs intrinsèques au fonctionnement d'un GPU dans un environnement non temps-réel :
+\begin{itemize}
+    \item \textbf{Nature asynchrone :} Les lancements de kernels et les transferts mémoire impliquent une interaction complexe avec le driver, soumise à des latences variables.
+    \item \textbf{Gestion dynamique des fréquences :} Le mécanisme de "boost clock" ajuste la fréquence du GPU en temps réel selon la charge et la température, introduisant des fluctuations de performance sur des exécutions courtes.
+    \item \textbf{Ressource partagée :} Le GPU étant également sollicité par le système d'affichage (WDDM sous Windows), des micro-interruptions peuvent survenir, contrairement aux threads CPU qui peuvent être plus isolés.
+\end{itemize}
+
 \subsection{Comparaison globale des architectures}
 
 De manière synthétique :
