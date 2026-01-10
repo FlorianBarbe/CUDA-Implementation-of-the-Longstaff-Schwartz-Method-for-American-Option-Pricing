@@ -454,6 +454,25 @@ Les gains observés sont significatifs pour les phases suivantes :
     \item mise à jour des cashflows.
 \end{itemize}
 
+Les résultats de benchmark avec 4 threads OpenMP confirment une amélioration des temps de calcul, tout en conservant une complexité linéaire globale (voir figures ci-dessous).
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_paths_omp.png}
+        \caption{Temps vs $N_{paths}$ (OpenMP 4 threads)}
+        \label{fig:linearity_paths_omp}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_steps_omp.png}
+        \caption{Temps vs $N_{steps}$ (OpenMP 4 threads)}
+        \label{fig:linearity_steps_omp}
+    \end{minipage}
+\end{figure}
+
 Le facteur d’accélération obtenu est inférieur au nombre de cœurs disponibles,
 ce qui s’explique par :
 \begin{itemize}
@@ -583,19 +602,17 @@ La figure~\ref{fig:basis_comparison} illustre l'impact du choix de la base de r�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{images/Capture d'écran 2026-01-10 160639.png}
-    \caption{Comparaison de la précision selon les fonctions de base utilisées pour la régression LSMC (Source: \cite{ArealParallelMethods}).}
-    \label{fig:basis_comparison}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \includegraphics[width=1.0\linewidth]{images/precision_convergence_full.png}
     \caption{Comparaison de la convergence de l'erreur relative selon le nombre de trajectoires ($N=10^4, 10^5$) et l'architecture.}
     \label{fig:degree_convergence_full}
 \end{figure}
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Capture d'écran 2026-01-10 160639.png}
+    \caption{Évolution théorique attendue de la précision (Source: \cite{ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}
+    \label{fig:basis_comparison}
+\end{figure}
 
 \paragraph{Analyse de la convergence (Figure~\ref{fig:degree_convergence_full}).}
 Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{ArealParallelMethods}) qui illustre les attentes théoriques de convergence.

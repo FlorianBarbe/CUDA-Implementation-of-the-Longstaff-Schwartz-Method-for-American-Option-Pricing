@@ -24,13 +24,14 @@ int main(int argc, char *argv[]) {
   // CLI Mode for Linearity Benchmark
   // Usage: ./P1RV_CUDA [N_paths] [N_steps]
   // ================================
-  if (argc == 3) {
+  if (argc == 3 || argc == 4) {
     int cli_paths = std::atoi(argv[1]);
     int cli_steps = std::atoi(argv[2]);
+    int cli_threads = (argc == 4) ? std::atoi(argv[3]) : 1;
 
 // Warm-up ignored for CPU seq
 #ifdef _OPENMP
-    omp_set_num_threads(1);
+    omp_set_num_threads(cli_threads);
 #endif
 
     auto t0 = std::chrono::high_resolution_clock::now();
