@@ -1,0 +1,78 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cadre probabiliste et filtrations}{3}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Processus stochastiques}{3}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sous-jacent et dynamique}{4}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Temps, discrétisation et simulation}{4}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Espérances et opérateurs}{4}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Option et payoffs}{4}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Valeur de l’option et arrêt optimal}{4}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithme de Longstaff--Schwartz}{5}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implémentation numérique et performance}{5}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Cadre théorique}{5}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Options américaines et problématique de l’exercice anticipé}{5}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Modélisation stochastique du sous-jacent}{5}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Mouvement brownien géométrique}{5}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Réalisations de mouvements browniens standards.}}{6}{figure.1}\protected@file@percent }
+\newlabel{fig:placeholder}{{1}{6}{Réalisations de mouvements browniens standards}{figure.1}{}}
+\pp@pagectr{footnote}{1}{8}{7}
+\pp@pagectr{footnote}{2}{8}{7}
+\pp@pagectr{footnote}{3}{8}{7}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Discrétisation temporelle}{8}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Algorithme de Longstaff--Schwartz (LSMC)}{8}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Valeur de continuation et problème d’arrêt optimal}{8}{subsubsection.2.3.1}\protected@file@percent }
+\pp@pagectr{footnote}{4}{9}{8}
+\pp@pagectr{footnote}{5}{10}{9}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Régression par moindres carrés}{9}{subsubsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Stratégie d’exercice optimale}{9}{subsubsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Synthèse algorithmique et pseudo-algorithme du LSMC}{10}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Travail réalisé : implémentation et méthodologie}{10}{section.3}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Algorithme de Longstaff--Schwartz (LSMC)}}{11}{algorithm.1}\protected@file@percent }
+\newlabel{alg:lsmc}{{1}{11}{Synthèse algorithmique et pseudo-algorithme du LSMC}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Environnement de développement}{11}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Implémentation CPU séquentielle}{11}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Parallélisation CPU avec OpenMP}{12}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Accélération GPU avec CUDA}{12}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Méthodes de Différences Finies (FDM) pour comparaison}{12}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{13}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Résultats et analyse des performances}{13}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Protocole expérimental et résultats}{13}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma =0.2, T=1$).}}{13}{table.1}\protected@file@percent }
+\newlabel{tab:results}{{1}{13}{Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma =0.2, T=1$)}{table.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Analyse des résultats :}{14}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Validation numérique}{14}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Performances CPU séquentiel}{14}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Accélération par parallélisation CPU avec OpenMP}{14}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Accélération GPU avec CUDA}{15}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Comparaison globale des architectures}{15}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Discussion sur les limites du parallélisme}{15}{subsection.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Difficultés rencontrées}{16}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Complexité de l’exercice anticipé}{16}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Choix et stabilité de la régression}{16}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Extension : Bases de Régression Avancées}{16}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Limites de la parallélisation CPU}{16}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Spécificités et contraintes de l’implémentation GPU}{17}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Compromis précision--performance}{17}{subsection.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{17}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{17}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{17}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{18}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{18}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{18}{subsection.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Organisation du travail}{18}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Découpage du projet}{19}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{19}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{19}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Outils et environnement collaboratif}{20}{subsection.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{20}{subsection.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{20}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Détails mathématiques de l’algorithme LSMC}{22}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Valeur de continuation}{22}{subsection.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Approximation par régression}{22}{subsection.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Critère d’exercice}{22}{subsection.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Pseudo-code de l’algorithme LSMC}{22}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C}Extrait de kernel CUDA (illustratif)}{23}{appendix.C}\protected@file@percent }
+\gdef \@abspage@last{24}

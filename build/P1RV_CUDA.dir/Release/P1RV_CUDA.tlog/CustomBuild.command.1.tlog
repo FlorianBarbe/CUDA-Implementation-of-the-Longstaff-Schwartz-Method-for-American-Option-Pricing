@@ -1,0 +1,10 @@
+^C:\USERS\FLOLE\DESKTOP\P1RV_CUDA\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/flole/Desktop/P1RV_CUDA -BC:/Users/flole/Desktop/P1RV_CUDA/build --check-stamp-file C:/Users/flole/Desktop/P1RV_CUDA/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
