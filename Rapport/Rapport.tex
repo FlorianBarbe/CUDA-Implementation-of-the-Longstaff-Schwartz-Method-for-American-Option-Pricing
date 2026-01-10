@@ -182,66 +182,22 @@ La valorisation des options américaines s’apparente ainsi à un problème de 
 
 \subsection{Modélisation stochastique du sous-jacent}
 
-La valorisation des options américaines par des méthodes de Monte Carlo nécessite un modèle probabiliste décrivant l’évolution du prix du sous-jacent au cours du temps. Dans ce projet, on adopte un cadre classique de finance quantitative fondé sur un modèle stochastique continu, permettant de simuler un grand nombre de trajectoires réalistes du prix de l’actif.
-
-\subsubsection{Mouvement brownien géométrique}
-
-Un \emph{mouvement brownien} (ou processus de Wiener) est un processus stochastique continu \((W_t)_{t \ge 0}\) modélisant une source d’aléa pure, sans mémoire, évoluant dans le temps. Il peut être interprété comme la limite d’une marche aléatoire lorsque le pas de temps tend vers zéro.
-
-Un mouvement brownien standard est caractérisé par les propriétés suivantes :
-\begin{itemize}
-  \item \textbf{Condition initiale} :
-  \[
-  W_0 = 0.
-  \]
-
-  \item \textbf{Continuité des trajectoires} :  
-  Les trajectoires \(t \mapsto W_t\) sont continues presque sûrement.
-
-  \item \textbf{Incréments indépendants} :  
-Pour tout entier \(n \ge 1\) et pour tout vecteur de temps
+Pour valoriser l'option, nous modélisons la dynamique du sous-jacent $S_t$ sous la mesure risque-neutre $\mathbb{Q}$ par un Mouvement Brownien Géométrique (GBM). Ce modèle standard est régi par l'équation différentielle stochastique (EDS) suivante :
 \[
-(t_0,\dots,t_n) \in \mathbb{R}_+^{\,n+1}
-\quad \text{tel que} \quad
-0 \le t_0 < t_1 < \cdots < t_n,
+\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}},
 \]
-les variables aléatoires
+où $r$ est le taux sans risque, $\sigma$ la volatilité constante, et $W_t^{\mathbb{Q}}$ un mouvement brownien standard (voir Annexe~\ref{appendix:brownian} pour les définitions et propriétés élémentaires).
+
+La solution explicite de cette EDS, dont la dérivation détaillée est fournie en Annexe~A, est donnée par :
 \[
-W_{t_1}-W_{t_0},\; W_{t_2}-W_{t_1},\; \ldots,\; W_{t_n}-W_{t_{n-1}}
+S_t = S_0 \exp\left( \left(r - \frac{\sigma^2}{2}\right)t + \sigma W_t^{\mathbb{Q}} \right).
 \]
-sont indépendantes, c’est-à-dire que la connaissance de la valeur d’un incrément n’apporte aucune information sur les autres.
 
-
-\item \textbf{Incréments stationnaires} :  
-pour tout \(t \ge 0\) et tout \(h > 0\), la variable aléatoire \(W_{t+h}-W_t\) a une loi qui dépend uniquement de \(h\).
-
-  \item \textbf{Incréments gaussiens centrés} :  
-  \[\forall t \ge 0,\ \ h > 0,
-  W_{t+h}-W_t \sim \mathcal{N}(0,h).
-  \]
-\end{itemize}
-
-Les trajectoires d’un mouvement brownien sont continues mais presque sûrement nulle part dérivables, traduisant une évolution extrêmement irrégulière. Ces propriétés impliquent notamment une absence de mémoire du processus ainsi qu’une croissance de l’incertitude proportionnelle au temps.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.65\linewidth]{images/mouvement_brownien.png}
-    \caption{Réalisations de mouvements browniens standards.}
-    \label{fig:placeholder}
-\end{figure}
-
-Pour modéliser l’évolution d’un prix d’actif financier, l’utilisation d’un tel mouvement brownien n’est cependant pas appropriée, notamment parce qu'elle autoriserait des valeurs négatives du prix. On préfère donc une dynamique multiplicative plutôt qu'additive, dans laquelle l’aléa porte sur les rendements plutôt que sur les variations absolues de prix. Cette approche conduit naturellement au \emph{mouvement brownien géométrique}, qui constitue le modèle de référence pour la dynamique du prix d’un sous-jacent \(S_t\).
-
-Le mouvement brownien géométrique est défini comme la solution de l’équation différentielle stochastique \cite{Hull}
+Pour la simulation numérique, nous discrétisons cette dynamique sur une grille temporelle $t_0, \dots, t_N$ avec un pas $\Delta t$. La relation de récurrence utilisée pour générer les trajectoires est exacte :
 \[
-\mathrm{d}S_t = \mu S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t,
+S_{t_{n+1}} = S_{t_n} \exp\left( \left(r - \frac{\sigma^2}{2}\right)\Delta t + \sigma \sqrt{\Delta t} Z_n \right),
 \]
-où :
-\begin{itemize}
-  \item \(S_t\) désigne la valeur du sous-jacent à l’instant \(t \in \mathbb{R}_+\),
-  \item \(\mu \in \mathbb{R}\) est le paramètre de dérive, représentant le taux de croissance moyen du processus,
-  \item \(\sigma > 0\) est le paramètre de volatilité, mesurant l’intensité des fluctuations aléatoires,
-  \item \((W_t)_{t \ge 0}\) est un mouvement brownien standard.
-\end{itemize}
+avec $Z_n \sim \mathcal{N}(0,1)$ i.i.d.
 
 Cette équation est une équation différentielle stochastique linéaire au sens d’Itô\footnote{Une équation différentielle stochastique est dite linéaire au sens d’Itô lorsque les coefficients des termes en \(\mathrm{d}t\) et en \(\mathrm{d}W_t\) sont des fonctions linéaires de la variable d’état. Dans ce cas, l’équation admet une solution explicite obtenue à l’aide du calcul d’Itô.}, issue de l’équation de Black--Scholes\footnote{Introduite par F. Black et M. Scholes dans l’article fondateur \emph{The Pricing of Options and Corporate Liabilities} (1973), cette équation s’appuie sur le calcul stochastique développé par K. Itô dans les années 1940.}.
 
@@ -404,61 +360,21 @@ L’algorithme LSMC constitue ainsi un compromis efficace entre flexibilité du 
 La figure~\ref{fig:lsmc_flow} illustre le flux de l'algorithme LSMC dans un contexte parallèle distribué.
 
 
-\subsection{Synthèse algorithmique et pseudo-algorithme du LSMC}
+\subsection{Synthèse algorithmique}
 
-Les sections précédentes ont permis de formuler rigoureusement le problème
-d’arrêt optimal associé à la valorisation des options américaines, ainsi que
-le principe de l’approximation de la valeur de continuation par régression.
-On explicite à présent la manière dont ces objets théoriques sont effectivement
-manipulés et calculés dans le cadre numérique de l’algorithme de
-Longstaff--Schwartz.
+L’algorithme de Longstaff--Schwartz repose sur l'estimation de l'espérance conditionnelle $\mathbb{E}^{\mathbb{Q}}[e^{-r\Delta t} V_{t_{n+1}} | S_{t_n}]$ par projection sur un espace vectoriel de dimension finie, engendré par une base de fonctions $(\psi_k)_{k=1..K}$.
 
-L’algorithme repose sur une discrétisation du temps et sur la simulation Monte
-Carlo d’un grand nombre de trajectoires du sous-jacent. Pour chaque trajectoire,
-l’évolution du prix est simulée sur la grille temporelle
-$(t_n)_{n=0,\dots,N}$. Les décisions d’exercice sont ensuite déterminées par
-\emph{induction arrière}\footnote{Une méthode de résolution caractéristique de la programmation dynamique, consistant à résoudre le problème à la maturité puis à remonter le temps pas à pas jusqu'à la date initiale.}, en partant de la maturité et en remontant jusqu’à la
-date initiale.
-
-À la date de maturité $t_N = T$, la valeur de l’option est donnée uniquement par
-le payoff :
-\[
-V_{t_N}^{(i)} = \Phi(S_{t_N}^{(i)}),
-\]
-pour chaque trajectoire $i$. Aucun choix n’est possible à cette date.
-
-Pour une date intermédiaire $t_n$, en supposant les valeurs futures
-$V_{t_{n+1}}^{(i)}$ connues, l’algorithme procède selon les étapes suivantes :
-\begin{itemize}
-    \item les cashflows futurs sont actualisés afin de construire la variable
-    cible de la régression :
-    \[
-    Y^{(i)} = e^{-r \Delta t_n} V_{t_{n+1}}^{(i)} ;
-    \]
-    \item seules les trajectoires \emph{in-the-money}\footnote{Une option est dite \emph{in-the-money} (dans la monnaie) si son exercice immédiat génèrerait un flux positif. Pour un Put, cela correspond à $S < K$.} à la date $t_n$ sont
-    retenues pour la régression ;
-    \item une régression par moindres carrés est effectuée afin d’approximer la
-    valeur de continuation $C(t_n,S_{t_n})$ sous la forme
-    \[
-    \widehat{C}(t_n,S_{t_n}) = \sum_k \beta_k \psi_k(S_{t_n}) ;
-    \]
-    \item pour chaque trajectoire, la valeur d’exercice immédiat
-    $\Phi(S_{t_n}^{(i)})$ est comparée à la valeur de continuation estimée ;
-    \item la décision d’exercice ou de continuation est prise, ce qui permet de
-    mettre à jour la valeur $V_{t_n}^{(i)}$.
-\end{itemize}
-
-Cette procédure est répétée récursivement pour toutes les dates
-$t_n = t_{N-1}, \dots, t_1$. À l’issue de cette backward induction, les
-cashflows obtenus correspondent aux flux effectivement réalisés selon la
-stratégie d’exercice optimale estimée.
-
-Le prix de l’option américaine est alors obtenu en calculant la moyenne des
-cashflows actualisés à la date initiale :
-\[
-V_0 = \frac{1}{N_{\text{paths}}}
-\sum_{i=1}^{N_{\text{paths}}} e^{-r t_1} V_{t_1}^{(i)}.
-\]
+Concrètement, la procédure par \emph{backward induction} se déroule comme suit :
+\begin{enumerate}
+    \item \textbf{Initialisation} : Calcul des payoffs $V_{t_N}^{(i)} = \Phi(S_{t_N}^{(i)})$ à maturité pour chaque trajectoire.
+    \item \textbf{Itération} ($n = N-1 \to 1$) :
+    \begin{itemize}
+        \item Sélection des trajectoires \emph{in-the-money} (ITM) : seules celles où l'exercice est pertinent contribuent à la régression.
+        \item Régression moindres carrés : on projette les cashflows actualisés $Y^{(i)} = e^{-r\Delta t} V_{t_{n+1}}^{(i)}$ sur la base de fonctions évaluée en $S_{t_n}$. Cela fournit l'estimateur $\widehat{C}(t_n, S) = \sum \beta_k \psi_k(S)$.
+        \item Décision optimale : pour chaque chemin, on exerce si $\Phi(S_{t_n}) > \widehat{C}(t_n, S_{t_n})$.
+    \end{itemize}
+    \item \textbf{Finalisation} : La valeur de l'option en $t=0$ est la moyenne des flux de trésorerie actualisés selon la stratégie optimale déterminée.
+\end{enumerate}
 
 L’algorithme~\ref{alg:lsmc} résume de manière synthétique les différentes étapes
 de la méthode de Longstaff--Schwartz telle qu’elle est implémentée dans ce
@@ -795,8 +711,9 @@ ce qui s’explique par :
     progression temporelle de la backward induction).
 \end{itemize}
 
-Néanmoins, OpenMP permet une réduction notable du temps de calcul, tout en
-conservant une implémentation relativement simple et portable.
+Néanmoins, OpenMP permet une réduction notable du temps de calcul, tout en conservant une implémentation relatively simple et portable.
+
+\textbf{Synthèse :} Le parallélisme OpenMP est efficace pour les phases \emph{compute-bound} (simulations) mais sature rapidement la bande passante mémoire lors des opérations vectorielles massives, plafonnant l'accélération bien en deçà du nombre de cœurs physiques.
 
 \subsection{Accélération GPU avec CUDA}
 
@@ -816,13 +733,14 @@ Cependant, la backward induction impose une dépendance temporelle forte entre l
 dates successives. Cette contrainte limite la parallélisation complète de
 l’algorithme et réduit le gain théorique maximal.
 
-Les performances finales dépendent fortement :
 \begin{itemize}
     \item du nombre de trajectoires simulées ;
     \item de l’occupation effective du GPU ;
     \item de l’efficacité des réductions parallèles ;
     \item de la limitation des transferts mémoire CPU--GPU.
 \end{itemize}
+
+\textbf{Synthèse :} Le GPU excelle sur le parallélisme de données (trajectoires), offrant des speedups d'un ordre de grandeur, mais l'accélération globale reste structurellement bornée par la nature séquentielle temporelle de l'algorithme (loi d'Amdahl appliquée à la backward induction).
 
 \subsection{Comparaison globale des architectures}
 
@@ -1339,6 +1257,25 @@ Les figures suivantes illustrent la scalabilité de l'implémentation OpenMP en 
     \label{fig:heatmap}
 \end{figure}
 
+
+\section{Rappels de Probabilités et propriétés du Mouvement Brownien}
+\label{appendix:brownian}
+
+\subsection{Définition et propriétés du Mouvement Brownien}
+Un mouvement brownien standard $(W_t)_{t \ge 0}$ est un processus stochastique caractérisé par :
+\begin{enumerate}
+    \item $W_0 = 0$ presque sûrement.
+    \item Ses trajectoires $t \mapsto W_t$ sont continues.
+    \item Ses accroissements sont indépendants et stationnaires (loi normale $\mathcal{N}(0, t-s)$ pour $W_t - W_s$).
+\end{enumerate}
+
+\subsection{Propriétés des incréments}
+Pour la simulation numérique, nous utilisons la propriété d'indépendance des accroissements sur des intervalles disjoints. Si $0 \le t_1 < t_2 < \dots < t_n$, les variables aléatoires $(W_{t_{i+1}} - W_{t_i})$ sont mutuellement indépendantes.
+
+\subsection{Loi des Grands Nombres et Monte Carlo}
+La convergence des méthodes de Monte Carlo repose sur la Loi Forte des Grands Nombres (LFGN) :
+\[ \lim_{N \to \infty} \frac{1}{N} \sum_{i=1}^N f(X_i) = \mathbb{E}[f(X)] \quad \text{p.s.} \]
+L'erreur d'approximation décroît en $\mathcal{O}(1/\sqrt{N})$, conformément au Théorème Central Limite.
 
 \clearpage
 \begin{thebibliography}{9}
