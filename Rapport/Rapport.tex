@@ -672,10 +672,9 @@ Le travail réalisé dans le cadre de ce projet a permis de mettre en œuvre une
 \subsection{Améliorations algorithmiques}
 
 Une première piste d’amélioration concerne le choix des fonctions de base utilisées pour l’approximation de la valeur de continuation. Dans ce projet, une base polynomiale simple de degré deux a été retenue pour des raisons de simplicité et de stabilité numérique. Il serait possible d’explorer :
-\begin{itemize}
-    \item des bases polynomiales de degré plus élevé ;
-    \item des polynômes orthogonaux (Laguerre, Hermite), souvent utilisés dans la littérature ;
-    \item des bases adaptatives dépendant de la distribution du sous-jacent, comme suggéré dans des publications récentes \cite{Risks}.
+    \item l'utilisation de méthodes de \textbf{Monte Carlo Multi-Niveaux (MLMC)} \cite{Ghodssi} pour réduire la variance et le coût de calcul ;
+    \item la mise en œuvre de \textbf{régressions locales} (Local Least Squares) \cite{Detra}, permettant une meilleure capture des non-linéarités de la fonction de continuation ;
+    \item l'exploration d'approches de \textbf{parallélisation temporelle} (type Parareal) \cite{Parareal} afin de surmonter la contrainte séquentielle de la backward induction.
 \end{itemize}
 
 Ces choix peuvent améliorer la précision de l’estimation de la valeur de continuation, au prix d’un coût de calcul plus élevé et d’un risque accru de sur-apprentissage.
@@ -1103,6 +1102,15 @@ Source file: \texttt{Areal\_Parallel\_Methods.pdf}.
 Detra (2023).
 \textit{Risk Management with Local Least Squares Monte Carlo}.
 Technical Note.
+\bibitem{Ghodssi}
+Ghodssi, Z. (2021).
+\textit{Multilevel Monte Carlo Calculation of American Option Prices}.
+Source file: \texttt{Ghodssi\_2021\_MLMC\_Valuation.pdf}.
+
+\bibitem{Parareal}
+\textit{Parareal Methods for American Options}.
+Source file: \texttt{Parareal\_American\_Options.pdf}.
+
 \end{thebibliography}
 
 \end{document}
