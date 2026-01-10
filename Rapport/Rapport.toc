@@ -21,17 +21,15 @@
 \contentsline {subsection}{\numberline {4.7}Accélération GPU avec CUDA}{11}{subsection.4.7}%
 \contentsline {subsection}{\numberline {4.8}Comparaison globale des architectures}{12}{subsection.4.8}%
 \contentsline {subsection}{\numberline {4.9}Discussion sur les limites du parallélisme}{12}{subsection.4.9}%
-\contentsline {section}{\numberline {5}Analyse Critique et Limitations}{12}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{12}{subsection.5.1}%
+\contentsline {section}{\numberline {5}Analyse Critique et Limitations}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{13}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Échec de l'intégration CUDA dans Visual Studio}{13}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{13}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{13}{subsection.5.4}%
-\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{13}{section*.3}%
-\contentsline {paragraph}{Extensions et bases avancées.}{13}{section*.4}%
-\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{14}{section*.5}%
-\contentsline {subsection}{\numberline {5.5}Limites de la parallélisation CPU}{15}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Spécificités et contraintes de l’implémentation GPU}{15}{subsection.5.6}%
-\contentsline {subsection}{\numberline {5.7}Compromis précision--performance}{16}{subsection.5.7}%
+\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{14}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{14}{subsection.5.4}%
+\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{14}{section*.3}%
+\contentsline {paragraph}{Extensions et bases avancées.}{14}{section*.4}%
+\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{15}{section*.5}%
+\contentsline {subsection}{\numberline {5.5}Compromis précision--performance}{16}{subsection.5.5}%
 \contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{16}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{16}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{16}{subsection.6.2}%
@@ -40,18 +38,18 @@
 \contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{17}{subsection.6.5}%
 \contentsline {section}{\numberline {7}Organisation du travail}{18}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Découpage du projet}{18}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{18}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{19}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{19}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Outils et environnement collaboratif}{19}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{19}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.4}Outils et environnement collaboratif}{20}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{20}{subsection.7.5}%
 \contentsline {section}{\numberline {8}Conclusion}{20}{section.8}%
-\contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{21}{appendix.A}%
-\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{21}{appendix.B}%
-\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{21}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{22}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{22}{subsection.B.3}%
-\contentsline {section}{\numberline {C}Notations et Conventions}{23}{appendix.C}%
-\contentsline {subsection}{\numberline {C.1}Probabilités et Processus Stochastiques}{23}{subsection.C.1}%
-\contentsline {subsection}{\numberline {C.2}Modélisation Financière}{23}{subsection.C.2}%
-\contentsline {subsection}{\numberline {C.3}Méthodes Numériques (LSMC)}{23}{subsection.C.3}%
-\contentsline {subsection}{\numberline {C.4}Implémentation et Architecture}{24}{subsection.C.4}%
+\contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{22}{appendix.A}%
+\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{22}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{22}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{23}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{23}{subsection.B.3}%
+\contentsline {section}{\numberline {C}Notations et Conventions}{24}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Probabilités et Processus Stochastiques}{24}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Modélisation Financière}{24}{subsection.C.2}%
+\contentsline {subsection}{\numberline {C.3}Méthodes Numériques (LSMC)}{24}{subsection.C.3}%
+\contentsline {subsection}{\numberline {C.4}Implémentation et Architecture}{25}{subsection.C.4}%

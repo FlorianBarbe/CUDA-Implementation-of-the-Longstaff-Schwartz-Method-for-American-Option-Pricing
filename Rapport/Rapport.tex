@@ -488,30 +488,51 @@ Néanmoins, OpenMP permet une réduction notable du temps de calcul, tout en con
 
 \subsection{Accélération GPU avec CUDA}
 
-L’implémentation CUDA montre des gains de performance particulièrement importants
-pour les parties massivement parallèles de l’algorithme :
-\begin{itemize}
-    \item simulation des trajectoires GBM ;
-    \item calcul des payoffs ;
-    \item certaines réductions statistiques.
-\end{itemize}
+L’implémentation GPU avec CUDA a mis en évidence \cite{Benguigui} un contraste marqué entre les
+différentes phases de l’algorithme. La simulation des trajectoires et le calcul
+des payoffs bénéficient pleinement du parallélisme massif, avec des accélérations
+importantes lorsque le nombre de trajectoires augmente.
 
-Le GPU tire parti du parallélisme massif en assignant un thread par trajectoire,
-ce qui permet de traiter simultanément plusieurs centaines de milliers, voire
-millions de chemins.
+Les résultats expérimentaux (voir Figures ci-dessous) montrent un gain de performance croissant avec la
+taille du problème, atteignant des facteurs d’accélération supérieurs à $30$
+pour de grands nombres de trajectoires.
 
-Cependant, la backward induction impose une dépendance temporelle forte entre les
-dates successives. Cette contrainte limite la parallélisation complète de
-l’algorithme et réduit le gain théorique maximal.
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_paths_gpu.png}
+        \caption{Temps vs $N_{paths}$ (GPU CUDA)}
+        \label{fig:linearity_paths_gpu}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_steps_gpu.png}
+        \caption{Temps vs $N_{steps}$ (GPU CUDA)}
+        \label{fig:linearity_steps_gpu}
+    \end{minipage}
+\end{figure}
 
+En revanche, la backward induction impose une dépendance temporelle forte entre les dates successives.
+Cette contrainte limite la parallélisation complète de l'algorithme et réduit le gain théorique maximal.
+Les performances dépendent notamment :
 \begin{itemize}
     \item du nombre de trajectoires simulées ;
-    \item de l’occupation effective du GPU ;
-    \item de l’efficacité des réductions parallèles ;
-    \item de la limitation des transferts mémoire CPU--GPU.
+    \item de l'occupation effective du GPU ;
+    \item de l'efficacité des réductions parallèles ;
+    \item de la limitation des transferts mémoire CPU-GPU.
 \end{itemize}
 
-\textbf{Synthèse :} Le GPU excelle sur le parallélisme de données (trajectoires), offrant des speedups d'un ordre de grandeur, mais l'accélération globale reste structurellement bornée par la nature séquentielle temporelle de l'algorithme (loi d'Amdahl appliquée à la backward induction).
+\textbf{Synthèse :} Le GPU excelle sur le parallélisme de données (trajectoires), offrant des speedups d'un ordre
+de grandeur, mais l'accélération globale reste structurellement bornée par la nature séquentielle temporelle
+de l'algorithme (loi d'Amdahl appliquée à la backward induction).
+
+Par ailleurs, une légère différence entre les prix CPU et GPU a été observée.
+Elle s’explique par la nature statistique de la méthode de Monte Carlo, les
+différences de générateurs pseudo-aléatoires et les effets d’arrondis en
+arithmétique flottante. Ces écarts restent toutefois compatibles avec la variance
+attendue de l’estimateur.
 
 \subsection{Comparaison globale des architectures}
 
@@ -626,62 +647,6 @@ Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" 
 Ces observations soulignent la difficulté pratique d'obtenir une convergence "parfaite" avec des méthodes de régression globale sur des degrés élevés sans un nombre de trajectoires extrêmement grand ($N \gg 10^5$).
 
 
-\subsection{Limites de la parallélisation CPU}
-
-La parallélisation sur CPU via OpenMP permet d’accélérer efficacement la
-simulation des trajectoires et le calcul des payoffs. Toutefois, les gains
-observés restent limités par la bande passante mémoire et la contention sur les
-caches partagés.  
-En pratique, l’accélération n’est pas linéaire avec le nombre de cœurs, ce qui
-confirme le caractère fortement \emph{memory-bound} de l’algorithme LSMC sur CPU.
-
-\subsection{Spécificités et contraintes de l’implémentation GPU}
-
-L’implémentation GPU avec CUDA a mis en évidence \cite{Benguigui} un contraste marqué entre les
-différentes phases de l’algorithme. La simulation des trajectoires et le calcul
-des payoffs bénéficient pleinement du parallélisme massif, avec des accélérations
-importantes lorsque le nombre de trajectoires augmente.
-
-Les résultats expérimentaux (voir Figures ci-dessous) montrent un gain de performance croissant avec la
-taille du problème, atteignant des facteurs d’accélération supérieurs à $30$
-pour de grands nombres de trajectoires.
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/linearity_paths_gpu.png}
-        \caption{Temps vs $N_{paths}$ (GPU CUDA)}
-        \label{fig:linearity_paths_gpu}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/linearity_steps_gpu.png}
-        \caption{Temps vs $N_{steps}$ (GPU CUDA)}
-        \label{fig:linearity_steps_gpu}
-    \end{minipage}
-\end{figure}
-
-En revanche, la backward induction impose une dépendance temporelle forte entre les dates successives.
-Cette contrainte limite la parallélisation complète de l'algorithme et réduit le gain théorique maximal.
-Les performances dépendent notamment :
-\begin{itemize}
-    \item du nombre de trajectoires simulées ;
-    \item de l'occupation effective du GPU ;
-    \item de l'efficacité des réductions parallèles ;
-    \item de la limitation des transferts mémoire CPU-GPU.
-\end{itemize}
-
-\textbf{Synthèse :} Le GPU excelle sur le parallélisme de données (trajectoires), offrant des speedups d'un ordre
-de grandeur, mais l'accélération globale reste structurellement bornée par la nature séquentielle temporelle
-de l'algorithme (loi d'Amdahl appliquée à la backward induction).
-
-Par ailleurs, une légère différence entre les prix CPU et GPU a été observée.
-Elle s’explique par la nature statistique de la méthode de Monte Carlo, les
-différences de générateurs pseudo-aléatoires et les effets d’arrondis en
-arithmétique flottante. Ces écarts restent toutefois compatibles avec la variance
-attendue de l’estimateur.
 
 \subsection{Compromis précision--performance}
 
