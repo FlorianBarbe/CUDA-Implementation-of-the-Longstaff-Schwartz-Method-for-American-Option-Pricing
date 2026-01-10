@@ -45,12 +45,11 @@
 \contentsline {subsection}{\numberline {7.5}Gestion du temps et avancement}{18}{subsection.7.5}%
 \contentsline {section}{\numberline {8}Conclusion}{18}{section.8}%
 \contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{20}{appendix.A}%
-\contentsline {section}{\numberline {B}Compléments de Performance OpenMP}{20}{appendix.B}%
-\contentsline {section}{\numberline {C}Rappels de Probabilités et propriétés du Mouvement Brownien}{21}{appendix.C}%
-\contentsline {subsection}{\numberline {C.1}Définition et propriétés du Mouvement Brownien}{21}{subsection.C.1}%
-\contentsline {subsection}{\numberline {C.2}Propriétés des incréments}{21}{subsection.C.2}%
-\contentsline {subsection}{\numberline {C.3}Loi des Grands Nombres et Monte Carlo}{21}{subsection.C.3}%
-\contentsline {section}{\numberline {D}Notations et Conventions}{22}{appendix.D}%
-\contentsline {paragraph}{Cadre probabiliste}{22}{section*.6}%
-\contentsline {paragraph}{Modèle de marché}{22}{section*.7}%
-\contentsline {paragraph}{Paramètres numériques}{22}{section*.8}%
+\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{20}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{20}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{20}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{20}{subsection.B.3}%
+\contentsline {section}{\numberline {C}Notations et Conventions}{21}{appendix.C}%
+\contentsline {paragraph}{Cadre probabiliste}{21}{section*.6}%
+\contentsline {paragraph}{Modèle de marché}{21}{section*.7}%
+\contentsline {paragraph}{Paramètres numériques}{21}{section*.8}%
