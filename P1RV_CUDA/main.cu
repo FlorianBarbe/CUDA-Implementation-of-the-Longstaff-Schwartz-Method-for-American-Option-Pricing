@@ -22,23 +22,38 @@ int main(int argc, char *argv[]) {
 
   // ================================
   // CLI Mode for Linearity Benchmark
-  // Usage: ./P1RV_CUDA [N_paths] [N_steps]
+  // Usage: ./P1RV_CUDA [N_paths] [N_steps] [mode] [threads]
+  // mode: "cpu", "omp", "gpu"
   // ================================
-  if (argc == 3 || argc == 4) {
+  if (argc >= 4) {
     int cli_paths = std::atoi(argv[1]);
     int cli_steps = std::atoi(argv[2]);
-    int cli_threads = (argc == 4) ? std::atoi(argv[3]) : 1;
+    std::string mode = argv[3];
+    int cli_threads = (argc >= 5) ? std::atoi(argv[4]) : 1;
 
-// Warm-up ignored for CPU seq
-#ifdef _OPENMP
-    omp_set_num_threads(cli_threads);
-#endif
-
+    double dt = 0.0;
     auto t0 = std::chrono::high_resolution_clock::now();
-    LSMC::priceAmericanPut(S0, K, r, sigma, T, cli_steps, cli_paths,
-                           RegressionBasis::Monomial, 2);
+
+    if (mode == "gpu") {
+#ifdef LSMC_ENABLE_CUDA
+      LSMC::priceAmericanPutGPU(S0, K, r, sigma, T, cli_steps, cli_paths,
+                                RegressionBasis::Monomial, 2);
+#else
+      std::cerr << "[ERROR] CUDA not compiled via LSMC_ENABLE_CUDA"
+                << std::endl;
+      return 1;
+#endif
+    } else {
+      // CPU or OMP
+#ifdef _OPENMP
+      omp_set_num_threads(cli_threads);
+#endif
+      LSMC::priceAmericanPut(S0, K, r, sigma, T, cli_steps, cli_paths,
+                             RegressionBasis::Monomial, 2);
+    }
+
     auto t1 = std::chrono::high_resolution_clock::now();
-    double dt = std::chrono::duration<double, std::milli>(t1 - t0).count();
+    dt = std::chrono::duration<double, std::milli>(t1 - t0).count();
 
     std::cout << dt << std::endl;
     return 0;

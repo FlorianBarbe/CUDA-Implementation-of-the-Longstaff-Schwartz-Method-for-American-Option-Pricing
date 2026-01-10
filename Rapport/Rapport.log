@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -492,104 +492,138 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
 
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
+))
+\tf@toc=\write4
+\openout4 = `Rapport.toc'.
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.51 ...©tÃ©s des incrÃ©ments}{22}{subsection.B.2}
-                                                  % [1])
-\tf@toc=\write4
-\openout4 = `Rapport.toc'.
+l.63 \newpage
+              [1]
 
- [2]
+LaTeX Warning: Reference `appendix:eds' on page 2 undefined on input line 86.
+
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 119.
-<images/Distributed-LSMC-algorithm-flow-chart.png, id=291, 102.3825pt x 275.950
+<images/Distributed-LSMC-algorithm-flow-chart.png, id=156, 102.3825pt x 275.950
 94pt>
 File: images/Distributed-LSMC-algorithm-flow-chart.png Graphic file (type png)
 <use images/Distributed-LSMC-algorithm-flow-chart.png>
 Package pdftex.def Info: images/Distributed-LSMC-algorithm-flow-chart.png  used
  on input line 141.
 (pdftex.def)             Requested size: 283.22162pt x 763.41917pt.
- [3] [4]
+[2] [3]
 Overfull \vbox (134.65692pt too high) has occurred while \output is active []
 
 
-[5 <./images/Distributed-LSMC-algorithm-flow-chart.png>]
+[4 <./images/Distributed-LSMC-algorithm-flow-chart.png>]
 Overfull \hbox (5.71321pt too wide) in paragraph at lines 170--173
 \T1/cmr/m/n/10 com-pat-i-ble CUDA. Les ex-péri-ences ont été con-duites en priv
 -ilé-giant la re-pro-ductibil-ité et la sta-bil-ité numérique. 
  []
 
-[6] [7] [8] [9]
-<images/linearity_paths.png, id=381, 505.89pt x 361.35pt>
+[5] [6] [7] [8]
+<images/linearity_paths.png, id=246, 505.89pt x 361.35pt>
 File: images/linearity_paths.png Graphic file (type png)
 <use images/linearity_paths.png>
 Package pdftex.def Info: images/linearity_paths.png  used on input line 431.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps.png, id=382, 505.89pt x 361.35pt>
+<images/linearity_steps.png, id=247, 505.89pt x 361.35pt>
 File: images/linearity_steps.png Graphic file (type png)
 <use images/linearity_steps.png>
 Package pdftex.def Info: images/linearity_steps.png  used on input line 438.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_paths_omp.png, id=383, 505.89pt x 361.35pt>
+<images/linearity_paths_omp.png, id=248, 505.89pt x 361.35pt>
 File: images/linearity_paths_omp.png Graphic file (type png)
 <use images/linearity_paths_omp.png>
 Package pdftex.def Info: images/linearity_paths_omp.png  used on input line 463
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps_omp.png, id=384, 505.89pt x 361.35pt>
+<images/linearity_steps_omp.png, id=249, 505.89pt x 361.35pt>
 File: images/linearity_steps_omp.png Graphic file (type png)
 <use images/linearity_steps_omp.png>
 Package pdftex.def Info: images/linearity_steps_omp.png  used on input line 470
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
- [10 <./images/linearity_paths.png> <./images/linearity_steps.png>] [11 <./imag
-es/linearity_paths_omp.png> <./images/linearity_steps_omp.png>]
-[12]
-<images/precision_convergence_full.png, id=411, 1078.7502pt x 571.6557pt>
+ [9 <./images/linearity_paths.png> <./images/linearity_steps.png>] [10 <./image
+s/linearity_paths_omp.png> <./images/linearity_steps_omp.png>]
+[11]
+
+LaTeX Warning: Reference `fig:basis_comparison' on page 12 undefined on input l
+ine 601.
+
+<images/precision_convergence_full.png, id=274, 1078.7502pt x 571.6557pt>
 File: images/precision_convergence_full.png Graphic file (type png)
 <use images/precision_convergence_full.png>
 Package pdftex.def Info: images/precision_convergence_full.png  used on input l
 ine 605.
 (pdftex.def)             Requested size: 472.03123pt x 250.14236pt.
- [13]
-<images/Capture d'Ã©cran 2026-01-10 160639.png, id=421, 980.91469pt x 412.54124
+[12]
+<images/Capture d'Ã©cran 2026-01-10 160639.png, id=285, 980.91469pt x 412.54124
 pt>
 File: images/Capture d'Ã©cran 2026-01-10 160639.png Graphic file (type png)
 <use images/Capture d'Ã©cran 2026-01-10 160639.png>
 Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 160639.png  used on
  input line 612.
-(pdftex.def)             Requested size: 354.02342pt x 148.88612pt.
- [14 <./images/precision_convergence_full.png> <./images/Capture d'Ã©cran 2026-
-01-10 160639.png>] [15]
-<images/Capture d'Ã©cran 2026-01-10 161107.png, id=447, 429.85594pt x 350.81062
+(pdftex.def)             Requested size: 472.03123pt x 198.52113pt.
+
+
+LaTeX Warning: Reference `fig:degree_convergence_full' on page 13 undefined on 
+input line 618.
+
+
+LaTeX Warning: Reference `fig:degree_convergence_full' on page 13 undefined on 
+input line 618.
+
+
+LaTeX Warning: Reference `fig:basis_comparison' on page 13 undefined on input l
+ine 618.
+
+[13 <./images/precision_convergence_full.png> <./images/Capture d'Ã©cran 2026-0
+1-10 160639.png>]
+<images/linearity_paths_gpu.png, id=301, 505.89pt x 361.35pt>
+File: images/linearity_paths_gpu.png Graphic file (type png)
+<use images/linearity_paths_gpu.png>
+Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 655
+.
+(pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
+<images/linearity_steps_gpu.png, id=302, 505.89pt x 361.35pt>
+File: images/linearity_steps_gpu.png Graphic file (type png)
+<use images/linearity_steps_gpu.png>
+Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 662
+.
+(pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
+ [14 <./images/linearity_paths_gpu.png> <./images/linearity_steps_gpu.png>] [15
+]
+<images/Capture d'Ã©cran 2026-01-10 161107.png, id=326, 429.85594pt x 350.81062
 pt>
 File: images/Capture d'Ã©cran 2026-01-10 161107.png Graphic file (type png)
 <use images/Capture d'Ã©cran 2026-01-10 161107.png>
 Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 161107.png  used on
- input line 724.
+ input line 741.
 (pdftex.def)             Requested size: 306.81741pt x 250.39944pt.
- [16]
-Overfull \hbox (1.38707pt too wide) in paragraph at lines 730--731
+
+Overfull \hbox (1.38707pt too wide) in paragraph at lines 747--748
 []\T1/cmr/m/n/10 des méth-odes ré-centes basées sur l'apprentissage au-toma-tiq
 ue (réseaux de neu-rones pour l'approximation
  []
 
-[17 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [18]
-Overfull \hbox (4.66158pt too wide) in paragraph at lines 856--857
+[16 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [17] [18]
+Overfull \hbox (4.66158pt too wide) in paragraph at lines 873--874
 []\T1/cmr/m/n/10 La val-i-da-tion croisée avec des méth-odes déter-min-istes de
  dif-férences finies a con-firmé la co-hérence numérique
  []
 
-[19] [20] [21
+[19] [20
 
-] [22]
-ignored error: Infinite glue shrinkage found in box being split [23
+] [21]
+ignored error: Infinite glue shrinkage found in box being split [22
 
-] [24]
-[25
+] [23]
+[24
 
 ] (Rapport.aux)
  ***********
@@ -598,16 +632,25 @@ L3 programming layer <2025-12-24>
  ***********
 
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package rerunfilecheck Info: File `Rapport.out' has not changed.
-(rerunfilecheck)             Checksum: E384134ECA80F44CD5FD4FB988DB5497;12836.
+
+Package rerunfilecheck Warning: File `Rapport.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Rapport.out':
+(rerunfilecheck)             Before: 05B325836FBA3970FAF7DE1CA42E58EF;6808
+(rerunfilecheck)             After:  E384134ECA80F44CD5FD4FB988DB5497;12836.
  ) 
 Here is how much of TeX's memory you used:
- 12668 strings out of 467871
- 192938 string characters out of 5418376
- 632244 words of memory out of 5000000
- 41236 multiletter control sequences out of 15000+600000
+ 12659 strings out of 467871
+ 193125 string characters out of 5418376
+ 630723 words of memory out of 5000000
+ 41226 multiletter control sequences out of 15000+600000
  645811 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,9n,79p,631b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -646,9 +689,9 @@ fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs
 /MiKTeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Pr
 ograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/Ap
 pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (26 pages, 1876938 bytes).
+Output written on Rapport.pdf (25 pages, 2112277 bytes).
 PDF statistics:
- 1234 PDF objects out of 1440 (max. 8388607)
- 135 named destinations out of 1000 (max. 500000)
- 465 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1128 PDF objects out of 1200 (max. 8388607)
+ 136 named destinations out of 1000 (max. 500000)
+ 267 words of extra memory for PDF output out of 10000 (max. 10000000)
 

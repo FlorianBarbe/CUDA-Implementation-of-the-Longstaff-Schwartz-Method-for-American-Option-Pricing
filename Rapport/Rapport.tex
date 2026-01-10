@@ -609,7 +609,7 @@ La figure~\ref{fig:basis_comparison} illustre l'impact du choix de la base de r�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{images/Capture d'écran 2026-01-10 160639.png}
+    \includegraphics[width=1.0\linewidth]{images/Capture d'écran 2026-01-10 160639.png}
     \caption{Évolution théorique attendue de la précision (Source: \cite{ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}
     \label{fig:basis_comparison}
 \end{figure}
@@ -642,11 +642,28 @@ différentes phases de l’algorithme. La simulation des trajectoires et le calc
 des payoffs bénéficient pleinement du parallélisme massif, avec des accélérations
 importantes lorsque le nombre de trajectoires augmente.
 
-Les résultats expérimentaux montrent un gain de performance croissant avec la
+Les résultats expérimentaux (voir Figures ci-dessous) montrent un gain de performance croissant avec la
 taille du problème, atteignant des facteurs d’accélération supérieurs à $30$
 pour de grands nombres de trajectoires. En revanche, la backward induction
 introduit une dépendance temporelle forte entre les dates, ce qui limite la
 parallélisation complète et impose des synchronisations coûteuses.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_paths_gpu.png}
+        \caption{Temps vs $N_{paths}$ (GPU CUDA)}
+        \label{fig:linearity_paths_gpu}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/linearity_steps_gpu.png}
+        \caption{Temps vs $N_{steps}$ (GPU CUDA)}
+        \label{fig:linearity_steps_gpu}
+    \end{minipage}
+\end{figure}
 
 Par ailleurs, une légère différence entre les prix CPU et GPU a été observée.
 Elle s’explique par la nature statistique de la méthode de Monte Carlo, les
