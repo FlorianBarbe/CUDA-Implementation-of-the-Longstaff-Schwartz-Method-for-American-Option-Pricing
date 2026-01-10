@@ -79,14 +79,35 @@ Ce document détaille la formulation mathématique, les choix d'implémentation 
 
 \section{Cadre de Modélisation}
 
-\subsection{Problème d'arrêt optimal et dynamique}
+\subsection{Dynamique du Sous-Jacent}
 
-La valeur d'une option américaine de vente (Put) de maturité $T$ et de strike $K$ est donnée, sous la mesure risque-neutre $\mathbb{Q}$, par le problème d'arrêt optimal :
-\[ V_0 = \sup_{\tau \in \mathcal{T}_{0,T}} \mathbb{E}^{\mathbb{Q}}\left[ e^{-r\tau} (K - S_\tau)^+ \right] \]
-où le sous-jacent $(S_t)_{t\ge0}$ suit un Mouvement Brownien Géométrique (GBM) régi par l'EDS :
+Le sous-jacent $(S_t)_{t\ge0}$ suit un Mouvement Brownien Géométrique (GBM) régi par l'EDS :
 \[ \mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}} \]
 La solution explicite et sa discrétisation exacte sur une grille temporelle $\{t_0, \dots, t_N\}$ sont données par (voir Annexe~\ref{appendix:eds} pour la dérivation) :
 \[ S_{t_{n+1}} = S_{t_n} \exp\left( (r - \frac{\sigma^2}{2})\Delta t + \sigma \sqrt{\Delta t} Z_n \right), \quad Z_n \sim \mathcal{N}(0,1) \]
+
+\subsection{Problème d'Arrêt Optimal}
+
+Contrairement à une option européenne, une option américaine offre à son détenteur la liberté d'exercer son droit à n'importe quelle date $t_n$ de la grille de discrétisation. Cette flexibilité introduit un \textbf{choix stratégique} à chaque pas de temps : exercer immédiatement pour encaisser le payoff intrinsèque, ou conserver l'option pour profiter d'une évolution favorable future.
+
+On note $V_{t_n}$ la valeur de l'option à la date $t_n$ et $\Phi(S_{t_n})$ sa valeur d'exercice immédiat (pour un Put, $\Phi(S) = \max(K-S, 0)$).
+La décision optimale repose sur la comparaison entre :
+\begin{itemize}
+    \item \textbf{La valeur d'exercice immédiat} : $\Phi(S_{t_n})$.
+    \item \textbf{La valeur de continuation} : $C(t_n, S_{t_n})$, qui représente l'espérance des flux futurs actualisés si l'on choisit de ne pas exercer aujourd'hui.
+\end{itemize}
+
+Formellement, la valeur de continuation est définie par l'espérance conditionnelle sous la mesure risque-neutre $\mathbb{Q}$ :
+\[
+C(t_n, S_{t_n}) = \mathbb{E}^{\mathbb{Q}}\left[ e^{-r \Delta t} V_{t_{n+1}} \mid S_{t_n} \right]
+\]
+
+L'équation de programmation dynamique (Bellman) qui régit le prix de l'option est alors :
+\[
+V_{t_n} = \max\left( \Phi(S_{t_n}), \, C(t_n, S_{t_n}) \right)
+\]
+
+C'est cette quantité $C(t_n, S_{t_n})$, espérance conditionnelle inconnue, que l'algorithme LSMC cherche à estimer par régression.
 
 
 \subsection{Algorithme de Longstaff--Schwartz (LSMC)}
