@@ -65,354 +65,63 @@
 
 \section{Introduction}
 
-Ce rapport présente le travail réalisé durant le premier semestre de la deuxième année de notre  cursus ingénieur à Centrale Nantes, dans le cadre de notre projet P1RV. Ce projet s’inscrit dans une démarche d’analyse de performance et de mise en œuvre d’algorithmes numériques avancés, appliqués ici au domaine de la finance quantitative.
+Ce rapport synthétise les travaux d'inplémentation et d'optimisation de l'algorithme de Longstaff--Schwartz (LSMC) pour la valorisation d'options américaines. Ce projet explore l'impact des architectures de calcul sur la performance d'une méthode de Monte Carlo avec régression, intrinsèquement coûteuse en ressources.
 
-Le sujet central du projet porte sur l’évaluation et la comparaison de différentes stratégies de calcul pour le pricing d’options américaines, en s’appuyant sur l’algorithme LSMC (\emph{Least Squares Monte Carlo}), également appelé méthode de Monte Carlo avec régression par moindres carrés ou méthode de Longstaff--Schwartz. Cette approche est aujourd’hui largement utilisée pour la valorisation de produits dérivés complexes lorsque les solutions analytiques fermées ne sont pas disponibles.
-
-La valorisation des options américaines est intrinsèquement plus complexe que celle des options européennes en raison de la possibilité d’un exercice anticipé à tout instant avant la maturité. Cette caractéristique impose la détermination d’une politique d’exercice optimale, rendant inadaptées les méthodes classiques fondées uniquement sur des formules fermées (c'est-à-dire une formule explicite, finie, calculable directement et sans itération). L’algorithme LSMC tente de répondre à cette difficulté en combinant des simulations de Monte Carlo avec des régressions par moindres carrés, permettant d’estimer, à chaque date d’exercice possible, la valeur de continuation associée au maintien de l’option\footnote{Un produit dérivé est un instrument financier dont la valeur dépend (dérive) de celle d'un actif sous-jacent, comme une action, un indice ou une matière première.}.
-
-Au-delà de l’aspect théorique, ce projet s’inscrit dans une problématique de performance numérique, car les méthodes de Monte Carlo nécessitent la simulation d’un très grand nombre de trajectoires afin de garantir la convergence statistique\footnote{La convergence des estimateurs de Monte Carlo est garantie par la Loi Forte des Grands Nombres. La vitesse de convergence est typiquement en $\mathcal{O}(1/\sqrt{N})$, où $N$ est le nombre de simulations.} et la précision des résultats, entraînant des coûts de calcul élevés. Le travail réalisé s'étend donc également à l'évaluation de l’impact de différentes architectures de calcul sur les performances de notre algorithme.
-
-Nous avons donc décidé de décliner notre objectif principal en trois volets complémentaires:
+L'objectif est d'évaluer les gains de performance offerts par le parallélisme sur trois architectures distinctes :
 \begin{itemize}
-    \item \textbf{Implémentation séquentielle sur CPU} : développement initial d'une version simple en fonctionnement normal sur CPU, dans le but de valider le fonctionnement de l'algorithme.  Il servira en point de comparaison de référence pour la suite.
-    \item \textbf{Parallélisation sur CPU} : utilisation d’OpenMP afin d’exploiter le parallélisme multi-cœurs du processeur et de réduire, en toute logique, le temps d’exécution des simulations.
-    \item \textbf{Implémentation accélérée sur GPU} : recours à la librairie CUDA pour déporter les calculs les plus intensifs, notamment la simulation des trajectoires et certaines opérations de régression, vers une architecture presque complètement parallèle, dans le but de gagner davantage de performances.
+    \item \textbf{CPU Séquentiel} : référence fonctionnelle.
+    \item \textbf{CPU Multi-cœurs (OpenMP)} : exploitation du parallélisme à mémoire partagée.
+    \item \textbf{GPU (CUDA)} : exploitation du parallélisme massif de données.
 \end{itemize}
 
-\section*{Notations}
+Ce document détaille la formulation mathématique, les choix d'implémentation algorithmique, et fournit une analyse critique des performances comparées (speedup, efficacité) et des limitations structurelles identifiées.
 
-\paragraph{Cadre probabiliste et filtrations}
-\begin{itemize}
-    \item \((\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \ge 0}, \mathbb{P})\) :
-    espace probabilisé filtré satisfaisant les conditions usuelles (complétude et continuité à droite).
-    \item \(\mathbb{P}\) : mesure de probabilité historique (ou réelle), décrivant la dynamique statistique observée du marché.
-    \item \(\mathbb{Q}\) : mesure de probabilité risque-neutre, équivalente à \(\mathbb{P}\), sous laquelle les prix actualisés sont des martingales.
-    \item \(\mathcal{F}_t\) : filtration représentant l’ensemble de l’information disponible jusqu’à la date \(t\)\footnote{Intuitivement, une filtration modélise le flux d'information croissant au fil du temps. $\mathcal{F}_t$ représente toute l'information historique disponible jusqu'à l'instant $t$.}.
-\end{itemize}
+\section{Cadre de Modélisation}
 
-\paragraph{Processus stochastiques}
-\begin{itemize}
-    \item \(W_t\) : mouvement brownien standard sous la mesure \(\mathbb{P}\).
-    \item \(W_t^{\mathbb{Q}}\) : mouvement brownien standard sous la mesure \(\mathbb{Q}\).
-    \item \(\Delta W_{t_n} = W_{t_{n+1}} - W_{t_n}\) : incrément du mouvement brownien.
-    \item \(Z_n\) : variables aléatoires indépendantes et identiquement distribuées telles que
-    \(Z_n \sim \mathcal{N}(0,1)\), utilisées pour la simulation des incréments brownien.
-\end{itemize}
+\subsection{Problème d'arrêt optimal et dynamique}
 
-\paragraph{Sous-jacent et dynamique}
-\begin{itemize}
-    \item \(S_t\) : prix du sous-jacent à la date continue \(t\).
-    \item \(S_{t_n}\) : prix du sous-jacent à la date discrète \(t_n\).
-    \item \(S_0\) : prix initial du sous-jacent.
-    \item \(\mu\) : dérive réelle du sous-jacent sous la mesure \(\mathbb{P}\).
-    \item \(r\) : taux sans risque constant.
-    \item \(q\) : taux de dividende continu du sous-jacent (pris égal à \(0\) dans ce travail).
-    \item \(\sigma\) : volatilité constante du sous-jacent.
-\end{itemize}
-
-\paragraph{Temps, discrétisation et simulation}
-\begin{itemize}
-    \item \(T\) : maturité de l’option.
-    \item \([0,T]\) : horizon temporel de valorisation.
-    \item \((t_n)_{n=0,\dots,N}\) : grille temporelle de discrétisation de l’intervalle \([0,T]\).
-    \item \(\Delta t_n = t_{n+1} - t_n\) : pas de temps entre deux dates consécutives.
-    \item \(\Delta t = T/N\) : pas de temps constant.
-    \item \(N_{\text{steps}}\) : nombre de pas de temps.
-    \item \(N_{\text{paths}}\) : nombre de trajectoires fr Monte Carlo simulées.
-\end{itemize}
-
-\paragraph{Espérances et opérateurs}
-\begin{itemize}
-    \item \(\mathbb{E}^{\mathbb{P}}[\cdot]\) : espérance sous la mesure historique \(\mathbb{P}\).
-    \item \(\mathbb{E}^{\mathbb{Q}}[\cdot]\) : espérance sous la mesure risque-neutre \(\mathbb{Q}\).
-    \item \(\mathbb{E}[\cdot \mid \mathcal{F}_t]\) : espérance conditionnelle à l’information disponible à la date \(t\).
-    \item \(\mathbb{I}_{A}\) : indicatrice de l’événement \(A\).
-\end{itemize}
-
-\paragraph{Option et payoffs}
-\begin{itemize}
-    \item \(K\) : prix d’exercice (strike).
-    \item \(\Phi(S)\) : fonction de payoff de l’option.
-    \item \(\Phi(S)=\max(K-S,0)\) : payoff d’un put.
-    \item \(\Phi(S)=\max(S-K,0)\) : payoff d’un call.
-\end{itemize}
-
-\paragraph{Valeur de l’option et arrêt optimal}
-\begin{itemize}
-    \item \(V_t\) : valeur de l’option à la date continue \(t\).
-    \item \(V_{t_n}\) : valeur de l’option à la date discrète \(t_n\).
-    \item \(C(t,S)\) : valeur de continuation à la date \(t\) pour un prix du sous-jacent \(S\).
-    \item \(\widehat{C}(t_n,S_{t_n})\) : estimation numérique de la valeur de continuation.
-    \item \(\tau\) : temps d’arrêt représentant la date d’exercice de l’option.
-    \item \(\mathcal{T}_n\) : ensemble des temps d’arrêt \(\tau\) tels que \(\tau \ge t_n\).
-\end{itemize}
-
-\paragraph{Algorithme de Longstaff--Schwartz}
-\begin{itemize}
-    \item \(\psi_k(\cdot)\) : fonctions de base utilisées pour la régression.
-    \item \(\boldsymbol{\psi}(S) = (\psi_0(S),\dots,\psi_K(S))\) : vecteur des fonctions de base.
-    \item \(\beta_k\) : coefficients de la régression par moindres carrés.
-    \item \(\boldsymbol{\beta}\) : vecteur des coefficients de régression.
-    \item \(\|\cdot\|_2\) : norme euclidienne.
-    \item \(\arg\min\) : opérateur de minimisation.
-\end{itemize}
-
-\paragraph{Implémentation numérique et performance}
-\begin{itemize}
-    \item \(\mathcal{O}(\cdot)\) : notation de complexité algorithmique.
-    \item CPU : unité centrale de calcul.
-    \item GPU : processeur graphique.
-    \item OpenMP : bibliothèque de parallélisation CPU.
-    \item CUDA : modèle de programmation GPU de NVIDIA.
-\end{itemize}
-
-\section{Cadre théorique}
-
-
-
-
-\subsection{Options américaines et problématique de l’exercice anticipé}
-
-Une option américaine confère à son détenteur le droit, mais non l’obligation, d’acheter ou de vendre un actif sous-jacent à un prix fixé à l’avance, appelé \emph{strike}, à tout instant compris entre la date d’émission et la date de maturité. Cette caractéristique la distingue des options européennes, pour lesquelles l’exercice n’est autorisé qu’à maturité.
-
-La possibilité d’un exercice anticipé introduit une complexité dans le processus de valorisation. En effet, à chaque date d’observation, le détenteur de l’option doit comparer le gain associé à un exercice immédiat avec celui attendu en conservant l’option. Cette décision repose sur l’identification d’une stratégie d’exercice optimal, dépendant à la fois du temps restant jusqu’à maturité et de l’évolution future du prix du sous-jacent.
-
-La valorisation des options américaines s’apparente ainsi à un problème de décision dynamique, pour lequel il est généralement impossible d’obtenir une solution analytique fermée. Cette difficulté motive le recours à des méthodes numériques capables de traiter explicitement l’exercice anticipé.
-
-\subsection{Modélisation stochastique du sous-jacent}
-
-Pour valoriser l'option, nous modélisons la dynamique du sous-jacent $S_t$ sous la mesure risque-neutre $\mathbb{Q}$ par un Mouvement Brownien Géométrique (GBM). Ce modèle standard est régi par l'équation différentielle stochastique (EDS) suivante :
-\[
-\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}},
-\]
-où $r$ est le taux sans risque, $\sigma$ la volatilité constante, et $W_t^{\mathbb{Q}}$ un mouvement brownien standard (voir Annexe~\ref{appendix:brownian} pour les définitions et propriétés élémentaires).
-
-La solution explicite de cette EDS, dont la dérivation détaillée est fournie en Annexe~A, est donnée par :
-\[
-S_t = S_0 \exp\left( \left(r - \frac{\sigma^2}{2}\right)t + \sigma W_t^{\mathbb{Q}} \right).
-\]
-
-Pour la simulation numérique, nous discrétisons cette dynamique sur une grille temporelle $t_0, \dots, t_N$ avec un pas $\Delta t$. La relation de récurrence utilisée pour générer les trajectoires est exacte :
-\[
-S_{t_{n+1}} = S_{t_n} \exp\left( \left(r - \frac{\sigma^2}{2}\right)\Delta t + \sigma \sqrt{\Delta t} Z_n \right),
-\]
-avec $Z_n \sim \mathcal{N}(0,1)$ i.i.d.
-
-Cette équation est une équation différentielle stochastique linéaire au sens d’Itô\footnote{Une équation différentielle stochastique est dite linéaire au sens d’Itô lorsque les coefficients des termes en \(\mathrm{d}t\) et en \(\mathrm{d}W_t\) sont des fonctions linéaires de la variable d’état. Dans ce cas, l’équation admet une solution explicite obtenue à l’aide du calcul d’Itô.}, issue de l’équation de Black--Scholes\footnote{Introduite par F. Black et M. Scholes dans l’article fondateur \emph{The Pricing of Options and Corporate Liabilities} (1973), cette équation s’appuie sur le calcul stochastique développé par K. Itô dans les années 1940.}.
-
-Cette spécification implique que les variations instantanées du prix sont proportionnelles à son niveau. En particulier, si \(S_0 > 0\), alors \(S_t > 0\) presque sûrement pour tout \(t \ge 0\), ce qui constitue une propriété essentielle pour la modélisation des prix financiers.
-
-Sous ce modèle, les rendements logarithmiques
-\[
-\ln\!\left(\frac{S_{t+\Delta t}}{S_t}\right)
-\]
-sont indépendants sur des intervalles de temps disjoints et suivent une loi normale donnée par
-\[
-\mathcal{N}\!\left(\left(\mu - \tfrac12\sigma^2\right)\Delta t,\; \sigma^2 \Delta t\right).
-\]
-Le prix \(S_t\) suit ainsi une loi log-normale et admet l’expression explicite
-\[
-S_t = S_0 \exp\!\left(\left(\mu - \tfrac12\sigma^2\right)t + \sigma W_t\right).
-\]
-
-Le mouvement brownien géométrique présente alors plusieurs propriétés essentielles pour la modélisation financière :
-\begin{itemize}
-  \item \textbf{Positivité du sous-jacent} : le processus \(S_t\) reste strictement positif.
-  \item \textbf{Croissance moyenne exponentielle} : l’espérance de \(S_t\) évolue de manière exponentielle au cours du temps.
-  \item \textbf{Volatilité proportionnelle} : l’amplitude des fluctuations aléatoires est proportionnelle au niveau du prix.
-\end{itemize}
-
-Dans le contexte de valorisation des produits dérivés, on adopte une approche sous mesure risque-neutre\footnote{Sous la mesure risque-neutre, les prix actualisés des actifs financiers sont des martingales, ce qui permet de valoriser les produits dérivés par espérance mathématique actualisée sans faire intervenir les préférences au risque des investisseurs.}. Sous cette mesure, en présence du taux de dividende continu \(q \ge 0\), du taux d'intérêt sans risque \(r\) et de \((W_t^{\mathbb{Q}})_{t \ge 0}\), le mouvement brownien standard sous la mesure risque-neutre, la dynamique du sous-jacent s’écrit
-\[
-\mathrm{d}S_t = (r - q) S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}},
-\]
-
-
-Dans le cadre de ce travail, on se place dans un environnement sans versement de dividendes, correspondant au cas \(q = 0\). La dynamique du sous-jacent sous la mesure risque-neutre se réduit alors à
-\[
-\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}},
-\]
-et admet pour solution explicite
-\[
-S_t = S_0 \exp\!\left(\left(r - \tfrac12\sigma^2\right)t + \sigma W_t^{\mathbb{Q}}\right),
-\]
-la démonstration du passage de l’équation différentielle stochastique à cette expression explicite étant détaillée en annexe~A (inspirée de \cite{Hull}).
-
-
-Cette modélisation constitue le cadre théorique retenu pour la simulation des trajectoires du sous-jacent et l’application de l’algorithme de Longstaff--Schwartz dans la suite de ce travail.
-
-
-
-\subsubsection{Discrétisation temporelle}
-
-La simulation numérique des trajectoires du sous-jacent repose sur une discrétisation du temps sur une grille finie :
-\[
-0 = t_0 < t_1 < \cdots < t_N = T,
-\qquad \Delta t_n = t_{n+1} - t_n.
-\]
-Dans le cas d’un pas de temps constant, on a \(\Delta t_n = \Delta t = T/N\).
-
-Dans le cadre de ce travail, le sous-jacent est modélisé sous la mesure risque-neutre par un mouvement brownien géométrique sans dividendes, de dynamique
-\[
-\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}}.
-\]
-Ce processus admet une solution explicite, ce qui permet de simuler exactement l’évolution du prix entre deux dates consécutives de la grille temporelle. En appliquant la formule d’Itô à la fonction logarithme, on obtient la relation de transition suivante :
-\[
-S_{t_{n+1}} = S_{t_n}
-\exp\!\left(
-\left(r - \frac{\sigma^2}{2}\right)\Delta t_n
-+ \sigma \sqrt{\Delta t_n}\, Z_n
-\right),
-\]
-où \((Z_n)_n\) est une suite de variables aléatoires indépendantes et identiquement distribuées suivant une loi normale centrée réduite,
-\[
-Z_n \sim \mathcal{N}(0,1).
-\]
-
-Cette discrétisation correspond à l’utilisation de la solution exacte du mouvement brownien géométrique et ne souffre donc pas d’erreur de schéma temporel.
-. Elle constitue la base des simulations de Monte Carlo mises en œuvre dans ce travail et permet de générer efficacement un grand nombre de trajectoires indépendantes du sous-jacent.
+La valeur d'une option américaine de vente (Put) de maturité $T$ et de strike $K$ est donnée, sous la mesure risque-neutre $\mathbb{Q}$, par le problème d'arrêt optimal :
+\[ V_0 = \sup_{\tau \in \mathcal{T}_{0,T}} \mathbb{E}^{\mathbb{Q}}\left[ e^{-r\tau} (K - S_\tau)^+ \right] \]
+où le sous-jacent $(S_t)_{t\ge0}$ suit un Mouvement Brownien Géométrique (GBM) régi par l'EDS :
+\[ \mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}} \]
+La solution explicite et sa discrétisation exacte sur une grille temporelle $\{t_0, \dots, t_N\}$ sont données par (voir Annexe~\ref{appendix:eds} pour la dérivation) :
+\[ S_{t_{n+1}} = S_{t_n} \exp\left( (r - \frac{\sigma^2}{2})\Delta t + \sigma \sqrt{\Delta t} Z_n \right), \quad Z_n \sim \mathcal{N}(0,1) \]
 
 
 \subsection{Algorithme de Longstaff--Schwartz (LSMC)}
+L'algorithme LSMC \cite{LSM2001} résout ce problème par \emph{backward induction}, en approximant l'espérance conditionnelle de continuation par une régression sur une base de fonctions.
 
-L’algorithme de Longstaff--Schwartz, également appelé \emph{Least Squares Monte Carlo (LSMC)} \cite{LSM2001}, est une méthode de Monte Carlo spécifiquement conçue pour la valorisation des options américaines. Il permet d’estimer la valeur de continuation à chaque date d’exercice possible à partir des trajectoires simulées.
-
-\subsubsection{Valeur de continuation et problème d’arrêt optimal}
-
-Dans le cas d’une option américaine, le détenteur dispose à chaque date d’exercice possible de la liberté d’exercer immédiatement l’option ou de la conserver afin de potentiellement exercer plus tard. Cette flexibilité introduit un \emph{problème d’arrêt optimal} : il s’agit de choisir une date d’exercice  qui maximise la valeur espérée actualisée du payoff.
-
-\vspace{0.3cm}
-
-On se place sur une grille d’exercice discrète \((t_n)_{n=0,\dots,N}\) avec \(t_N=T\) et \(\Delta t_n = t_{n+1}-t_n\). On note \(V_{t_n}\) la valeur de l’option à la date \(t_n\) et \(\Phi(S_{t_n})\) sa valeur d’exercice immédiat (par exemple, pour un put : \(\Phi(S)=\max(K-S,0)\)). À la date \(t_n\), deux choix sont possibles :
-\begin{itemize}
-    \item \textbf{Exercer immédiatement :} le gain obtenu est \(\Phi(S_{t_n})\).
-    \item \textbf{Continuer et ne pas exercer :} on conserve l’option et sa valeur provient des gains futurs possibles, que l’on résume par la \emph{valeur de continuation}.
-\end{itemize}
-
-La \emph{valeur de continuation} \(C(t_n,S_{t_n})\) est définie comme la valeur espérée actualisée de l’option à la date suivante, conditionnellement à l’information disponible à la date \(t_n\). Sous la mesure risque-neutre \(\mathbb{Q}\), elle s’écrit :
-\[
-C(t_n, S_{t_n})
-= \mathbb{E}^{\mathbb{Q}}\!\left[
-e^{-r\Delta t_n}\,V_{t_{n+1}}
-\mid \mathcal{F}_{t_n}
-\right].
-\]
-Dans un \emph{cadre markovien}\footnote{On dit qu’un processus stochastique est étudié dans un \emph{cadre markovien} lorsqu’il vérifie la propriété de Markov : conditionnellement à l’état présent, son évolution future est indépendante de son passé. Autrement dit, toute l’information pertinente pour prédire l’avenir du système est contenue dans son état courant. Dans le cas des équations différentielles stochastiques, cette propriété est assurée lorsque les coefficients de dérive et de diffusion dépendent uniquement du temps et de la valeur actuelle du processus, et non de son historique.}
-— en particulier dans le cas du mouvement brownien géométrique — la tribu \(\mathcal{F}_{t_n}\), qui représente l’ensemble de l’information accumulée jusqu’au temps \(t_n\), est équivalente, pour la prévision de l’évolution future, à la connaissance du seul état courant \(S_{t_n}\). Par conséquent, l’espérance conditionnelle par rapport à \(\mathcal{F}_{t_n}\) se réduit à une espérance conditionnelle par rapport à \(S_{t_n}\), ce qui justifie la notation \(C(t_n,S_{t_n})\) plutôt que \(C(t_n,\mathcal{F}_{t_n})\).
-
-
-\vspace{0.3cm}
-
-La règle d’exercice optimal à la date \(t_n\) consiste alors à comparer l’exercice immédiat à la continuation :
-\[
-V_{t_n} = \max\!\big(\Phi(S_{t_n}),\, C(t_n,S_{t_n})\big).
-\]
-Autrement dit, l’exercice est optimal si et seulement si
-\[
-\Phi(S_{t_n}) \ge C(t_n,S_{t_n}),
-\]
-et dans le cas contraire il est optimal de conserver l’option. Cette comparaison définit une \emph{région d’exercice} (où l’on exerce) et une \emph{région de continuation} (où l’on attend) dans l’espace des états.
-
-Formellement, la détermination de la stratégie d’exercice peut être décrite via un temps d’arrêt \(\tau\) prenant ses valeurs dans l’ensemble discret des dates d’exercice \(\{t_0,\dots,t_N\}\). Pour une date donnée \(t_n\), le problème de valorisation d’une option américaine s’écrit alors comme un problème d’arrêt optimal :
-\[
-V_{t_n}
-=
-\sup_{\tau \in \mathcal{T}_n}
-\mathbb{E}^{\mathbb{Q}}\!\left[
-e^{-r(\tau-t_n)}\,\Phi(S_\tau)
-\mid \mathcal{F}_{t_n}
-\right],
-\]
-
-où \(
-\mathcal{T}_n
-=
-\left\{
-\tau \ge t_n \;\middle|\;
-\tau \text{ est un temps d’arrêt à valeurs dans }
-\{t_0,\dots,t_N\}
-\right\}
-\)
-, c'est-à-dire l’ensemble des temps d’arrêt\footnote{Un temps d'arrêt est une variable aléatoire dont la valeur est déterminée uniquement par l'information disponible jusqu'à cet instant, sans anticipation du futur (condition de non-anticipation).} \(\tau\) tels que \(\tau \ge t_n\). Cette formulation met en évidence que le prix de l’option américaine correspond à la meilleure espérance actualisée que l’on puisse obtenir en choisissant de manière optimale la date d’exercice.
-
-En pratique, le principal enjeu numérique est l’évaluation de \(C(t_n,S_{t_n})\) : il s’agit d’une espérance conditionnelle (donc d’une \textit{quantité fonctionnelle  de l’état} \footnote{On entend par \emph{quantité fonctionnelle de l’état} une grandeur qui dépend uniquement de l’état courant du système (ici la valeur du sous-jacent à la date considérée), et non de l’historique complet de sa trajectoire.}
-) qui n’admet pas, en général, de forme fermée. L’algorithme de Longstaff--Schwartz répond à cette difficulté en approximant la valeur de continuation par régression sur une base de fonctions de \(S_{t_n}\) à partir de trajectoires simulées \cite{LSM2001}, permettant ainsi d’implémenter la règle d’exercice précédente par induction arrière.
-\subsubsection{Régression par moindres carrés}
-
-Dans l’algorithme LSMC, la valeur de continuation n’est pas calculée analytiquement mais approximée par régression. À chaque date d’exercice, les flux futurs actualisés sont projetés sur un espace de fonctions de base $\{ \psi_k(S_{t_n}) \}$ :
-\[
-C(t_n, S_{t_n}) \approx \sum_{k} a_k \, \psi_k(S_{t_n}),
-\]
-où les coefficients $a_k$ sont déterminés par une régression aux moindres carrés sur les trajectoires pertinentes.
-
-Cette approximation permet d’obtenir une estimation numérique de la valeur de continuation à partir des données simulées.
-
-\subsubsection{Stratégie d’exercice optimale}
-
-Une fois la valeur de continuation estimée, la décision d’exercice est prise en comparant, pour chaque trajectoire et chaque date, la valeur d’exercice immédiat à la valeur de continuation estimée. Si la valeur d’exercice est supérieure, l’option est exercée ; sinon, elle est conservée.
-
-Cette procédure est appliquée de manière récursive en remontant dans le temps, ce qui permet de déterminer la stratégie d’exercice optimale et d’estimer la valeur de l’option américaine à la date initiale.
-
-L’algorithme LSMC constitue ainsi un compromis efficace entre flexibilité du cadre stochastique et faisabilité numérique, ce qui en fait une méthode particulièrement adaptée à l’étude de la performance des architectures de calcul.
-
-
-La figure~\ref{fig:lsmc_flow} illustre le flux de l'algorithme LSMC dans un contexte parallèle distribué.
-
-
-\subsection{Synthèse algorithmique}
-
-L’algorithme de Longstaff--Schwartz repose sur l'estimation de l'espérance conditionnelle $\mathbb{E}^{\mathbb{Q}}[e^{-r\Delta t} V_{t_{n+1}} | S_{t_n}]$ par projection sur un espace vectoriel de dimension finie, engendré par une base de fonctions $(\psi_k)_{k=1..K}$.
-
-Concrètement, la procédure par \emph{backward induction} se déroule comme suit :
-\begin{enumerate}
-    \item \textbf{Initialisation} : Calcul des payoffs $V_{t_N}^{(i)} = \Phi(S_{t_N}^{(i)})$ à maturité pour chaque trajectoire.
-    \item \textbf{Itération} ($n = N-1 \to 1$) :
-    \begin{itemize}
-        \item Sélection des trajectoires \emph{in-the-money} (ITM) : seules celles où l'exercice est pertinent contribuent à la régression.
-        \item Régression moindres carrés : on projette les cashflows actualisés $Y^{(i)} = e^{-r\Delta t} V_{t_{n+1}}^{(i)}$ sur la base de fonctions évaluée en $S_{t_n}$. Cela fournit l'estimateur $\widehat{C}(t_n, S) = \sum \beta_k \psi_k(S)$.
-        \item Décision optimale : pour chaque chemin, on exerce si $\Phi(S_{t_n}) > \widehat{C}(t_n, S_{t_n})$.
-    \end{itemize}
-    \item \textbf{Finalisation} : La valeur de l'option en $t=0$ est la moyenne des flux de trésorerie actualisés selon la stratégie optimale déterminée.
-\end{enumerate}
-
-L’algorithme~\ref{alg:lsmc} résume de manière synthétique les différentes étapes
-de la méthode de Longstaff--Schwartz telle qu’elle est implémentée dans ce
-travail.
+L'algorithme~\ref{alg:lsmc} formalise cette procédure.
 
 \begin{algorithm}
 \caption{Algorithme de Longstaff--Schwartz (LSMC)}
 \label{alg:lsmc}
 \begin{algorithmic}[1]
-\STATE Simuler $N_{\text{paths}}$ trajectoires du sous-jacent
-$(S_{t_n}^{(i)})_{n=0,\dots,N}$.
-\STATE Initialiser les valeurs à maturité :
-$V_{t_N}^{(i)} = \Phi(S_{t_N}^{(i)})$.
+\STATE Simuler $N_{\text{paths}}$ trajectoires $(S_{t_n}^{(i)})_{n}$.
+\STATE Initialiser $V_{t_N}^{(i)} = \Phi(S_{t_N}^{(i)})$.
 \FOR{$n = N-1$ \textbf{down to} $1$}
-    \STATE Identifier les trajectoires \emph{in-the-money}.
-    \STATE Calculer les variables cibles :
-    $Y^{(i)} = e^{-r \Delta t_n} V_{t_{n+1}}^{(i)}$.
-    \STATE Estimer la valeur de continuation par régression :
-    $\widehat{C}(t_n,S_{t_n})$.
+    \STATE $Y^{(i)} = e^{-r \Delta t_n} V_{t_{n+1}}^{(i)}$.
+    \STATE Régression $Y^{(i)} \approx \widehat{C}(t_n,S_{t_n}^{(i)})$.
     \FOR{chaque trajectoire $i$}
-        \IF{$\Phi(S_{t_n}^{(i)}) \ge \widehat{C}(t_n,S_{t_n}^{(i)})$}
-            \STATE $V_{t_n}^{(i)} \leftarrow \Phi(S_{t_n}^{(i)})$
+        \IF{$\Phi(S^{(i)}) \ge \widehat{C}(S^{(i)})$}
+            \STATE $V^{(i)} \leftarrow \Phi(S^{(i)})$
         \ELSE
-            \STATE $V_{t_n}^{(i)} \leftarrow Y^{(i)}$
+            \STATE $V^{(i)} \leftarrow Y^{(i)}$
         \ENDIF
     \ENDFOR
 \ENDFOR
-\STATE Calculer le prix :
-$V_0 = \frac{1}{N_{\text{paths}}} \sum_i e^{-r t_1} V_{t_1}^{(i)}$.
+\STATE $V_0 = \text{mean}(e^{-r t_1} V_{t_1}^{(i)})$.
 \end{algorithmic}
 \end{algorithm}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.35\linewidth]{images/Distributed-LSMC-algorithm-flow-chart.png}
-    \caption{Diagramme de flux de l'algorithme LSMC parallélisé.}
+    \includegraphics[width=0.6\linewidth]{images/Distributed-LSMC-algorithm-flow-chart.png}
+    \caption{Flux de l'algorithme LSMC : Simulation parallèle vs Régression séquentielle.}
     \label{fig:lsmc_flow}
 \end{figure}
+
+\textbf{Synthèse :} La structure du LSMC est intrinsèquement hybride. Si la phase de simulation est un candidat idéal pour le parallélisme massif ("embarrassingly parallel"), la phase de backward induction impose une synchronisation globale à chaque pas de temps, limitant le potentiel d'accélération sur GPU (loi d'Amdahl).
 
 
 \section{Travail réalisé : implémentation et méthodologie}
@@ -764,16 +473,13 @@ Il est donc impossible de paralléliser le traitement des différents pas de tem
 
 Ces observations expliquent pourquoi les gains GPU, bien que très importants, ne peuvent pas être parfaitement linéaires avec la puissance de calcul.
 
-Ces résultats mettent en évidence l’intérêt d’architectures hybrides CPU--GPU,
-ainsi que l’importance de choix d’implémentation fins (organisation mémoire,
-réductions efficaces, limitation des synchronisations) pour exploiter pleinement
-les capacités du matériel moderne.
+Ces résultats mettent en évidence l’intérêt d’architectures hybrides CPU--GPU, ainsi que l’importance de choix d’implémentation fins (organisation mémoire, réductions efficaces, limitation des synchronisations) pour exploiter pleinement les capacités du matériel moderne.
 
-\section{Difficultés rencontrées}
+\textbf{Synthèse Globale :} Si le GPU déverrouille la scalabilité spatiale du stock de trajectoires, la dimension temporelle reste séquentielle. L'optimum de performance réside dans un équilibre : assez de trajectoires pour saturer le GPU, mais pas au-delà des besoins de précision, car le coût de régression devient alors prépondérant.
 
-La réalisation de ce projet a mis en évidence plusieurs difficultés, principalement
-liées à la nature algorithmique du LSMC et à son implémentation parallèle sur
-différentes architectures de calcul.
+\section{Analyse Critique et Limitations}
+
+La réalisation de ce projet a mis en évidence plusieurs défis techniques et méthodologiques, dont l'analyse permet de mieux cerner les contraintes du calcul haute performance en finance.
 
 \subsection{Organisation du projet et évolution des dépôts}
 
@@ -1089,157 +795,40 @@ Les résultats obtenus mettent toutefois en évidence une limite structurelle fo
 
 La validation croisée avec des méthodes déterministes de différences finies a confirmé la cohérence numérique des prix obtenus, les écarts restant compatibles avec la variance statistique attendue d’une méthode de Monte Carlo. L’étude du choix des bases de régression a par ailleurs mis en évidence le compromis biais–variance inhérent à l’algorithme, ainsi que les limites pratiques des régressions polynomiales de degré élevé en présence de bruit stochastique.
 
-En conclusion, ce travail montre que le GPU constitue une solution particulièrement adaptée pour les méthodes de Monte Carlo à grande échelle, tout en soulignant que les gains de performance sont intrinsèquement bornés par la structure algorithmique du LSMC. Ces résultats ouvrent naturellement la voie à des approches hybrides ou alternatives, visant à mieux exploiter le parallélisme (batching, réduction de variance, modèles de continuation plus flexibles), et confirment l’intérêt du LSMC comme outil robuste et extensible pour la valorisation de produits dérivés complexes.
+En conclusion, ce travail montre que le GPU constitue une solution particulièrement adaptée pour les méthodes de Monte Carlo à grande échelle, tout en soulignant que les gains de performance sont intrinsèquement bornés par la structure algorithmique du LSMC. Ces résultats ouvrent la voie à des approches hybrides (batching d'options, parallélisme asynchrone) visant à contourner la barrière séquentielle temporelle, seule restriction à l'essor du LSMC sur les architectures exascale.
 
 
 \clearpage
 \appendix
 
-\section{Rsolution de l'EDS du GBM du mouvement brownien géométrique sous la mesure risque-neutre}
+\section{Résolution de l'EDS du GBM}
+\label{appendix:eds}
 
 On considère le processus \((S_t)_{t \ge 0}\) solution, sous la mesure risque-neutre \(\mathbb{Q}\), de l’équation différentielle stochastique
 \[
 \mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}},
 \]
-où \(r\) est le taux sans risque, \(\sigma>0\) la volatilité constante, et \((W_t^{\mathbb{Q}})_{t\ge 0}\) un mouvement brownien standard sous \(\mathbb{Q}\).
 
-Comme \(S_t>0\) presque sûrement, la fonction \(\ln\) est bien définie. En appliquant la formule d’Itô à \(f(S_t)=\ln(S_t)\), on obtient
-\[
-\mathrm{d}\ln(S_t)
-=
-f'(S_t)\,\mathrm{d}S_t
-+\frac12 f''(S_t)\,(\mathrm{d}S_t)^2
-=
-\frac{1}{S_t}\,\mathrm{d}S_t
--\frac{1}{2S_t^2}(\mathrm{d}S_t)^2.
-\]
+[...Dérivation...]
 
-En utilisant les règles du calcul stochastique
-\[
-(\mathrm{d}W_t^{\mathbb{Q}})^2=\mathrm{d}t,
-\qquad
-\mathrm{d}t\,\mathrm{d}W_t^{\mathbb{Q}}=0,
-\qquad
-(\mathrm{d}t)^2=0,
-\]
-on a
-\[
-\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}}
-\quad \Longrightarrow \quad
-(\mathrm{d}S_t)^2 = \sigma^2 S_t^2\,(\mathrm{d}W_t^{\mathbb{Q}})^2=\sigma^2 S_t^2\,\mathrm{d}t.
-\]
+\section{Compléments de Performance OpenMP}
+\label{appendix:openmp}
 
-En substituant dans la formule d’Itô, il vient
-\[
-\mathrm{d}\ln(S_t)
-=
-\frac{1}{S_t}\Bigl(r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t^{\mathbb{Q}}\Bigr)
--\frac{1}{2S_t^2}\Bigl(\sigma^2 S_t^2\,\mathrm{d}t\Bigr),
-\]
-soit
-\[
-\mathrm{d}\ln(S_t)
-=
-\left(r-\frac{\sigma^2}{2}\right)\mathrm{d}t
-+\sigma\,\mathrm{d}W_t^{\mathbb{Q}}.
-\]
+Les figures suivantes illustrent la scalabilité de l'implémentation OpenMP.
 
-En intégrant entre \(t_n\) et \(t_{n+1}\) (avec \(\Delta t = t_{n+1}-t_n\)) :
-\[
-\ln(S_{t_{n+1}})-\ln(S_{t_n})
-=
-\left(r-\frac{\sigma^2}{2}\right)\Delta t
-+\sigma\bigl(W_{t_{n+1}}^{\mathbb{Q}}-W_{t_n}^{\mathbb{Q}}\bigr).
-\]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Surface de scalabilité OpenMP.png}
+    \caption{Surface de scalabilité OpenMP : temps d'exécution en fonction du nombre de trajectoires et de threads.}
+    \label{fig:scalability_openmp}
+\end{figure}
 
-Les incréments du mouvement brownien sous \(\mathbb{Q}\) vérifient
-\[
-W_{t_{n+1}}^{\mathbb{Q}}-W_{t_n}^{\mathbb{Q}} \sim \mathcal{N}(0,\Delta t).
-\]
-Il existe donc \(Z_n \sim \mathcal{N}(0,1)\) tel que
-\[
-W_{t_{n+1}}^{\mathbb{Q}}-W_{t_n}^{\mathbb{Q}}=\sqrt{\Delta t}\,Z_n.
-\]
-
-En prenant l'exponentielle, on obtient la formule discrète exacte
-\[
-S_{t_{n+1}}
-=
-S_{t_n}\exp\!\left(
-\left(r-\frac{\sigma^2}{2}\right)\Delta t
-+\sigma\sqrt{\Delta t}\,Z_n
-\right),
-\]
-et, en particulier, l’expression explicite en temps continu
-\[
-S_t
-=
-S_0\exp\!\left(
-\left(r-\frac{\sigma^2}{2}\right)t
-+\sigma W_t^{\mathbb{Q}}
-\right).
-\]
-\section{Détails mathématiques de l’algorithme LSMC}
-
-\subsection{Valeur de continuation}
-
-À une date $t_n$, la valeur de continuation est définie par :
-\[
-C(t_n,S_{t_n}) = 
-\mathbb{E}\!\left[
-e^{-r (t_{n+1}-t_n)} V_{t_{n+1}}
-\mid S_{t_n}
-\right].
-\]
-
-Cette quantité n’admet pas de forme fermée et doit être estimée numériquement.
-
-\subsection{Approximation par régression}
-
-Dans la méthode de Longstaff--Schwartz, on approxime la valeur de continuation par une combinaison linéaire de fonctions de base :
-\[
-C(t_n,S_{t_n}) \approx \sum_{k=0}^{K} \beta_k \psi_k(S_{t_n}).
-\]
-
-Dans ce travail, les fonctions de base choisies sont :
-\[
-\psi(S) = (1,\, S,\, S^2).
-\]
-
-Les coefficients $\beta_k$ sont déterminés par une régression aux moindres carrés sur les trajectoires \emph{in-the-money}.
-
-\subsection{Critère d’exercice}
-
-La règle d’exercice est :
-\[
-\text{Exercer si } \Phi(S_{t_n}) > \widehat{C}(t_n,S_{t_n}),
-\]
-sinon l’option est conservée.
-
-\section{Pseudo-code de l’algorithme LSMC}
-
-\begin{enumerate}
-    \item Simuler $N$ trajectoires du sous-jacent sur $[0,T]$.
-    \item Initialiser les cashflows à maturité par le payoff.
-    \item Pour $t = T-\Delta t$ jusqu’à $t=\Delta t$ :
-    \begin{enumerate}
-        \item Sélectionner les trajectoires in-the-money.
-        \item Estimer la valeur de continuation par régression.
-        \item Comparer exercice immédiat et continuation.
-        \item Mettre à jour les cashflows.
-    \end{enumerate}
-    \item Actualiser et moyenner les cashflows.
-\end{enumerate}
-
-\section{Extrait de kernel CUDA (illustratif)}
-
-% Verbatim block removed due to compilation error
-% Code is available in src/lsmc.cu
-
-
-
-
-\section{Analyse de scalabilité OpenMP}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/heatmap.png}
+    \caption{Heatmap des performances OpenMP.}
+    \label{fig:heatmap}
+\end{figure}
 
 Les figures suivantes illustrent la scalabilité de l'implémentation OpenMP en fonction du nombre de trajectoires et de threads.
 
@@ -1276,6 +865,34 @@ Pour la simulation numérique, nous utilisons la propriété d'indépendance des
 La convergence des méthodes de Monte Carlo repose sur la Loi Forte des Grands Nombres (LFGN) :
 \[ \lim_{N \to \infty} \frac{1}{N} \sum_{i=1}^N f(X_i) = \mathbb{E}[f(X)] \quad \text{p.s.} \]
 L'erreur d'approximation décroît en $\mathcal{O}(1/\sqrt{N})$, conformément au Théorème Central Limite.
+
+\clearpage
+\section{Notations et Conventions}
+\label{appendix:notations}
+
+\paragraph{Cadre probabiliste}
+\begin{itemize}
+    \item $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \ge 0}, \mathbb{P})$ : espace probabilisé filtré usuel.
+    \item $\mathbb{Q}$ : mesure risque-neutre.
+    \item $W_t^{\mathbb{Q}}$ : mouvement brownien standard sous $\mathbb{Q}$.
+\end{itemize}
+
+\paragraph{Modèle de marché}
+\begin{itemize}
+    \item $S_t$ : prix du sous-jacent à $t$.
+    \item $r, \sigma$ : taux sans risque et volatilité (constants).
+    \item $T, K$ : maturité et strike de l'option.
+    \item $\Phi(S)$ : payoff ($\max(K-S, 0)$ pour un Put).
+\end{itemize}
+
+\paragraph{Paramètres numériques}
+\begin{itemize}
+    \item $N_{\text{steps}}, \Delta t$ : nombre de pas de temps et pas de temps.
+    \item $N_{\text{paths}}$ : nombre de simulations Monte Carlo.
+    \item $V_{t_n}$ : valeur de l'option à la date discrète $t_n$.
+    \item $\widehat{C}(t, S)$ : estimateur de la valeur de continuation par régression.
+    \item $\psi_k(S)$ : fonctions de base pour la régression LSMC.
+\end{itemize}
 
 \clearpage
 \begin{thebibliography}{9}

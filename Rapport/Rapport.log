@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 22:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 23:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -365,7 +365,14 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 27.
 tex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count326
-) (Rapport.aux)
+) (Rapport.aux
+
+LaTeX Warning: Label `fig:scalability_openmp' multiply defined.
+
+
+LaTeX Warning: Label `fig:heatmap' multiply defined.
+
+)
 \openout1 = `Rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
@@ -464,14 +471,12 @@ Package hyperref Info: Link coloring ON on input line 30.
  [1
 
 {C:/Users/flole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] (Rapport.toc
-LaTeX Font Info:    Trying to load font information for U+msa on input line 12.
-
+LaTeX Font Info:    Trying to load font information for U+msa on input line 3.
 
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 12.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
 
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -480,146 +485,152 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.62 ...s la mesure risque-neutre}{25}{appendix.A}
+l.50 ...du Mouvement Brownien}{20}{subsection.C.1}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `Rapport.toc'.
 
- [2] [3] [4] [5]
-[6] [7] [8]
+ [2]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 384.
-<images/Distributed-LSMC-algorithm-flow-chart.png, id=408, 102.3825pt x 275.950
+put line 97.
+<images/Distributed-LSMC-algorithm-flow-chart.png, id=271, 102.3825pt x 275.950
 94pt>
 File: images/Distributed-LSMC-algorithm-flow-chart.png Graphic file (type png)
 <use images/Distributed-LSMC-algorithm-flow-chart.png>
 Package pdftex.def Info: images/Distributed-LSMC-algorithm-flow-chart.png  used
- on input line 412.
-(pdftex.def)             Requested size: 165.2138pt x 445.32855pt.
- [9] [10 <./images/Distributed-LSMC-algorithm-flow-chart.png>]
-Overfull \hbox (5.71321pt too wide) in paragraph at lines 439--442
+ on input line 119.
+(pdftex.def)             Requested size: 283.22162pt x 763.41917pt.
+ [3]
+Overfull \vbox (348.80373pt too high) has occurred while \output is active []
+
+
+[4 <./images/Distributed-LSMC-algorithm-flow-chart.png>]
+Overfull \hbox (5.71321pt too wide) in paragraph at lines 148--151
 \T1/cmr/m/n/10 com-pat-i-ble CUDA. Les ex-péri-ences ont été con-duites en priv
 -ilé-giant la re-pro-ductibil-ité et la sta-bil-ité numérique. 
  []
 
-[11] [12] [13] [14] [15] [16]
-<images/Capture d'Ã©cran 2026-01-10 160639.png, id=490, 980.91469pt x 412.54124
+[5] [6] [7] [8] [9] [10] [11]
+<images/Capture d'Ã©cran 2026-01-10 160639.png, id=375, 980.91469pt x 412.54124
 pt>
 File: images/Capture d'Ã©cran 2026-01-10 160639.png Graphic file (type png)
 <use images/Capture d'Ã©cran 2026-01-10 160639.png>
 Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 160639.png  used on
- input line 837.
+ input line 543.
 (pdftex.def)             Requested size: 354.02342pt x 148.88612pt.
- [17]
-<images/precision_convergence_full.png, id=503, 1078.7502pt x 571.6557pt>
+<images/precision_convergence_full.png, id=378, 1078.7502pt x 571.6557pt>
 File: images/precision_convergence_full.png Graphic file (type png)
 <use images/precision_convergence_full.png>
 Package pdftex.def Info: images/precision_convergence_full.png  used on input l
-ine 844.
+ine 550.
 (pdftex.def)             Requested size: 472.03123pt x 250.14236pt.
- [18 <./images/Capture d'Ã©cran 2026-01-10 160639.png> <./images/precision_conv
-ergence_full.png>] [19]
-<images/Capture d'Ã©cran 2026-01-10 161107.png, id=527, 429.85594pt x 350.81062
+ [12 <./images/Capture d'Ã©cran 2026-01-10 160639.png> <./images/precision_conv
+ergence_full.png>] [13] [14]
+<images/Capture d'Ã©cran 2026-01-10 161107.png, id=412, 429.85594pt x 350.81062
 pt>
 File: images/Capture d'Ã©cran 2026-01-10 161107.png Graphic file (type png)
 <use images/Capture d'Ã©cran 2026-01-10 161107.png>
 Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 161107.png  used on
- input line 958.
+ input line 664.
 (pdftex.def)             Requested size: 306.81741pt x 250.39944pt.
- [20]
-Overfull \hbox (1.38707pt too wide) in paragraph at lines 964--965
+
+Overfull \hbox (1.38707pt too wide) in paragraph at lines 670--671
 []\T1/cmr/m/n/10 des méth-odes ré-centes basées sur l'apprentissage au-toma-tiq
 ue (réseaux de neu-rones pour l'approximation
  []
 
-[21 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [22]
-Overfull \hbox (4.66158pt too wide) in paragraph at lines 1090--1091
+[15 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [16]
+Overfull \hbox (4.66158pt too wide) in paragraph at lines 796--797
 []\T1/cmr/m/n/10 La val-i-da-tion croisée avec des méth-odes déter-min-istes de
  dif-férences finies a con-firmé la co-hérence numérique
  []
 
-[23] [24]
-Overfull \hbox (8.40561pt too wide) in paragraph at lines 1098--1098
-[]\T1/cmr/bx/n/14.4 Rsolution de l'EDS du GBM du mou-ve-ment brown-ien géométri
-que
- []
-
-[25
-
-]
-<images/Surface de scalabilitÃ© OpenMP.png, id=558, 1850.112pt x 698.8509pt>
+[17] [18]
+<images/Surface de scalabilitÃ© OpenMP.png, id=434, 1850.112pt x 698.8509pt>
 File: images/Surface de scalabilitÃ© OpenMP.png Graphic file (type png)
 <use images/Surface de scalabilitÃ© OpenMP.png>
 Package pdftex.def Info: images/Surface de scalabilitÃ© OpenMP.png  used on inp
-ut line 1248.
+ut line 821.
 (pdftex.def)             Requested size: 354.02342pt x 133.72144pt.
-<images/heatmap.png, id=559, 1850.112pt x 698.8509pt>
+<images/heatmap.png, id=435, 1850.112pt x 698.8509pt>
 File: images/heatmap.png Graphic file (type png)
 <use images/heatmap.png>
-Package pdftex.def Info: images/heatmap.png  used on input line 1255.
+Package pdftex.def Info: images/heatmap.png  used on input line 828.
 (pdftex.def)             Requested size: 283.22162pt x 106.97716pt.
- [26 <./images/Surface de scalabilitÃ© OpenMP.png>] [27 <./images/heatmap.png>]
- [28
+File: images/Surface de scalabilitÃ© OpenMP.png Graphic file (type png)
+<use images/Surface de scalabilitÃ© OpenMP.png>
+Package pdftex.def Info: images/Surface de scalabilitÃ© OpenMP.png  used on inp
+ut line 837.
+(pdftex.def)             Requested size: 354.02342pt x 133.72144pt.
+ [19
+
+ <./images/Surface de scalabilitÃ© OpenMP.png> <./images/heatmap.png>]
+File: images/heatmap.png Graphic file (type png)
+<use images/heatmap.png>
+Package pdftex.def Info: images/heatmap.png  used on input line 844.
+(pdftex.def)             Requested size: 283.22162pt x 106.97716pt.
+ [20] [21
+
+] [22
 
 ] (Rapport.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `Rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 765EE75925A1F26BAF4D17AADB39FD38;14989.
+(rerunfilecheck)             Checksum: 7923C0BE9EE9ADAA9AA8F4D83CF5B131;12071.
  ) 
 Here is how much of TeX's memory you used:
- 12604 strings out of 467871
- 191441 string characters out of 5418376
- 628662 words of memory out of 5000000
- 41132 multiletter control sequences out of 15000+600000
- 648568 words of font info for 90 fonts, out of 8000000 for 9000
+ 12526 strings out of 467871
+ 190523 string characters out of 5418376
+ 628780 words of memory out of 5000000
+ 41106 multiletter control sequences out of 15000+600000
+ 645811 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,983b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,631b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx
 0700.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
 0\tcbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
-/dpi600\ectt1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
-pen/ec/dpi600\ecrm0500.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecti0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/
-ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fon
+/dpi600\ecti0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ecrm0600.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\flole\AppData\Local\MiKTeX\fon
 ts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\flole\AppData\Local\MiKT
-eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\flole\AppData\Loca
-l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\flole\AppDat
-a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\flole\
-AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\
-flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\
-Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk
-> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1
-440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600
-\ecbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/
-dpi600\ecti1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknapp
-en/ec/dpi600\ecbx1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/
-jknappen/ec/dpi600\ecbx2488.pk><C:/Users/flole/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/flole/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/flole/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/flole/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/flol
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Us
-ers/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pf
-b><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmmib10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
-sfonts/cm/cmr10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/p
-ublic/amsfonts/cm/cmr5.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmr6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/flole/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/flole/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/flole/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flol
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Us
-ers/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/eurosym/feybr10.pfb>
-<C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbo
-ls/msbm10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (29 pages, 1962664 bytes).
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\flole\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\flole\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\flole\
+AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\
+flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\
+Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk
+> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1
+000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600
+\ecti1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/
+dpi600\ecbx1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknapp
+en/ec/dpi600\ecbx2488.pk><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmex10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/flole/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/flole/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/flole/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/fl
+ole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/
+Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.p
+fb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmr6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmr7.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmr8.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmsy10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on Rapport.pdf (23 pages, 1869365 bytes).
 PDF statistics:
- 1395 PDF objects out of 1440 (max. 8388607)
- 170 named destinations out of 1000 (max. 500000)
- 511 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1192 PDF objects out of 1200 (max. 8388607)
+ 127 named destinations out of 1000 (max. 500000)
+ 423 words of extra memory for PDF output out of 10000 (max. 10000000)
 
