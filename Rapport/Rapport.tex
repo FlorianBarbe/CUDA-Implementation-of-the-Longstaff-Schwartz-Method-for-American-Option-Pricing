@@ -16,6 +16,7 @@
 
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{longtable}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -749,7 +750,7 @@ Cette approche incrémentale a permis de maintenir un code fonctionnel à chaque
 Afin d'optimiser notre efficacité, nous nous sommes réparti les tâches selon nos affinités et compétences techniques :
 
 \begin{itemize}
-    \item \textbf{Florian Barbe} : Responsable du "cœur de calcul" (\emph{Core Engine}).
+    \item \textbf{Florian} : Responsable du "cœur de calcul" (\emph{Core Engine}).
     \begin{itemize}
         \item Modélisation mathématique et implémentation C++.
         \item Développement de l'algorithme LSMC et des solveurs FDM.
@@ -935,29 +936,81 @@ L'erreur d'approximation décroît en $\mathcal{O}(1/\sqrt{N})$, conformément a
 \section{Notations et Conventions}
 \label{appendix:notations}
 
-\paragraph{Cadre probabiliste}
-\begin{itemize}
-    \item $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \ge 0}, \mathbb{P})$ : espace probabilisé filtré usuel.
-    \item $\mathbb{Q}$ : mesure risque-neutre.
-    \item $W_t^{\mathbb{Q}}$ : mouvement brownien standard sous $\mathbb{Q}$.
-\end{itemize}
+\subsection{Probabilités et Processus Stochastiques}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|c|p{12cm}|}
+\hline
+\textbf{Notation} & \textbf{Description} \\
+\hline
+$\Omega, \mathcal{F}, \mathbb{P}$ & Espace probabilisé filtré standard. \\
+$\mathbb{Q}$ & Mesure risque-neutre, sous laquelle les actifs actualisés sont des martingales. \\
+$(\mathcal{F}_t)_{t \ge 0}$ & Filtration naturelle engendrée par le mouvement brownien, représentant l'information disponible à l'instant $t$. \\
+$W_t^{\mathbb{Q}}$ & Mouvement Brownien standard sous la mesure $\mathbb{Q}$. \\
+$S_t$ & Valeur du sous-jacent à l'instant $t$. \\
+$\mathbb{E}^{\mathbb{Q}}[\cdot | \mathcal{F}_t]$ & Espérance conditionnelle sous la mesure $\mathbb{Q}$ sachant l'information à l'instant $t$. \\
+\hline
+\end{longtable}
+\end{center}
 
-\paragraph{Modèle de marché}
-\begin{itemize}
-    \item $S_t$ : prix du sous-jacent à $t$.
-    \item $r, \sigma$ : taux sans risque et volatilité (constants).
-    \item $T, K$ : maturité et strike de l'option.
-    \item $\Phi(S)$ : payoff ($\max(K-S, 0)$ pour un Put).
-\end{itemize}
+\subsection{Modélisation Financière}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|c|p{12cm}|}
+\hline
+\textbf{Notation} & \textbf{Description} \\
+\hline
+$S_0$ & Prix initial du sous-jacent ($t=0$). \\
+$K$ & Prix d'exercice (Strike) de l'option. \\
+$T$ & Maturité de l'option (en années). \\
+$r$ & Taux d'intérêt sans risque constant. \\
+$\sigma$ & Volatilité constante du sous-jacent. \\
+$\Phi(S)$ & Fonction de payoff ou valeur intrinsèque. Pour un Put : $\Phi(S) = (K-S)^+$. \\
+$V_t$ & Prix de l'option américaine à l'instant $t$. \\
+$C(t, S_t)$ & Valeur de continuation à l'instant $t$ sachant $S_t$. \\
+$\tau$ & Temps d'arrêt correspondant à la stratégie d'exercice optimale. \\
+\hline
+\end{longtable}
+\end{center}
 
-\paragraph{Paramètres numériques}
-\begin{itemize}
-    \item $N_{\text{steps}}, \Delta t$ : nombre de pas de temps et pas de temps.
-    \item $N_{\text{paths}}$ : nombre de simulations Monte Carlo.
-    \item $V_{t_n}$ : valeur de l'option à la date discrète $t_n$.
-    \item $\widehat{C}(t, S)$ : estimateur de la valeur de continuation par régression.
-    \item $\psi_k(S)$ : fonctions de base pour la régression LSMC.
-\end{itemize}
+\subsection{Méthodes Numériques (LSMC)}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|c|p{12cm}|}
+\hline
+\textbf{Notation} & \textbf{Description} \\
+\hline
+$N \text{ ou } N_{steps}$ & Nombre de pas de temps de la discrétisation. \\
+$\Delta t$ & Pas de temps uniforme ($\Delta t = T/N$). \\
+$t_n$ & Dates de discrétisation ($t_n = n \Delta t$). \\
+$M \text{ ou } N_{paths}$ & Nombre de trajectoires Monte Carlo simulées. \\
+$S_{t_n}^{(i)}$ & Valeur simulée du sous-jacent pour la trajectoire $i$ à l'instant $t_n$. \\
+$\psi_k(S)$ & $k$-ième fonction de base utilisée pour la régression. \\
+$K_{reg}$ & Nombre total de fonctions de base (e.g., $3$ pour quadratique). \\
+$\beta$ (ou $a_k$) & Vecteur des coefficients de régression estimés. \\
+$\widehat{C}(t_n, S)$ & Estimateur numérique de la valeur de continuation obtenue par régression. \\
+$A$ & Matrice de design (Vandermonde généralisée) utilisée dans les moindres carrés ($A^T A \beta = A^T Y$). \\
+\hline
+\end{longtable}
+\end{center}
+
+\subsection{Implémentation et Architecture}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|c|p{12cm}|}
+\hline
+\textbf{Notation} & \textbf{Description} \\
+\hline
+OpenMP & \textit{Open Multi-Processing}, API pour la programmation parallèle sur mémoire partagée (CPU). \\
+CUDA & \textit{Compute Unified Device Architecture}, plateforme de calcul parallèle NVIDIA. \\
+Thread & Unité d'exécution de base. Sur GPU, un thread traite typiquement une trajectoire simulée. \\
+Block & Regroupement de threads sur GPU partageant une mémoire locale (Shared Memory). \\
+Grid & Ensemble des blocs lancés pour l'exécution d'un Kernel CUDA. \\
+Kernel & Fonction exécutée sur le GPU par chaque thread de la grille. \\
+Speedup & Gain de performance, défini comme $\text{Temps}_{CPU} / \text{Temps}_{GPU}$. \\
+\hline
+\end{longtable}
+\end{center}
 
 \clearpage
 \begin{thebibliography}{9}
