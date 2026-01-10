@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 22:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  10 JAN 2026 22:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -542,8 +542,14 @@ Overfull \hbox (1.38707pt too wide) in paragraph at lines 1046--1047
 ue (réseaux de neu-rones pour l'approximation
  []
 
-[23 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [24] [25] [26]
-Overfull \hbox (8.40561pt too wide) in paragraph at lines 1182--1182
+[23 <./images/Capture d'Ã©cran 2026-01-10 161107.png>] [24]
+Overfull \hbox (4.66158pt too wide) in paragraph at lines 1172--1173
+[]\T1/cmr/m/n/10 La val-i-da-tion croisée avec des méth-odes déter-min-istes de
+ dif-férences finies a con-firmé la co-hérence numérique
+ []
+
+[25] [26]
+Overfull \hbox (8.40561pt too wide) in paragraph at lines 1180--1180
 []\T1/cmr/bx/n/14.4 Rsolution de l'EDS du GBM du mou-ve-ment brown-ien géométri
 que
  []
@@ -555,12 +561,12 @@ que
 File: images/Surface de scalabilitÃ© OpenMP.png Graphic file (type png)
 <use images/Surface de scalabilitÃ© OpenMP.png>
 Package pdftex.def Info: images/Surface de scalabilitÃ© OpenMP.png  used on inp
-ut line 1332.
+ut line 1330.
 (pdftex.def)             Requested size: 354.02342pt x 133.72144pt.
 <images/heatmap.png, id=556, 1850.112pt x 698.8509pt>
 File: images/heatmap.png Graphic file (type png)
 <use images/heatmap.png>
-Package pdftex.def Info: images/heatmap.png  used on input line 1339.
+Package pdftex.def Info: images/heatmap.png  used on input line 1337.
 (pdftex.def)             Requested size: 283.22162pt x 106.97716pt.
  [28 <./images/Surface de scalabilitÃ© OpenMP.png>] [29 <./images/heatmap.png>]
  [30
@@ -622,7 +628,7 @@ b><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/eurosym/feyb
 r10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/symbols/msbm10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1
 /public/amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (31 pages, 2550610 bytes).
+Output written on Rapport.pdf (31 pages, 2550245 bytes).
 PDF statistics:
  1395 PDF objects out of 1440 (max. 8388607)
  166 named destinations out of 1000 (max. 500000)
