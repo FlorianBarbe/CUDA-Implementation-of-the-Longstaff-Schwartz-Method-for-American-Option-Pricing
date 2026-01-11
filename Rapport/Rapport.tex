@@ -814,6 +814,25 @@ Ceci s'explique par plusieurs facteurs intrinsèques au fonctionnement d'un GPU 
     \item \textbf{Ressource partagée :} Le GPU étant également sollicité par le système d'affichage (WDDM sous Windows), des micro-interruptions peuvent survenir, contrairement aux threads CPU qui peuvent être plus isolés.
 \end{itemize}
 
+\subsection{Impact de la taille des blocs GPU}
+\label{sec:gpu_block_benchmark}
+
+Comme mentionné en Section 3.4, la taille des blocs de threads est un paramètre configurable en CUDA. Nous avons donc réalisé une série de benchmarks pour évaluer l'impact de ce paramètre sur les performances de notre implémentation LSMC.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/gpu_block_size_scaling.png}
+    \caption{Impact de la taille des blocs GPU sur le temps d'exécution (N=1\,000\,000 trajectoires, 50 pas). Moyenne lissée sur 10 exécutions (min/max exclus).}
+    \label{fig:gpu_block_size}
+\end{figure}
+
+Les résultats montrent une différence notable entre la plus petite taille (32 threads, soit un seul warp) et les tailles supérieures. Au-delà de 64 threads par bloc, les performances sont relativement stables. Cette observation suggère que :
+\begin{itemize}
+    \item Un bloc de 32 threads sous-utilise les ressources du SM (trop peu de warps actifs pour masquer les latences mémoire) ;
+    \item Les tailles de 64 à 512 threads offrent des performances similaires, indiquant que l'occupancy atteint un niveau suffisant ;
+    \item La taille de 256 threads (valeur par défaut dans notre implémentation) représente un bon compromis.
+\end{itemize}
+
 \subsection{Comparaison globale des architectures}
 
 De manière synthétique :
