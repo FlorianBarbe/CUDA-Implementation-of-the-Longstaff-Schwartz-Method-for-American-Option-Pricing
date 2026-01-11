@@ -10,7 +10,7 @@ N_PATHS = 1000000  # 1M paths for meaningful GPU benchmark
 N_STEPS = 50
 MODE = "gpu"
 BLOCK_SIZES = [32, 64, 128, 256, 512, 1024]
-N_TRIALS = 5
+N_TRIALS = 10
 OUTPUT_IMAGE = os.path.join("..", "Rapport", "images", "gpu_block_size_scaling.png")
 
 def run_benchmark_average(block_size, exe_path, n_trials=5):

@@ -378,10 +378,12 @@ de garantir des accès coalescents\footnote{L'accès coalescent désigne le regr
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{images/ada_sm_architecture.png}
+    \includegraphics[width=0.9\linewidth]{images/ada_sm_architecture.png}
     \caption{Architecture d'un Streaming Multiprocessor (SM) Ada Lovelace. Chaque SM contient 4 partitions avec des unités FP32/INT32, des Tensor Cores de 4ème génération, 128 Ko de cache L1/mémoire partagée, et un RT Core de 3ème génération.}
     \label{fig:ada_sm}
 \end{figure}
+
+Un paramètre clé de l'optimisation CUDA est la taille des blocs de threads. En CUDA, les threads sont organisés en blocs, et plusieurs blocs sont exécutés sur un même SM. La taille de bloc (nombre de threads par bloc) peut être ajustée par multiples de 32 (taille d'un warp) jusqu'à un maximum de 1024 threads. Ce paramètre influence directement l'occupation des SMs et donc les performances globales. L'impact de ce paramètre sera analysé dans la Section~\ref{sec:gpu_block_benchmark}.
 
 Cette implémentation permet d’évaluer concrètement les gains de performance
 apportés par le GPU et de mettre en évidence les limites structurelles du LSMC
