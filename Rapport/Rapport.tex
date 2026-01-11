@@ -17,6 +17,8 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{longtable}
+\usepackage{titlesec}
+\titlespacing*{\subsection}{0pt}{6ex plus 1ex minus .5ex}{3ex plus .3ex}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -74,7 +76,7 @@ La valorisation des options américaines est intrinsèquement plus complexe que 
 
 Au-delà de l’aspect théorique, ce projet s’inscrit dans une problématique de performance numérique, car les méthodes de Monte Carlo nécessitent la simulation d’un très grand nombre de trajectoires afin de garantir la convergence statistique et la précision des résultats, entraînant des coûts de calcul élevés. Le travail réalisé s'étend donc également à l'évaluation de l’impact de différentes architectures de calcul sur les performances de notre algorithme.
 
-Nous avons donc décidé de décliner notre objectif principal en trois volets complémentaires:
+Nous avons donc décidé de décliner notre objectif principal en trois volets complémentaires :
 \begin{itemize}
     \item \textbf{Implémentation séquentielle sur CPU} : développement initial d'une version simple en fonctionnement normal sur CPU, dans le but de valider le fonctionnement de l'algorithme. Il servira en point de comparaison de référence pour la suite.
     \item \textbf{Parallélisation sur CPU} : utilisation d’OpenMP afin d’exploiter le parallélisme multi-cœurs du processeur et de réduire, en toute logique, le temps d’exécution des simulations.
@@ -283,10 +285,10 @@ L’ensemble du projet a été développé en \texttt{C++}, avec une attention
 particulière portée aux performances et à la gestion mémoire. Les principaux
 outils et technologies utilisés sont :
 \begin{itemize}
-    \item compilateur \texttt{g++} compatible \texttt{C++17} ;
-    \item bibliothèque \texttt{OpenMP} pour la parallélisation CPU ;
-    \item \texttt{CUDA C++} pour l’implémentation GPU ;
-    \item générateurs pseudo-aléatoires indépendants par thread ;
+    \item compilateur \texttt{g++} compatible \texttt{C++17};
+    \item bibliothèque \texttt{OpenMP} pour la parallélisation CPU;
+    \item \texttt{CUDA C++} pour l’implémentation GPU;
+    \item générateurs pseudo-aléatoires indépendants par thread;
     \item système de build basé sur \texttt{CMake}.
 \end{itemize}
 
@@ -303,10 +305,10 @@ performance.
 Cette version suit strictement les étapes théoriques :
 \begin{itemize}
     \item simulation des trajectoires du sous-jacent selon un mouvement brownien
-    géométrique ;
-    \item calcul des payoffs à chaque date ;
-    \item application de la backward induction ;
-    \item estimation de la valeur de continuation par régression polynomiale ;
+    géométrique;
+    \item calcul des payoffs à chaque date;
+    \item application de la backward induction;
+    \item estimation de la valeur de continuation par régression polynomiale;
     \item calcul de la moyenne finale des cashflows actualisés.
 \end{itemize}
 
@@ -322,10 +324,10 @@ exploitée à l’aide d’OpenMP.
 
 Les sections parallélisées sont notamment :
 \begin{itemize}
-    \item la génération des trajectoires du sous-jacent ;
-    \item le calcul des payoffs ;
-    \item l’accumulation des termes des équations normales pour la régression ;
-    \item la mise à jour des cashflows lors de la backward induction ;
+    \item la génération des trajectoires du sous-jacent;
+    \item le calcul des payoffs;
+    \item l’accumulation des termes des équations normales pour la régression;
+    \item la mise à jour des cashflows lors de la backward induction;
     \item le calcul de la moyenne finale.
 \end{itemize}
 
@@ -354,8 +356,8 @@ indépendant.
 
 Les principales étapes déportées sur le GPU sont :
 \begin{itemize}
-    \item la simulation des trajectoires du mouvement brownien géométrique ;
-    \item le calcul des payoffs ;
+    \item la simulation des trajectoires du mouvement brownien géométrique;
+    \item le calcul des payoffs;
     \item certaines phases de réduction nécessaires à la régression.
 \end{itemize}
 
@@ -632,7 +634,8 @@ Lorsque le nombre de trajectoires augmente, la variance de l’estimateur décro
 conformément au taux théorique $\mathcal{O}(1/\sqrt{N_{\text{paths}}})$, ce qui
 confirme la bonne implémentation de l’algorithme LSMC sur les trois architectures.
 
-\subsubsection{Analyse de la convergence}
+\paragraph{Analyse de la convergence.}
+Les résultats présentés en figure 21 illustrent l'impact du choix de la base de régression sur la précision de l'estimation.
 
 Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{Benguigui}) qui illustre les attentes théoriques de convergence. Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière. Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
 
@@ -683,9 +686,9 @@ L'alignement quasi-parfait des points mesurés avec la régression linéaire con
 La version OpenMP exploite le parallélisme multi-cœurs du processeur.  
 Les gains observés sont significatifs pour les phases suivantes :
 \begin{itemize}
-    \item simulation des trajectoires du sous-jacent ;
-    \item calcul des payoffs ;
-    \item accumulation des équations normales pour la régression ;
+    \item simulation des trajectoires du sous-jacent;
+    \item calcul des payoffs;
+    \item accumulation des équations normales pour la régression;
     \item mise à jour des cashflows.
 \end{itemize}
 
@@ -711,8 +714,8 @@ Les résultats de benchmark avec 4 threads OpenMP confirment une amélioration d
 Le facteur d’accélération obtenu est inférieur au nombre de cœurs disponibles,
 ce qui s’explique par :
 \begin{itemize}
-    \item la bande passante mémoire limitée ;
-    \item les accès concurrents aux structures de données partagées ;
+    \item la bande passante mémoire limitée;
+    \item les accès concurrents aux structures de données partagées;
     \item la présence de phases séquentielles incompressibles (notamment la
     progression temporelle de la backward induction).
 \end{itemize}
@@ -721,8 +724,7 @@ Néanmoins, OpenMP permet une réduction notable du temps de calcul, tout en con
 
 \textbf{Synthèse :} Le parallélisme OpenMP est efficace pour les phases \emph{compute-bound} (simulations) mais sature rapidement la bande passante mémoire lors des opérations vectorielles massives, plafonnant l'accélération bien en deçà du nombre de cœurs physiques.
 
-\subsubsection{Analyse du passage à l'échelle selon la taille du problème}
-
+\paragraph{Analyse du passage à l'échelle selon la taille du problème.}
 La figure~\ref{fig:openmp_scaling_mosaic} illustre l'évolution du temps d'exécution en fonction du nombre de cœurs pour différentes tailles de problème. Pour de petits nombres de trajectoires (N=1000), le parallélisme n'apporte que peu de bénéfices car le temps de calcul est dominé par les synchronisations et le lancement des threads. En revanche, lorsque le problème grandit (N=100\,000 ou N=1\,000\,000), l'accélération devient très significative, bien qu'elle plafonne rapidement au-delà de 4-6 cœurs en raison de la saturation de la bande passante mémoire.
 
 \begin{figure}[H]
@@ -790,9 +792,9 @@ En revanche, la backward induction impose une dépendance temporelle forte entre
 Cette contrainte limite la parallélisation complète de l'algorithme et réduit le gain théorique maximal.
 Les performances dépendent notamment :
 \begin{itemize}
-    \item du nombre de trajectoires simulées ;
-    \item de l'occupation effective du GPU ;
-    \item de l'efficacité des réductions parallèles ;
+    \item du nombre de trajectoires simulées;
+    \item de l'occupation effective du GPU;
+    \item de l'efficacité des réductions parallèles;
     \item de la limitation des transferts mémoire CPU-GPU.
 \end{itemize}
 
@@ -830,8 +832,8 @@ Les résultats montrent une différence notable entre la plus petite taille (32 
 
 De manière synthétique :
 \begin{itemize}
-    \item le CPU séquentiel fournit une référence simple mais peu performante ;
-    \item OpenMP permet un gain modéré, limité par la bande passante mémoire ;
+    \item le CPU séquentiel fournit une référence simple mais peu performante;
+    \item OpenMP permet un gain modéré, limité par la bande passante mémoire;
     \item CUDA offre les meilleures performances pour les grandes tailles de
     problèmes, en particulier lorsque le nombre de trajectoires est très élevé.
 \end{itemize}
@@ -926,7 +928,7 @@ La figure 21 illustre l'impact du choix de la base de régression sur la précis
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{images/convergence_theorique_areal.png}
-    \caption{Évolution théorique attendue de la précision (Source: \cite{ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}
+    \caption{Évolution théorique attendue de la précision (Source : \cite{ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}
     \label{fig:basis_comparison}
 \end{figure}
 
@@ -961,8 +963,8 @@ Le travail réalisé dans le cadre de ce projet a permis de mettre en œuvre une
 
 Une première piste d’amélioration concerne le choix des fonctions de base utilisées pour l’approximation de la valeur de continuation. Dans ce projet, une base polynomiale simple de degré deux a été retenue pour des raisons de simplicité et de stabilité numérique. Il serait possible d’explorer :
 \begin{itemize}
-    \item l'utilisation de méthodes de \textbf{Monte Carlo Multi-Niveaux (MLMC)} \cite{Ghodssi} pour réduire la variance et le coût de calcul ;
-    \item la mise en œuvre de \textbf{régressions locales} (Local Least Squares) \cite{Detra}, permettant une meilleure capture des non-linéarités de la fonction de continuation ;
+    \item l'utilisation de méthodes de \textbf{Monte Carlo Multi-Niveaux (MLMC)} \cite{Ghodssi} pour réduire la variance et le coût de calcul;
+    \item la mise en œuvre de \textbf{régressions locales} (Local Least Squares) \cite{Detra}, permettant une meilleure capture des non-linéarités de la fonction de continuation;
     \item l'exploration d'approches de \textbf{parallélisation temporelle} (type Parareal) \cite{Parareal} afin de surmonter la contrainte séquentielle de la backward induction.
 \end{itemize}
 
@@ -974,9 +976,9 @@ Par ailleurs, l’utilisation de techniques de réduction de variance (antitheti
 
 Le cadre retenu dans ce projet repose sur un mouvement brownien géométrique, modèle de référence mais relativement simplificateur. Plusieurs extensions naturelles peuvent être envisagées :
 \begin{itemize}
-    \item introduction d’un taux de dividende continu ;
-    \item prise en compte d’une volatilité locale ou stochastique (modèles de Heston, SABR) ;
-    \item extension à des options multi-actifs ou dépendant de plusieurs sous-jacents ;
+    \item introduction d’un taux de dividende continu;
+    \item prise en compte d’une volatilité locale ou stochastique (modèles de Heston, SABR);
+    \item extension à des options multi-actifs ou dépendant de plusieurs sous-jacents;
     \item valorisation de produits exotiques présentant des payoffs path-dépendants.
 \end{itemize}
 
@@ -986,8 +988,8 @@ L’algorithme de Longstaff--Schwartz conserve une grande flexibilité face à c
 
 Sur CPU, plusieurs optimisations supplémentaires pourraient être envisagées :
 \begin{itemize}
-    \item vectorisation explicite via les instructions SIMD (AVX2, AVX-512) ;
-    \item meilleure gestion de la localité mémoire pour réduire la pression sur la bande passante RAM ;
+    \item vectorisation explicite via les instructions SIMD (AVX2, AVX-512);
+    \item meilleure gestion de la localité mémoire pour réduire la pression sur la bande passante RAM;
     \item utilisation de bibliothèques numériques optimisées pour les régressions linéaires.
 \end{itemize}
 
@@ -997,8 +999,8 @@ Ces optimisations permettraient d’exploiter plus finement l’architecture mat
 
 Du côté GPU, plusieurs améliorations sont envisageables :
 \begin{itemize}
-    \item implémentation complète de la régression par moindres carrés directement sur GPU, sans synchronisation CPU ;
-    \item utilisation de bibliothèques CUDA spécialisées (\texttt{cuBLAS}, \texttt{CUB}, \texttt{Thrust}) pour les réductions et opérations linéaires ;
+    \item implémentation complète de la régression par moindres carrés directement sur GPU, sans synchronisation CPU;
+    \item utilisation de bibliothèques CUDA spécialisées (\texttt{cuBLAS}, \texttt{CUB}, \texttt{Thrust}) pour les réductions et opérations linéaires;
     \item exploration de stratégies multi-GPU pour des simulations de très grande dimension.
 \end{itemize}
 
@@ -1008,8 +1010,8 @@ Une telle approche permettrait de réduire encore les coûts de communication et
 
 Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Comme illustré par la Figure~\ref{fig:binomial_tree}, il serait intéressant de confronter les performances du LSMC à :
 \begin{itemize}
-    \item \textbf{les méthodes par arbres} (Binomiaux, Trinômiaux) : très utilisées pour leur flexibilité sur les options américaines (simple dimension) ;
-    \item \textbf{les méthodes itératives} (Différences Finies) : qui résolvent l'EDP de Black-Scholes-Merton avec condition de frontière libre ($P \ge (K-S)^+$) ;
+    \item \textbf{les méthodes par arbres} (Binomiaux, Trinômiaux) : très utilisées pour leur flexibilité sur les options américaines (simple dimension);
+    \item \textbf{les méthodes itératives} (Différences Finies) : qui résolvent l'EDP de Black-Scholes-Merton avec condition de frontière libre ($P \ge (K-S)^+$);
     \item \textbf{les méthodes spectrales} (Transformée de Fourier) : permettant des évaluations très rapides pour certains modèles (e.g., Heston, Lévy), bien que moins naturellement adaptées à l'exercice anticipé américain (nécessitant des techniques type méthodes de Spitzer).
 \end{itemize}
 
@@ -1036,14 +1038,14 @@ d’optimisation, comme en témoigne l’historique détaillé du dépôt Git.
 Le développement du projet a été structuré autour des grandes étapes suivantes :
 \begin{itemize}
     \item étude du cadre théorique : options américaines, Monte Carlo,
-    backward induction et algorithme de Longstaff--Schwartz ;
-    \item implémentation d’une version CPU séquentielle servant de référence ;
+    backward induction et algorithme de Longstaff--Schwartz;
+    \item implémentation d’une version CPU séquentielle servant de référence;
     \item restructuration complète du code afin de séparer clairement
-    simulation, régression et logique LSMC ;
-    \item parallélisation CPU avec OpenMP ;
-    \item ajout progressif d’un backend GPU CUDA expérimental ;
-    \item mise en place d’outils d’export des résultats (CSV) et de visualisation ;
-    \item campagnes de tests, mesures de performances et nettoyage final du code ;
+    simulation, régression et logique LSMC;
+    \item parallélisation CPU avec OpenMP;
+    \item ajout progressif d’un backend GPU CUDA expérimental;
+    \item mise en place d’outils d’export des résultats (CSV) et de visualisation;
+    \item campagnes de tests, mesures de performances et nettoyage final du code;
     \item rédaction et structuration du rapport.
 \end{itemize}
 
@@ -1056,16 +1058,16 @@ Le développement s’est appuyé sur un processus itératif, visible dans
 l’historique du dépôt Git :
 \begin{itemize}
     \item création initiale du projet et mise en place de la structure
-    \texttt{src/include} ;
-    \item premières implémentations du GBM, de la régression OLS et du LSMC ;
+    \texttt{src/include};
+    \item premières implémentations du GBM, de la régression OLS et du LSMC;
     \item phases de refonte complètes du code afin d’améliorer la lisibilité,
-    la modularité et les performances ;
-    \item intégration progressive d’OpenMP sur les boucles critiques ;
+    la modularité et les performances;
+    \item intégration progressive d’OpenMP sur les boucles critiques;
     \item ajout d’une interface de visualisation et d’export des résultats
-    (scripts Python, Streamlit) ;
+    (scripts Python, Streamlit);
     \item implémentation d’un backend CUDA complet incluant la simulation GBM,
     le calcul des payoffs, la backward induction et les réductions nécessaires
-    à la régression ;
+    à la régression;
     \item nettoyage approfondi du dépôt après des problèmes liés à des fichiers
     CSV volumineux et à l’historique Git.
 \end{itemize}
@@ -1144,12 +1146,12 @@ Cette séparation claire (Back-end en C++/CUDA vs Front-end en Python) nous a pe
 Le projet s’est appuyé sur les outils suivants :
 \begin{itemize}
     \item \textbf{Git / GitHub} pour le suivi du développement et l’historique
-    des itérations ;
-    \item \textbf{CMake} pour la configuration et la compilation du projet ;
-    \item \textbf{OpenMP} pour la parallélisation CPU ;
-    \item \textbf{CUDA C++} pour l’implémentation GPU ;
+    des itérations;
+    \item \textbf{CMake} pour la configuration et la compilation du projet;
+    \item \textbf{OpenMP} pour la parallélisation CPU;
+    \item \textbf{CUDA C++} pour l’implémentation GPU;
     \item \textbf{Python} et \textbf{Streamlit} pour l’analyse et la visualisation
-    des résultats ;
+    des résultats;
     \item \textbf{Overleaf} pour la rédaction du rapport.
 \end{itemize}
 
@@ -1163,9 +1165,9 @@ Le travail a été réparti sur l’ensemble du semestre avec une montée en com
 progressive :
 \begin{itemize}
     \item début de semestre : compréhension théorique, premières implémentations
-    CPU séquentielles ;
+    CPU séquentielles;
     \item milieu de semestre : restructuration du code, parallélisation OpenMP,
-    premières analyses de performance ;
+    premières analyses de performance;
     \item fin de semestre : implémentation CUDA complète, optimisation mémoire,
     nettoyage du dépôt Git, analyse comparative et rédaction finale.
 \end{itemize}
@@ -1192,6 +1194,8 @@ En conclusion, ce travail montre que le GPU constitue une solution particulière
 
 
 \clearpage
+\section*{Annexes}
+\addcontentsline{toc}{section}{Annexes}
 \appendix
 
 \section{Résolution de l'EDS du GBM}
@@ -1431,7 +1435,7 @@ Speedup & Gain de performance, défini comme $\text{Temps}_{CPU} / \text{Temps}_
 
 \bibitem{LSM2001}
 Longstaff, F. A., \& Schwartz, E. S. (2001).
-\textit{Valuing American Options by Simulation: A Simple Least-Squares Approach}.
+\textit{Valuing American Options by Simulation : A Simple Least-Squares Approach}.
 The Review of Financial Studies, 14(1), 113-147.
 
 \bibitem{Hull}
