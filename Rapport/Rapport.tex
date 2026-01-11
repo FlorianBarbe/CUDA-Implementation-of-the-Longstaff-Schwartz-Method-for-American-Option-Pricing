@@ -635,17 +635,9 @@ conformément au taux théorique $\mathcal{O}(1/\sqrt{N_{\text{paths}}})$, ce qu
 confirme la bonne implémentation de l’algorithme LSMC sur les trois architectures.
 
 \paragraph{Analyse de la convergence.}
-Les résultats présentés en figure 21 illustrent l'impact du choix de la base de régression sur la précision de l'estimation.
+Les résultats présentés plus tard dans la figure~\ref{fig:degree_convergence_full} tenteront d'illustrer l'impact du choix de la base de régression sur la précision de l'estimation,
+par rapport au prix RK4 de référence. Nous veillerons à mettre cette dynamique en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{Benguigui}).
 
-Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{Benguigui}) qui illustre les attentes théoriques de convergence. Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière. Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
-
-\begin{itemize}
-    \item \textbf{Phénomène de Runge} : L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Benguigui}. Cependant, les degrés utilisés ici allant jusqu'à 10, ce phénomène reste modéré pour expliquer à lui seul les variations observées.
-    \item \textbf{Conditionnement de la matrice} : Pour des degrés élevés ($d > 5$), la matrice de Gram $A^T A$ devient mal conditionnée, en particulier pour la base Monomiale, ce qui amplifie les erreurs numériques lors de la résolution du système linéaire. Bien que les bases orthogonales (Laguerre, Hermite) soient censées atténuer ce problème, le bruit de Monte Carlo semble ici dominer les gains théoriques.
-    \item \textbf{Compromis Biais-Variance} : Augmenter le degré réduit le biais de modélisation (capacité à fitter la "vraie" fonction de continuation) mais augmente la variance de l'estimateur, car le modèle capture le bruit statistique des trajectoires (sur-apprentissage).
-\end{itemize}
-
-Il serait également pertinent de comparer ces résultats avec des schémas d'Euler explicite ou implicite, la méthode RK4 pouvant présenter des instabilités dans certains régimes stochastiques.
 
 \subsection{Performances CPU séquentiel}
 
@@ -933,6 +925,13 @@ La figure 21 illustre l'impact du choix de la base de régression sur la précis
 \end{figure}
 
 \paragraph{Analyse de la convergence (Figure~\ref{fig:degree_convergence_full}).}
+
+\begin{itemize}
+    \item \textbf{Phénomène de Runge} : L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Benguigui}. Cependant, les degrés utilisés ici allant jusqu'à 10, ce phénomène reste modéré pour expliquer à lui seul les variations observées.
+    \item \textbf{Conditionnement de la matrice} : Pour des degrés élevés ($d > 5$), la matrice de Gram $A^T A$ devient mal conditionnée, en particulier pour la base Monomiale, ce qui amplifie les erreurs numériques lors de la résolution du système linéaire. Bien que les bases orthogonales (Laguerre, Hermite) soient censées atténuer ce problème, le bruit de Monte Carlo semble ici dominer les gains théoriques.
+    \item \textbf{Compromis Biais-Variance} : Augmenter le degré réduit le biais de modélisation (capacité à fitter la "vraie" fonction de continuation) mais augmente la variance de l'estimateur, car le modèle capture le bruit statistique des trajectoires (sur-apprentissage).
+\end{itemize}
+
 Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{ArealParallelMethods}) qui illustre les attentes théoriques de convergence.
 Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière.
 Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
@@ -940,6 +939,8 @@ Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" 
     \item \textbf{Phénomène de Runge :} L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Glasserman}.
     \item \textbf{Conditionnement de la matrice :} Pour des degrés élevés ($d > 5$), la matrice de Gram $A^T A$ devient mal conditionnée, en particulier pour la base Monomiale, ce qui amplifie les erreurs numériques lors de la résolution du système linéaire. Bien que les bases orthogonales (Laguerre, Hermite) soient censées atténuer ce problème, le bruit de Monte Carlo semble ici dominer les gains théoriques.
     \item \textbf{Compromis Biais-Variance :} Augmenter le degré réduit le biais de modélisation (capacité à fitter la "vraie" fonction de continuation) mais augmente la variance de l'estimateur, car le modèle capture le bruit statistique des trajectoires (sur-apprentissage).
+\item \textbf{Changement de référence :} Il serait également pertinent de comparer ces résultats avec des schémas d'Euler explicite ou implicite, la méthode RK4 pouvant présenter des instabilités dans certains régimes stochastiques.
+
 \end{itemize}
 Ces observations soulignent la difficulté pratique d'obtenir une convergence "parfaite" avec des méthodes de régression globale sur des degrés élevés sans un nombre de trajectoires extrêmement grand ($N \gg 10^5$).
 
