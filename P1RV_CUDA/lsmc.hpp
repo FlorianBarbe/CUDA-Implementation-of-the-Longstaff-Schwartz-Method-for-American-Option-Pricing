@@ -39,7 +39,7 @@ public:
   priceAmericanPutGPU(double S0, double K, double r, double sigma, double T,
                       int N_steps, int N_paths,
                       RegressionBasis basis = RegressionBasis::Monomial,
-                      int poly_degree = 3);
+                      int poly_degree = 3, int block_size = 256);
 
 #endif
 };

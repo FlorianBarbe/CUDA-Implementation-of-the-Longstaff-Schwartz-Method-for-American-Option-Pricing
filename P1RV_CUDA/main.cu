@@ -23,14 +23,16 @@ int main(int argc, char *argv[]) {
 
   // ================================
   // CLI Mode for Linearity Benchmark
-  // Usage: ./P1RV_CUDA [N_paths] [N_steps] [mode] [threads]
+  // Usage: ./P1RV_CUDA [N_paths] [N_steps] [mode] [threads/blocksize]
   // mode: "cpu", "omp", "gpu"
+  // For gpu mode, 4th arg is block_size (default 256)
   // ================================
   if (argc >= 4) {
     int cli_paths = std::atoi(argv[1]);
     int cli_steps = std::atoi(argv[2]);
     std::string mode = argv[3];
     int cli_threads = (argc >= 5) ? std::atoi(argv[4]) : 1;
+    int cli_block_size = (argc >= 5) ? std::atoi(argv[4]) : 256;
 
     double dt = 0.0;
     auto t0 = std::chrono::high_resolution_clock::now();
@@ -38,7 +40,7 @@ int main(int argc, char *argv[]) {
     if (mode == "gpu") {
 #ifdef LSMC_ENABLE_CUDA
       LSMC::priceAmericanPutGPU(S0, K, r, sigma, T, cli_steps, cli_paths,
-                                RegressionBasis::Monomial, 2);
+                                RegressionBasis::Monomial, 2, cli_block_size);
 #else
       std::cerr << "[ERROR] CUDA not compiled via LSMC_ENABLE_CUDA"
                 << std::endl;

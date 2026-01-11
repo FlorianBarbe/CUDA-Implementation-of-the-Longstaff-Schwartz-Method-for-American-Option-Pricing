@@ -11,7 +11,6 @@
 #include <device_functions.h>
 #include <vector>
 
-
 // ======================================================
 // Helpers CUDA
 // ======================================================
@@ -296,7 +295,8 @@ void computeRegressionSumsGPU_ptr(const float *d_paths, const float *d_payoff,
 
 double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
                                  double T, int N_steps, int N_paths,
-                                 RegressionBasis basis, int poly_degree) {
+                                 RegressionBasis basis, int poly_degree,
+                                 int block_size) {
   GbmParams params;
   params.S0 = (float)S0;
   params.r = (float)r;
@@ -319,7 +319,7 @@ double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
   simulate_gbm_paths_cuda(params, RNGType::PseudoPhilox, d_paths, 1234ULL,
                           stream);
 
-  int block = 256;
+  int block = block_size;
   int gridPay = (N_paths + block - 1) / block;
   payoff_kernel<<<gridPay, block>>>(d_paths, d_payoff, (float)K, N_steps,
                                     N_paths);
