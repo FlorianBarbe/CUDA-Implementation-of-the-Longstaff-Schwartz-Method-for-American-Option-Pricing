@@ -371,14 +371,14 @@ de garantir des accès coalescents\footnote{L'accès coalescent désigne le regr
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/gpu_memory_architecture.png}
+    \includegraphics[width=0.6\linewidth]{images/gpu_memory_architecture.png}
     \caption{Découpage logique de la mémoire et des threads d'un GPU (Architecture CUDA) \cite{Benguigui}.}
     \label{fig:gpu_memory}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{images/ada_sm_architecture.png}
+    \includegraphics[width=1.2\textwidth]{images/ada_sm_architecture.png}
     \caption{Architecture d'un Streaming Multiprocessor (SM) Ada Lovelace. Chaque SM contient 4 partitions avec des unités FP32/INT32, des Tensor Cores de 4ème génération, 128 Ko de cache L1/mémoire partagée, et un RT Core de 3ème génération.}
     \label{fig:ada_sm}
 \end{figure}
@@ -632,9 +632,9 @@ Lorsque le nombre de trajectoires augmente, la variance de l’estimateur décro
 conformément au taux théorique $\mathcal{O}(1/\sqrt{N_{\text{paths}}})$, ce qui
 confirme la bonne implémentation de l’algorithme LSMC sur les trois architectures.
 
-\subsubsection{Analyse de la convergence (Figure 14)}
+\subsubsection{Analyse de la convergence}
 
-Les résultats présentés en figure 14 montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure 15 (issue de \cite{Benguigui}) qui illustre les attentes théoriques de convergence. Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière. Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
+Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{Benguigui}) qui illustre les attentes théoriques de convergence. Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière. Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
 
 \begin{itemize}
     \item \textbf{Phénomène de Runge} : L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Benguigui}. Cependant, les degrés utilisés ici allant jusqu'à 10, ce phénomène reste modéré pour expliquer à lui seul les variations observées.
@@ -814,8 +814,19 @@ Ceci s'explique par plusieurs facteurs intrinsèques au fonctionnement d'un GPU 
     \item \textbf{Ressource partagée :} Le GPU étant également sollicité par le système d'affichage (WDDM sous Windows), des micro-interruptions peuvent survenir, contrairement aux threads CPU qui peuvent être plus isolés.
 \end{itemize}
 
-\subsection{Comparaison globale des architectures}
+Nous avons également évalué l'impact de la taille des blocs de threads sur les performances GPU :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/gpu_block_size_scaling.png}
+    \caption{Impact de la taille des blocs GPU sur le temps d'exécution (N=1\,000\,000 trajectoires, 50 pas). Moyenne lissée sur 10 exécutions (min/max exclus).}
+    \label{fig:gpu_block_size}
+\end{figure}
+
+Les résultats montrent une différence notable entre la plus petite taille (32 threads, soit un seul warp) et les tailles supérieures. Au-delà de 64 threads par bloc, les performances sont relativement stables, suggérant que la taille de 256 threads (valeur par défaut) représente un bon compromis.
 \label{sec:gpu_block_benchmark}
+
+\subsection{Comparaison globale des architectures}
 
 De manière synthétique :
 \begin{itemize}
@@ -829,16 +840,7 @@ Le GPU s'avère donc particulièrement adapté aux méthodes de Monte Carlo à g
 échelle, tandis que le CPU reste pertinent pour des tailles de problèmes plus
 modérées ou lorsque la simplicité d'implémentation est prioritaire.
 
-Nous avons également évalué l'impact de la taille des blocs de threads sur les performances GPU :
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{images/gpu_block_size_scaling.png}
-    \caption{Impact de la taille des blocs GPU sur le temps d'exécution (N=1\,000\,000 trajectoires, 50 pas). Moyenne lissée sur 10 exécutions (min/max exclus).}
-    \label{fig:gpu_block_size}
-\end{figure}
-
-Les résultats montrent une différence notable entre la plus petite taille (32 threads, soit un seul warp) et les tailles supérieures. Au-delà de 64 threads par bloc, les performances sont relativement stables, suggérant que la taille de 256 threads (valeur par défaut) représente un bon compromis.
 
 \subsection{Discussion sur les limites du parallélisme}
 
@@ -923,7 +925,7 @@ La figure~\ref{fig:basis_comparison} illustre l'impact du choix de la base de r�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\linewidth]{images/Capture d'écran 2026-01-10 160639.png}
+    \includegraphics[width=1.0\linewidth]{images/convergence_theorique_areal.png}
     \caption{Évolution théorique attendue de la précision (Source: \cite{ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}
     \label{fig:basis_comparison}
 \end{figure}
@@ -958,6 +960,7 @@ Le travail réalisé dans le cadre de ce projet a permis de mettre en œuvre une
 \subsection{Améliorations algorithmiques}
 
 Une première piste d’amélioration concerne le choix des fonctions de base utilisées pour l’approximation de la valeur de continuation. Dans ce projet, une base polynomiale simple de degré deux a été retenue pour des raisons de simplicité et de stabilité numérique. Il serait possible d’explorer :
+\begin{itemize}
     \item l'utilisation de méthodes de \textbf{Monte Carlo Multi-Niveaux (MLMC)} \cite{Ghodssi} pour réduire la variance et le coût de calcul ;
     \item la mise en œuvre de \textbf{régressions locales} (Local Least Squares) \cite{Detra}, permettant une meilleure capture des non-linéarités de la fonction de continuation ;
     \item l'exploration d'approches de \textbf{parallélisation temporelle} (type Parareal) \cite{Parareal} afin de surmonter la contrainte séquentielle de la backward induction.
@@ -1003,7 +1006,7 @@ Une telle approche permettrait de réduire encore les coûts de communication et
 
 \subsection{Perspectives méthodologiques}
 
-Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Comme illustré par la Figure \ref{fig:methods_comparison}, il serait intéressant de confronter les performances du LSMC à :
+Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Comme illustré par la Figure~\ref{fig:binomial_tree}, il serait intéressant de confronter les performances du LSMC à :
 \begin{itemize}
     \item \textbf{les méthodes par arbres} (Binomiaux, Trinômiaux) : très utilisées pour leur flexibilité sur les options américaines (simple dimension) ;
     \item \textbf{les méthodes itératives} (Différences Finies) : qui résolvent l'EDP de Black-Scholes-Merton avec condition de frontière libre ($P \ge (K-S)^+$) ;

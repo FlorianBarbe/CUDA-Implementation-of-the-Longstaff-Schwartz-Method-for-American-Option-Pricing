@@ -1,9 +1,34 @@
+/**
+ * @file fdm.cpp
+ * @brief Méthodes de Différences Finies pour le pricing d'options américaines
+ *
+ * Ce fichier implémente trois schémas numériques pour résoudre l'équation
+ * de Black-Scholes-Merton (EDP) avec condition d'exercice anticipé :
+ *
+ * 1. Euler Explicite : Simple et rapide, mais conditionnellement stable
+ * 2. Euler Implicite : Inconditionnellement stable (algorithme de Thomas)
+ * 3. Runge-Kutta 4 (RK4) : Haute précision O(dt^4), utilisé comme référence
+ *
+ * L'équation résolue (en temps inversé tau = T - t) :
+ *   dV/dtau = r*S*dV/dS + 0.5*sigma²*S²*d²V/dS² - r*V
+ *
+ * Condition aux limites :
+ *   V(0, tau) = K*exp(-r*tau)  (Put en S=0)
+ *   V(Smax, tau) = 0           (Put pour S grand)
+ *
+ * Condition américaine :
+ *   V(S, tau) >= max(K - S, 0)  (valeur intrinsèque)
+ *
+ * @authors Florian Barbe, Narjisse El Manssouri
+ * @date Janvier 2026
+ * @copyright École Centrale de Nantes - Projet P1RV
+ */
+
 #include "fdm.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <vector>
-
 
 FiniteDifference::FiniteDifference(double S0_, double K_, double r_,
                                    double sigma_, double T_, int M_, int N_,
@@ -27,7 +52,8 @@ double FiniteDifference::price(FdmMethod method) {
 // ==========================================================
 // Utilitaires
 // ==========================================================
-// Interpolation linéaire pour trouver la valeur S0 dans la grille
+// Interpolation linéaire pour trouver la
+// valeur S0 dans la grille
 static double interpolate_price(double S_target, double dS,
                                 const std::vector<double> &V) {
   // S_i = i * dS
@@ -53,12 +79,13 @@ double FiniteDifference::solveExplicit() {
   double dS = Smax / M;
   double dt = T / N;
 
-  // Vecteur valeurs V[i] correspond à S[i] = i*dS
-  // i va de 0 à M
+  // Vecteur valeurs V[i] correspond à S[i] =
+  // i*dS i va de 0 à M
   std::vector<double> V(M + 1);
   std::vector<double> V_new(M + 1);
 
-  // Condition initiale (Maturité, t=T => tau=0)
+  // Condition initiale (Maturité, t=T =>
+  // tau=0)
   for (int i = 0; i <= M; ++i) {
     double S = i * dS;
     V[i] = std::max(K - S, 0.0);
@@ -74,8 +101,10 @@ double FiniteDifference::solveExplicit() {
     for (int i = 1; i < M; ++i) {
       double S = i * dS;
 
-      // Discrétisation Black-Scholes (Backward en temps réel / Forward en tau)
-      // dV/dtau = r*S*dV/dS + 0.5*sigma^2*S^2*d2V/dS2 - r*V
+      // Discrétisation Black-Scholes
+      // (Backward en temps réel / Forward en
+      // tau) dV/dtau = r*S*dV/dS +
+      // 0.5*sigma^2*S^2*d2V/dS2 - r*V
 
       double delta = (V[i + 1] - V[i - 1]) / (2.0 * dS);
       double gamma = (V[i + 1] - 2.0 * V[i] + V[i - 1]) / (dS * dS);
@@ -105,8 +134,9 @@ static void thomas_algorithm(int size,
                              std::vector<double> &d,       // rhs -> solution
                              std::vector<double> &c_prime) // buffer
 {
-  // size = nombre d'inconnues (indices 1 à M-1)
-  // Ici on adapte pour indices 0 à size-1 correspondant à i=1..M-1
+  // size = nombre d'inconnues (indices 1 à
+  // M-1) Ici on adapte pour indices 0 à
+  // size-1 correspondant à i=1..M-1
 
   // Forward
   c_prime[0] = c[0] / b[0];
@@ -137,12 +167,14 @@ double FiniteDifference::solveImplicit() {
     V[i] = std::max(K - S, 0.0);
   }
 
-  // Coefficients constants du système linéaire
-  // On résout (I - dt*L) V^{n+1} = V^n
-  // Equation i: alpha*V_{i-1} + beta*V_i + gamma*V_{i+1} = V^n_i
-  // L V_i = r*S*delta + 0.5*sigma^2*S^2*gamma - r*V
+  // Coefficients constants du système
+  // linéaire On résout (I - dt*L) V^{n+1} =
+  // V^n Equation i: alpha*V_{i-1} + beta*V_i
+  // + gamma*V_{i+1} = V^n_i L V_i =
+  // r*S*delta + 0.5*sigma^2*S^2*gamma - r*V
 
-  // Coefficients tridiagonaux (pour i=1..M-1)
+  // Coefficients tridiagonaux (pour
+  // i=1..M-1)
   int dim = M - 1;
   std::vector<double> lower(dim), diag(dim), upper(dim);
   std::vector<double> rhs(dim);
@@ -152,16 +184,19 @@ double FiniteDifference::solveImplicit() {
     double S = i * dS;
     double i2 = (double)i * i;
 
-    // Coeffs de l'opérateur discret L (sans dt)
-    // a_i V_{i-1} + b_i V_i + c_i V_{i+1}
+    // Coeffs de l'opérateur discret L (sans
+    // dt) a_i V_{i-1} + b_i V_i + c_i
+    // V_{i+1}
     double l_i = 0.5 * sigma * sigma * i2 - 0.5 * r * i; // V_{i-1}
     double d_i = -sigma * sigma * i2 - r;                // V_i
     double u_i = 0.5 * sigma * sigma * i2 + 0.5 * r * i; // V_{i+1}
 
-    // Système implicite: V^{n+1} - dt * L V^{n+1} = V^n
-    // (1 - dt*d_i) V_i - dt*l_i V_{i-1} - dt*u_i V_{i+1} = V^n_i
-    // Attention aux signes pour Thomas : A_i u_{i-1} + B_i u_i + C_i u_{i+1} =
-    // D_i
+    // Système implicite: V^{n+1} - dt * L
+    // V^{n+1} = V^n (1 - dt*d_i) V_i -
+    // dt*l_i V_{i-1} - dt*u_i V_{i+1} =
+    // V^n_i Attention aux signes pour Thomas
+    // : A_i u_{i-1} + B_i u_i + C_i u_{i+1}
+    // = D_i
 
     int idx = i - 1;
     lower[idx] = -dt * l_i;
@@ -172,7 +207,8 @@ double FiniteDifference::solveImplicit() {
   // Boucle temps
   for (int n = 0; n < N; ++n) {
     // Préparer RHS
-    // Boundary conditions courantes pour le pas n+1
+    // Boundary conditions courantes pour le
+    // pas n+1
     double V_boundary_0 = K * std::exp(-r * (n + 1) * dt);
     double V_boundary_M = 0.0;
 
@@ -186,9 +222,11 @@ double FiniteDifference::solveImplicit() {
     // i=M-1 : terme upper dépend de V[M]
     rhs[dim - 1] -= upper[dim - 1] * V_boundary_M;
 
-    // On modifie les vecteurs a,b,c car Thomas les modifie parfois (ici
-    // implémente copie locale des vecteurs) Pour optimisation, on réutilise.
-    // Ici on copie pour clarté.
+    // On modifie les vecteurs a,b,c car
+    // Thomas les modifie parfois (ici
+    // implémente copie locale des vecteurs)
+    // Pour optimisation, on réutilise. Ici
+    // on copie pour clarté.
     std::vector<double> a = lower;
     std::vector<double> b = diag;
     std::vector<double> c = upper;
@@ -197,13 +235,15 @@ double FiniteDifference::solveImplicit() {
     std::vector<double> sol = rhs;
     thomas_algorithm(dim, a, b, c, sol, c_prime);
 
-    // MAJ V et application condition Américaine
+    // MAJ V et application condition
+    // Américaine
     V[0] = V_boundary_0;
     V[M] = V_boundary_M;
     for (int i = 1; i < M; ++i) {
       double val = sol[i - 1];
       double S = i * dS;
-      // Operator Splitting pour Américain (approx)
+      // Operator Splitting pour Américain
+      // (approx)
       V[i] = std::max(val, std::max(K - S, 0.0));
     }
   }
@@ -219,7 +259,8 @@ static std::vector<double> evaluate_operator(const std::vector<double> &V,
                                              double r, double sigma, double dS,
                                              int M) {
   // L(V) sur l'intérieur i=1..M-1
-  // Les bords sont gérés via Dirichlet fixes pour L (approx)
+  // Les bords sont gérés via Dirichlet fixes
+  // pour L (approx)
   std::vector<double> LV(M + 1, 0.0);
 
   for (int i = 1; i < M; ++i) {
@@ -243,9 +284,11 @@ double FiniteDifference::solveRK4() {
     V[i] = std::max(K - i * dS, 0.0);
 
   for (int n = 0; n < N; ++n) {
-    // BC temporelle (approx: on impose les valeurs aux bords à chaque
-    // sous-étape ou à la fin) Ici on fixe les bords à la valeur analytique pour
-    // l'étape n (ou n+1)
+    // BC temporelle (approx: on impose les
+    // valeurs aux bords à chaque sous-étape
+    // ou à la fin) Ici on fixe les bords à
+    // la valeur analytique pour l'étape n
+    // (ou n+1)
     double bc0 = K * std::exp(-r * n * dt);
     double bcM = 0.0;
 

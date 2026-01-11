@@ -1,10 +1,32 @@
-// gbm_cuda.cu
+/**
+ * @file gbm.cu
+ * @brief Simulation GPU du Mouvement Brownien Géométrique (GBM)
+ *
+ * Ce fichier contient les kernels CUDA pour la simulation Monte Carlo
+ * des trajectoires du sous-jacent selon un processus GBM.
+ *
+ * Le modèle GBM est défini par l'EDS :
+ *   dS_t = r * S_t * dt + sigma * S_t * dW_t
+ *
+ * Solution exacte (discrétisation sans biais) :
+ *   S_{t+1} = S_t * exp((r - 0.5*sigma²)*dt + sigma*sqrt(dt)*Z)
+ *
+ * Deux générateurs de nombres aléatoires sont supportés :
+ * - Philox : générateur pseudo-aléatoire rapide (défaut)
+ * - Sobol : générateur quasi-aléatoire pour meilleure convergence
+ *
+ * Layout mémoire : TIME-MAJOR [t][path] pour accès coalescents
+ *
+ * @authors Florian Barbe, Narjisse El Manssouri
+ * @date Janvier 2026
+ * @copyright École Centrale de Nantes - Projet P1RV
+ */
+
 #include <cmath>
 #include <cstdio>
 #include <cuda_runtime.h>
 #include <curand.h>
 #include <curand_kernel.h>
-
 
 #include "gbm.hpp"
 

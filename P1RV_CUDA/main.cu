@@ -1,4 +1,23 @@
-﻿#include <chrono>
+﻿/**
+ * @file main.cu
+ * @brief Point d'entrée principal et benchmarks du projet P1RV
+ *
+ * Ce fichier contient le programme principal qui :
+ * - Établit une référence FDM (RK4) pour validation
+ * - Exécute des benchmarks comparatifs CPU/OpenMP/GPU
+ * - Supporte un mode CLI pour tests de linéarité
+ *
+ * Modes d'exécution :
+ * - Par défaut : Benchmark complet avec export CSV
+ * - CLI : ./P1RV_CUDA [N_paths] [N_steps] [mode] [threads/blocksize]
+ *         mode = "cpu", "omp", ou "gpu"
+ *
+ * @authors Florian Barbe, Narjisse El Manssouri
+ * @date Janvier 2026
+ * @copyright École Centrale de Nantes - Projet P1RV
+ */
+
+#include <chrono>
 #include <cmath>
 #include <fstream>
 #include <iomanip>

@@ -1,4 +1,24 @@
-#include "gbm.hpp"
+/**
+ * @file lsmc.cu
+ * @brief Implémentation CUDA de l'algorithme Longstaff-Schwartz (LSMC)
+ *
+ * Ce fichier contient les kernels CUDA pour le pricing d'options américaines
+ * par la méthode Monte Carlo avec régression par moindres carrés.
+ *
+ * Fonctionnalités principales :
+ * - Simulation des payoffs sur GPU
+ * - Calcul des sommes de régression parallélisé
+ * - Résolution de systèmes linéaires (élimination de Gauss)
+ * - Mise à jour des cashflows avec décision d'exercice optimal
+ *
+ * Bases de régression supportées : Monômiale, Hermite, Laguerre, Chebyshev,
+ * Cubique
+ *
+ * @authors Florian Barbe, Narjisse El Manssouri
+ * @date Janvier 2026
+ * @copyright École Centrale de Nantes - Projet P1RV
+ */
+
 #include "lsmc.hpp"
 
 #ifdef LSMC_ENABLE_CUDA
@@ -12,11 +32,18 @@
 #include <vector>
 
 // ======================================================
-// Helpers CUDA
+// Utilitaires CUDA - Gestion des erreurs
 // ======================================================
+
+/**
+ * @brief Vérifie le code de retour CUDA et affiche une erreur en cas d'échec
+ * @param code Code d'erreur CUDA à vérifier
+ * @param file Nom du fichier source (macro __FILE__)
+ * @param line Numéro de ligne (macro __LINE__)
+ */
 inline void gpuAssert(cudaError_t code, const char *file, int line) {
   if (code != cudaSuccess) {
-    fprintf(stderr, "CUDA ERROR %d (%s) at %s:%d\n", (int)code,
+    fprintf(stderr, "ERREUR CUDA %d (%s) dans %s:%d\n", (int)code,
             cudaGetErrorString(code), file, line);
     abort();
   }
@@ -24,8 +51,23 @@ inline void gpuAssert(cudaError_t code, const char *file, int line) {
 #define CUDA_CHECK(x) gpuAssert((x), __FILE__, __LINE__)
 
 // ======================================================
-// GENERIC BASIS EVALUATION
+// Évaluation générique des bases polynomiales
 // ======================================================
+
+/**
+ * @brief Évalue les polynômes de base pour la régression LSMC
+ *
+ * Cette fonction calcule les valeurs phi[0], phi[1], ..., phi[degree]
+ * selon la base choisie. Utilisée dans les kernels de régression.
+ *
+ * @param S Prix du sous-jacent à évaluer
+ * @param degree Degré polynomial maximum
+ * @param basis_type Type de base (0=Monômiale, 1=Hermite, 2=Laguerre,
+ * 3=Chebyshev, 4=Cubique)
+ * @param phi Tableau de sortie pour les valeurs des polynômes
+ * @param min_S Valeur minimale de S (pour normalisation Chebyshev)
+ * @param max_S Valeur maximale de S (pour normalisation Chebyshev)
+ */
 __device__ void eval_basis_generic(double S, int degree, int basis_type,
                                    double *phi, double min_S, double max_S) {
   phi[0] = 1.0;
@@ -60,8 +102,21 @@ __device__ void eval_basis_generic(double S, int degree, int basis_type,
 }
 
 // ======================================================
-// KERNELS
+// Kernels CUDA pour LSMC
 // ======================================================
+
+/**
+ * @brief Calcule les payoffs pour un Put américain sur toutes les trajectoires
+ *
+ * Chaque thread traite une trajectoire complète. Le payoff d'un Put est max(K -
+ * S, 0).
+ *
+ * @param d_paths Trajectoires simulées du sous-jacent (layout: [t][path])
+ * @param d_payoff Tableau de sortie pour les payoffs
+ * @param K Prix d'exercice (Strike)
+ * @param N_steps Nombre de pas de temps
+ * @param N_paths Nombre de trajectoires Monte Carlo
+ */
 __global__ void payoff_kernel(const float *__restrict__ d_paths,
                               float *__restrict__ d_payoff, float K,
                               int N_steps, int N_paths) {

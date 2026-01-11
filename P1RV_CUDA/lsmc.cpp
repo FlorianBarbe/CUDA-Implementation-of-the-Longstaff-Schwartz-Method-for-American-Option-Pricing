@@ -1,4 +1,25 @@
-// lsmc.cpp
+/**
+ * @file lsmc.cpp
+ * @brief Implémentation CPU de l'algorithme Longstaff-Schwartz (LSMC)
+ *
+ * Ce fichier contient l'implémentation séquentielle et parallèle (OpenMP)
+ * de l'algorithme de pricing d'options américaines par Monte Carlo.
+ *
+ * L'algorithme LSMC fonctionne en plusieurs étapes :
+ * 1. Simulation des trajectoires du sous-jacent (GBM)
+ * 2. Calcul des payoffs à chaque date
+ * 3. Backward induction : régression pour estimer la valeur de continuation
+ * 4. Décision d'exercice optimal à chaque pas de temps
+ * 5. Moyenne des cashflows actualisés pour obtenir le prix
+ *
+ * Bases de régression supportées : Monômiale, Hermite, Laguerre, Chebyshev,
+ * Cubique
+ *
+ * @authors Florian Barbe, Narjisse El Manssouri
+ * @date Janvier 2026
+ * @copyright École Centrale de Nantes - Projet P1RV
+ */
+
 #include <algorithm>
 #include <cmath>
 #include <vector>
@@ -10,7 +31,16 @@
 #include <omp.h>
 #endif
 
-// Index contigu : i*(N_steps+1) + t
+/**
+ * @brief Calcule l'index dans le tableau contigu pour (trajectoire, temps)
+ *
+ * Layout path-major : paths[i * (N_steps+1) + t]
+ *
+ * @param i Index de la trajectoire
+ * @param t Index du pas de temps
+ * @param N_steps Nombre total de pas de temps
+ * @return Index dans le tableau 1D
+ */
 static inline size_t idx(int i, int t, int N_steps) {
   return static_cast<size_t>(i) * (static_cast<size_t>(N_steps) + 1u) +
          static_cast<size_t>(t);
