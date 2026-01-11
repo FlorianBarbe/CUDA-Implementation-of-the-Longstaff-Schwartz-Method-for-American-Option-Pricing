@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  11 JAN 2026 00:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  11 JAN 2026 13:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -497,86 +497,142 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.51 ...}Notations et Conventions}{24}{appendix.C}
+l.53 ...©solution de l'EDS du GBM}{31}{appendix.A}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `Rapport.toc'.
 
- [2]
+ [2] [3]
+Underfull \hbox (badness 5970) in paragraph at lines 104--105
+[]\T1/cmr/m/n/9 Tient stricte-ment (marché ef-fi-
+ []
+
+<images/exercise_boundary.png, id=352, 632.3625pt x 410.53375pt>
+File: images/exercise_boundary.png Graphic file (type png)
+<use images/exercise_boundary.png>
+Package pdftex.def Info: images/exercise_boundary.png  used on input line 119.
+(pdftex.def)             Requested size: 330.42041pt x 214.51237pt.
+[4 <./images/exercise_boundary.png>]
+<images/mouvement_brownien.png, id=366, 246.6816pt x 246.6816pt>
+File: images/mouvement_brownien.png Graphic file (type png)
+<use images/mouvement_brownien.png>
+Package pdftex.def Info: images/mouvement_brownien.png  used on input line 146.
+
+(pdftex.def)             Requested size: 236.01561pt x 236.02118pt.
+ [5 <./images/mouvement_brownien.png>]
+<images/gbm_paths.png, id=394, 853.1875pt x 549.05125pt>
+File: images/gbm_paths.png Graphic file (type png)
+<use images/gbm_paths.png>
+Package pdftex.def Info: images/gbm_paths.png  used on input line 175.
+(pdftex.def)             Requested size: 330.42041pt x 212.63786pt.
+
+[6 <./images/gbm_paths.png>]
+Overfull \hbox (1.02188pt too wide) in paragraph at lines 218--219
+[]\T1/cmr/bx/n/10 Polynômes de Cheby-shev \T1/cmr/m/n/10 : Re-con-nus pour min-
+imiser l'erreur d'interpolation (phénomène de Runge),
+ []
+
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 119.
-<images/Distributed-LSMC-algorithm-flow-chart.png, id=281, 102.3825pt x 275.950
+put line 232.
+[7] [8]
+<images/risks-11-00145-g001.png, id=433, 216.3282pt x 518.05545pt>
+File: images/risks-11-00145-g001.png Graphic file (type png)
+<use images/risks-11-00145-g001.png>
+Package pdftex.def Info: images/risks-11-00145-g001.png  used on input line 255
+.
+(pdftex.def)             Requested size: 204.42462pt x 489.52966pt.
+ [9
+
+ <./images/risks-11-00145-g001.png>]
+<images/Distributed-LSMC-algorithm-flow-chart.png, id=439, 102.3825pt x 275.950
 94pt>
 File: images/Distributed-LSMC-algorithm-flow-chart.png Graphic file (type png)
 <use images/Distributed-LSMC-algorithm-flow-chart.png>
 Package pdftex.def Info: images/Distributed-LSMC-algorithm-flow-chart.png  used
- on input line 141.
-(pdftex.def)             Requested size: 283.22162pt x 763.41917pt.
- [3] [4]
-Overfull \vbox (134.65692pt too high) has occurred while \output is active []
+ on input line 263.
+(pdftex.def)             Requested size: 181.631pt x 489.52966pt.
+ [10
 
-
-[5 <./images/Distributed-LSMC-algorithm-flow-chart.png>]
-Overfull \hbox (5.71321pt too wide) in paragraph at lines 170--173
+ <./images/Distributed-LSMC-algorithm-flow-chart.png>]
+Overfull \hbox (5.71321pt too wide) in paragraph at lines 293--296
 \T1/cmr/m/n/10 com-pat-i-ble CUDA. Les ex-péri-ences ont été con-duites en priv
 -ilé-giant la re-pro-ductibil-ité et la sta-bil-ité numérique. 
  []
 
-[6] [7] [8] [9]
-<images/linearity_paths.png, id=371, 505.89pt x 361.35pt>
+<images/openmp_fork_join.png, id=448, 853.1875pt x 461.725pt>
+File: images/openmp_fork_join.png Graphic file (type png)
+<use images/openmp_fork_join.png>
+Package pdftex.def Info: images/openmp_fork_join.png  used on input line 334.
+(pdftex.def)             Requested size: 330.42041pt x 178.81795pt.
+[11]
+<images/gpu_memory_architecture.png, id=458, 475.7775pt x 750.805pt>
+File: images/gpu_memory_architecture.png Graphic file (type png)
+<use images/gpu_memory_architecture.png>
+Package pdftex.def Info: images/gpu_memory_architecture.png  used on input line
+ 374.
+(pdftex.def)             Requested size: 377.62642pt x 595.94771pt.
+ [12 <./images/openmp_fork_join.png>] [13 <./images/gpu_memory_architecture.png
+>] [14] [15] [16] [17]
+<images/linearity_paths.png, id=513, 505.89pt x 361.35pt>
 File: images/linearity_paths.png Graphic file (type png)
 <use images/linearity_paths.png>
-Package pdftex.def Info: images/linearity_paths.png  used on input line 431.
+Package pdftex.def Info: images/linearity_paths.png  used on input line 634.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps.png, id=372, 505.89pt x 361.35pt>
+<images/linearity_steps.png, id=514, 505.89pt x 361.35pt>
 File: images/linearity_steps.png Graphic file (type png)
 <use images/linearity_steps.png>
-Package pdftex.def Info: images/linearity_steps.png  used on input line 438.
+Package pdftex.def Info: images/linearity_steps.png  used on input line 641.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_paths_omp.png, id=373, 505.89pt x 361.35pt>
+<images/linearity_paths_omp.png, id=515, 505.89pt x 361.35pt>
 File: images/linearity_paths_omp.png Graphic file (type png)
 <use images/linearity_paths_omp.png>
-Package pdftex.def Info: images/linearity_paths_omp.png  used on input line 463
+Package pdftex.def Info: images/linearity_paths_omp.png  used on input line 666
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps_omp.png, id=374, 505.89pt x 361.35pt>
+<images/linearity_steps_omp.png, id=516, 505.89pt x 361.35pt>
 File: images/linearity_steps_omp.png Graphic file (type png)
 <use images/linearity_steps_omp.png>
-Package pdftex.def Info: images/linearity_steps_omp.png  used on input line 470
+Package pdftex.def Info: images/linearity_steps_omp.png  used on input line 673
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
- [10 <./images/linearity_paths.png> <./images/linearity_steps.png>]
-<images/linearity_paths_gpu.png, id=384, 505.89pt x 361.35pt>
+ [18 <./images/linearity_paths.png> <./images/linearity_steps.png> <./images/li
+nearity_paths_omp.png> <./images/linearity_steps_omp.png>]
+<images/linearity_paths_gpu.png, id=531, 505.89pt x 361.35pt>
 File: images/linearity_paths_gpu.png Graphic file (type png)
 <use images/linearity_paths_gpu.png>
-Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 504
+Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 707
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps_gpu.png, id=385, 505.89pt x 361.35pt>
+<images/linearity_steps_gpu.png, id=532, 505.89pt x 361.35pt>
 File: images/linearity_steps_gpu.png Graphic file (type png)
 <use images/linearity_steps_gpu.png>
-Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 511
+Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 714
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
- [11 <./images/linearity_paths_omp.png> <./images/linearity_steps_omp.png>]
-[12 <./images/linearity_paths_gpu.png> <./images/linearity_steps_gpu.png>]
-[13]
-<images/precision_convergence_full.png, id=413, 1078.7502pt x 571.6557pt>
+ [19 <./images/linearity_paths_gpu.png> <./images/linearity_steps_gpu.png>] [20
+]
+Overfull \hbox (24.14883pt too wide) in paragraph at lines 790--790
+[][][][][]$\T1/cmtt/m/n/8 https : / / github . com / FlorianBarbe / CUDA-[]Impl
+ementation-[]of-[]the-[]Longstaff-[]Schwartz-[]Method-[]for-[]American-[]Option
+-[]Pricing$[][]| 
+ []
+
+[21]
+<images/precision_convergence_full.png, id=561, 1078.7502pt x 571.6557pt>
 File: images/precision_convergence_full.png Graphic file (type png)
 <use images/precision_convergence_full.png>
 Package pdftex.def Info: images/precision_convergence_full.png  used on input l
-ine 634.
+ine 842.
 (pdftex.def)             Requested size: 472.03123pt x 250.14236pt.
- [14]
-<images/Capture d'Ã©cran 2026-01-10 160639.png, id=424, 980.91469pt x 412.54124
+<images/Capture d'Ã©cran 2026-01-10 160639.png, id=562, 980.91469pt x 412.54124
 pt>
 File: images/Capture d'Ã©cran 2026-01-10 160639.png Graphic file (type png)
 <use images/Capture d'Ã©cran 2026-01-10 160639.png>
 Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 160639.png  used on
- input line 641.
+ input line 849.
 (pdftex.def)             Requested size: 472.03123pt x 198.52113pt.
- [15 <./images/precision_convergence_full.png> <./images/Capture d'Ã©cran 2026-
-01-10 160639.png>]
+ [22 <./images/precision_convergence_full.png>] [23 <./images/Capture d'Ã©cran 
+2026-01-10 160639.png>]
 
 ! LaTeX Error: Lonely \item--perhaps a missing list environment.
 
@@ -584,14 +640,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.675     \item l
+l.884     \item l
                  'utilisation de mÃ©thodes de \textbf{Monte Carlo Multi-Nive...
 
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-Underfull \hbox (badness 10000) detected at line 675
+Underfull \hbox (badness 10000) detected at line 884
 [][]
  []
 
@@ -602,14 +658,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.676     \item l
+l.885     \item l
                  a mise en Å“uvre de \textbf{rÃ©gressions locales} (Local Le...
 
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-Underfull \hbox (badness 10000) detected at line 676
+Underfull \hbox (badness 10000) detected at line 885
 [][]
  []
 
@@ -620,14 +676,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.677     \item l
+l.886     \item l
                  'exploration d'approches de \textbf{parallÃ©lisation tempor...
 
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-Underfull \hbox (badness 10000) detected at line 677
+Underfull \hbox (badness 10000) detected at line 886
 [][]
  []
 
@@ -638,7 +694,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.678 \end{itemize}
+l.887 \end{itemize}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -647,29 +703,98 @@ or  <return>  to continue without it.
 ! Extra \endgroup.
 \end  ...end#1\endcsname \@checkend {#1}\endgroup 
                                                   \UseHook {env/#1/after}\if...
-l.678 \end{itemize}
+l.887 \end{itemize}
                    
 Things are pretty mixed up, but I think the worst is over.
 
-[16] [17] [18]
-Overfull \hbox (2.80952pt too wide) in paragraph at lines 798--799
-[]\T1/cmr/m/n/10 Visualisation des ré-sul-tats (graphiques de con-ver-gence, tr
-a-jec-toires) et in-té-gra-tion avec l'exécutable
- []
+[24]
 
-[19]
-Overfull \hbox (4.66158pt too wide) in paragraph at lines 850--851
+LaTeX Warning: Reference `fig:methods_comparison' on page 25 undefined on input
+ line 929.
+
+<images/binomial_tree.png, id=602, 551.05875pt x 283.0575pt>
+File: images/binomial_tree.png Graphic file (type png)
+<use images/binomial_tree.png>
+Package pdftex.def Info: images/binomial_tree.png  used on input line 938.
+(pdftex.def)             Requested size: 330.42041pt x 169.73213pt.
+[25 <./images/binomial_tree.png>]
+<images/python_gui_1.jpg, id=610, 1027.84pt x 539.01375pt>
+File: images/python_gui_1.jpg Graphic file (type jpg)
+<use images/python_gui_1.jpg>
+Package pdftex.def Info: images/python_gui_1.jpg  used on input line 1002.
+(pdftex.def)             Requested size: 472.03123pt x 247.53809pt.
+ [26]
+<images/python_gui_2.jpg, id=616, 1027.84pt x 531.9875pt>
+File: images/python_gui_2.jpg Graphic file (type jpg)
+<use images/python_gui_2.jpg>
+Package pdftex.def Info: images/python_gui_2.jpg  used on input line 1009.
+(pdftex.def)             Requested size: 472.03123pt x 244.31134pt.
+ [27 <./images/python_gui_1.jpg> <./images/python_gui_2.jpg>] [28] [29]
+Overfull \hbox (4.66158pt too wide) in paragraph at lines 1109--1110
 []\T1/cmr/m/n/10 La val-i-da-tion croisée avec des méth-odes déter-min-istes de
  dif-férences finies a con-firmé la co-hérence numérique
  []
 
-[20] [21
+[30] [31
 
-] [22]
-ignored error: Infinite glue shrinkage found in box being split [23
+] [32
 
-] [24]
-[25
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1237.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1237.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1237.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1245.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1245.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1245.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1253.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1253.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1253.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1261.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1261.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1261.
+
+[33
+
+]
+ignored error: Infinite glue shrinkage found in box being split [34
+
+] [35]
+[36
 
 ] (Rapport.aux)
  ***********
@@ -678,61 +803,68 @@ L3 programming layer <2025-12-24>
  ***********
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Rapport.out' has not changed.
-(rerunfilecheck)             Checksum: A654C5B3BB1C36C7C06D7010B4B3F3BC;12258.
+(rerunfilecheck)             Checksum: 3440DDB360C9D777051C101F7AC930CB;15868.
  ) 
 Here is how much of TeX's memory you used:
- 12680 strings out of 467871
- 193147 string characters out of 5418376
- 631542 words of memory out of 5000000
- 41246 multiletter control sequences out of 15000+600000
- 645811 words of font info for 81 fonts, out of 8000000 for 9000
+ 12850 strings out of 467871
+ 196658 string characters out of 5418376
+ 638375 words of memory out of 5000000
+ 41361 multiletter control sequences out of 15000+600000
+ 650872 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,631b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{figure.10} has been referenced but does not exist, 
-replaced by a fixed one
-
- <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx07
-00.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
-tcbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
-pi600\ecti0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappe
-n/ec/dpi600\ecrm0600.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/j
-knappen/ec/dpi600\ectt1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/lj
-four/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\flole\AppData\Local\MiKTeX
-\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\flole\AppData\Local\
-MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\flole\AppData\
-Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\flole\Ap
-pData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\fl
-ole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Us
-ers\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> 
-<C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx100
-0.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\e
-cti1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
-i600\ecbx1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen
-/ec/dpi600\ecbx2488.pk><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmex10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/flole/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/flole/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/flole/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/flol
-e/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Us
-ers/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb
-><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mr6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmr7.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmr8.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmsy10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (26 pages, 2109013 bytes).
+ 75i,10n,79p,778b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt
+0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\ecbx0700.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\tcbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ecti0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\flole\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\flole\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\flole\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0900.pk> <C:\Users\flole\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0900.pk> <C:\Users\flole\
+AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\
+flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\
+Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk
+> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1
+000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600
+\ecrm1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/
+dpi600\ecrm1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknapp
+en/ec/dpi600\ecbx1000.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/ljfour/
+jknappen/ec/dpi600\ecti1200.pk> <C:\Users\flole\AppData\Local\MiKTeX\fonts/pk/l
+jfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\flole\AppData\Local\MiKTeX\font
+s/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk><C:/Users/flole/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/flole/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/flole/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users
+/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><
+C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
+i6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmmi7.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmmi8.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmr10.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/flole/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/flole/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/flole/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/flole/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/fl
+ole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:
+/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5
+.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmsy6.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmsy7.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmsy8.pfb><C:/Users/flole/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/flole/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on Rapport.pdf (37 pages, 3451545 bytes).
 PDF statistics:
- 1235 PDF objects out of 1440 (max. 8388607)
- 137 named destinations out of 1000 (max. 500000)
- 454 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1619 PDF objects out of 1728 (max. 8388607)
+ 183 named destinations out of 1000 (max. 500000)
+ 603 words of extra memory for PDF output out of 10000 (max. 10000000)
 

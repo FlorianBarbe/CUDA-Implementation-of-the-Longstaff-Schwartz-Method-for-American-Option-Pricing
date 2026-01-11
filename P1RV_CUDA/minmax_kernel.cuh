@@ -1,3 +1,14 @@
+#pragma once
+
+#include <cuda_runtime.h>
+#include <device_functions.h>
+
+// Helper Indexation TIME-MAJOR : [t][path]
+__device__ __forceinline__ int idx_t_path(int t, int path, int N_paths) {
+  // t * N_paths + path
+  return t * N_paths + path;
+}
+
 __global__ void reduce_minmax_kernel(const float *__restrict__ d_paths,
                                      const float *__restrict__ d_payoff, int t,
                                      int N_steps, int N_paths,

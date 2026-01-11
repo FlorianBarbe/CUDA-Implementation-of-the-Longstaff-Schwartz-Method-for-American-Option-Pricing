@@ -1,0 +1,41 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|l|l|c|r|r|r|}
+\hline
+\textbf{Base} & \textbf{Architecture} & \textbf{Trajectoires} & \textbf{Prix (€)} & \textbf{Temps (ms)} & \textbf{Throughput (ops/s)} \\
+\hline
+\multicolumn{6}{c}{\textbf{N = 100 000}} \\
+\hline
+Monomiale & CPU Séquentiel & 100k & 5.586 & 261.96 & 0.4 M \\
+Monomiale & CPU OpenMP & 100k & 5.586 & 274.97 & 0.4 M \\
+Monomiale & GPU & 100k & 6.085 & 51.62 & 1.9 M \\
+Hermite & CPU Séquentiel & 100k & 5.586 & 265.94 & 0.4 M \\
+Hermite & CPU OpenMP & 100k & 5.586 & 266.81 & 0.4 M \\
+Hermite & GPU & 100k & 6.085 & 86.10 & 1.2 M \\
+Laguerre & CPU Séquentiel & 100k & 5.586 & 268.81 & 0.4 M \\
+Laguerre & CPU OpenMP & 100k & 5.586 & 265.83 & 0.4 M \\
+Laguerre & GPU & 100k & 6.085 & 93.17 & 1.1 M \\
+Chebyshev & CPU Séquentiel & 100k & 5.586 & 263.63 & 0.4 M \\
+Chebyshev & CPU OpenMP & 100k & 5.586 & 265.64 & 0.4 M \\
+Chebyshev & GPU & 100k & 3.805 & 103.02 & 1.0 M \\
+Cubique & CPU Séquentiel & 100k & 5.586 & 266.56 & 0.4 M \\
+Cubique & CPU OpenMP & 100k & 5.586 & 265.21 & 0.4 M \\
+\hline
+\multicolumn{6}{c}{\textbf{N = 1 000 000}} \\
+\hline
+Monomiale & CPU Séquentiel & 1M & 5.565 & 2653.88 & 0.4 M \\
+Monomiale & CPU OpenMP & 1M & 5.565 & 2688.26 & 0.4 M \\
+Hermite & CPU Séquentiel & 1M & 5.565 & 2672.32 & 0.4 M \\
+Hermite & CPU OpenMP & 1M & 5.565 & 2704.67 & 0.4 M \\
+Laguerre & CPU Séquentiel & 1M & 5.565 & 2710.66 & 0.4 M \\
+Laguerre & CPU OpenMP & 1M & 5.565 & 2841.14 & 0.4 M \\
+Chebyshev & CPU Séquentiel & 1M & 5.565 & 2633.49 & 0.4 M \\
+Chebyshev & CPU OpenMP & 1M & 5.565 & 2638.32 & 0.4 M \\
+Cubique & CPU Séquentiel & 1M & 5.565 & 2677.14 & 0.4 M \\
+Cubique & CPU OpenMP & 1M & 5.565 & 2628.52 & 0.4 M \\
+\hline
+\end{tabular}
+\caption{Comparaison de performance : Nouveau Solveur GPU Resident vs CPU}
+\label{tab:perf_resident}
+\end{table}

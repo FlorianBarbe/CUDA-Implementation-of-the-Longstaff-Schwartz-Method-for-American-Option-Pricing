@@ -11,6 +11,7 @@
 #include "lsmc.hpp"
 
 int main(int argc, char *argv[]) {
+  std::cout << "[DEBUG] NEW BUILD VERIFIED" << std::endl;
   // ================================
   // Paramètres du produit
   // ================================
