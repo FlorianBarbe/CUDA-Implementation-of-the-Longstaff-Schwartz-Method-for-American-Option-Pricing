@@ -663,8 +663,8 @@ Les résultats de benchmark avec 4 threads OpenMP confirment une amélioration d
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{images/openmp_scaling_1000000.png}
-        \caption{Passage à l'échelle OpenMP (N=1000000, 50 steps). Moyenne lissée sur 10 exécutions (min/max exclus).}
+        \includegraphics[width=\linewidth]{images/linearity_paths_omp.png}
+        \caption{Temps vs $N_{paths}$ (OpenMP 4 threads)}
         \label{fig:linearity_paths_omp}
     \end{minipage}
     \hfill
@@ -688,6 +688,39 @@ ce qui s’explique par :
 Néanmoins, OpenMP permet une réduction notable du temps de calcul, tout en conservant une implémentation relatively simple et portable.
 
 \textbf{Synthèse :} Le parallélisme OpenMP est efficace pour les phases \emph{compute-bound} (simulations) mais sature rapidement la bande passante mémoire lors des opérations vectorielles massives, plafonnant l'accélération bien en deçà du nombre de cœurs physiques.
+
+\subsubsection{Analyse du passage à l'échelle selon la taille du problème}
+
+La figure~\ref{fig:openmp_scaling_mosaic} illustre l'évolution du temps d'exécution en fonction du nombre de cœurs pour différentes tailles de problème. Pour de petits nombres de trajectoires (N=1000), le parallélisme n'apporte que peu de bénéfices car le temps de calcul est dominé par les synchronisations et le lancement des threads. En revanche, lorsque le problème grandit (N=100\,000 ou N=1\,000\,000), l'accélération devient très significative, bien qu'elle plafonne rapidement au-delà de 4-6 cœurs en raison de la saturation de la bande passante mémoire.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/openmp_scaling_1000.png}
+        \caption*{N=1\,000}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/openmp_scaling_10000.png}
+        \caption*{N=10\,000}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/openmp_scaling_100000.png}
+        \caption*{N=100\,000}
+    \end{minipage}
+    \\[1em]
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/openmp_scaling_1000000.png}
+        \caption*{N=1\,000\,000}
+    \end{minipage}
+    \caption{Passage à l'échelle OpenMP selon la taille du problème (moyenne lissée sur 10 exécutions, min/max exclus). L'accélération est négligeable pour les petits problèmes mais devient significative pour N$\geq$100\,000, avant de plafonner à cause de la bande passante mémoire.}
+    \label{fig:openmp_scaling_mosaic}
+\end{figure}
 
 \subsection{Accélération GPU avec CUDA}
 
