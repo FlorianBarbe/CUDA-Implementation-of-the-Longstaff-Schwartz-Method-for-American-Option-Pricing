@@ -7,11 +7,11 @@ import sys
 
 # Configuration
 EXECUTABLE_PATH = os.path.join("build", "Release", "P1RV_CUDA.exe")
-N_PATHS = 10000
+N_PATHS = 1000000
 N_STEPS = 50
 MODE = "omp"
 MAX_THREADS = 16
-OUTPUT_IMAGE = os.path.join("..", "Rapport", "images", "openmp_scaling_10000.png")
+OUTPUT_IMAGE = os.path.join("..", "Rapport", "images", "openmp_scaling_1000000.png")
 
 def run_benchmark_average(threads, exe_path, n_trials=10):
     times = []
