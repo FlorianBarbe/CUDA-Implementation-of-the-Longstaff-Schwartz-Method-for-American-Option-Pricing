@@ -421,6 +421,29 @@ Le projet est organisé de manière modulaire pour séparer les responsabilités
 
 Tous les benchmarks présentés dans cette section ont été réalisés sur une machine équipée d'un processeur \textbf{Intel® Core™ i7-13620H} (13ème génération) et d'une carte graphique \textbf{NVIDIA GeForce RTX 4060}. Cette dernière, basée sur l'architecture Ada Lovelace, dispose de \textbf{3072 cœurs CUDA} et de \textbf{8 Go de mémoire GDDR6}, offrant une puissance de calcul théorique adaptée aux simulations massivement parallèles.
 
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Propriété} & \textbf{Valeur} \\
+\hline
+Architecture & Ada Lovelace \\
+Compute Capability & 8.9 \\
+Mémoire totale & 8 Go GDDR6 \\
+Driver CUDA & 581.80 \\
+\hline
+Max threads par bloc & 1024 \\
+Max threads par SM & 1536 \\
+Taille de warp & 32 \\
+Max warps par SM & 48 \\
+Max blocs par SM & 16 \\
+\hline
+\end{tabular}
+\caption{Spécifications techniques du GPU RTX 4060 utilisé pour les benchmarks.}
+\label{tab:gpu_specs}
+\end{table}
+
 Cette section présente les résultats obtenus lors de l’exécution de l’algorithme
 de Longstaff--Schwartz selon les différentes architectures étudiées : CPU
 séquentiel, CPU parallélisé avec OpenMP et GPU via CUDA.  
