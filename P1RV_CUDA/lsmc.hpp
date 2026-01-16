@@ -41,6 +41,13 @@ public:
                       RegressionBasis basis = RegressionBasis::Monomial,
                       int poly_degree = 3, int block_size = 256);
 
+  // Overload to retrieve paths
+  static double
+  priceAmericanPutGPU(double S0, double K, double r, double sigma, double T,
+                      int N_steps, int N_paths, float* h_paths_out,
+                      RegressionBasis basis = RegressionBasis::Monomial,
+                      int poly_degree = 3, int block_size = 256);
+
 #endif
 };
 

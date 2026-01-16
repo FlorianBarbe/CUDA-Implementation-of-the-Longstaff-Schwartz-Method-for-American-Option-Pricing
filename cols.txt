@@ -1,1 +1,0 @@
-['mode', 'n_steps', 'n_paths', 'price_mean', 'price_std', 'time_ms', 'throughput_ops_sec', 'diff_fdm']

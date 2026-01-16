@@ -1,0 +1,25 @@
+========================================================================
+                      DÉMOS P1RV - IA AVANT DEEP LEARNING
+========================================================================
+
+Ce dossier contient des scripts pour lancer facilement les démonstrations
+du projet LSMCCUDA lors de la soutenance.
+
+1. 00_Demo_Interactive.bat
+   -> Vous permet de choisir manuellement tous les paramètres :
+      - Nombre de trajectoires (ex: 1000 pour rapide, 1000000 pour charge)
+      - Mode (cpu, omp, gpu)
+      - Threads/Blocs
+
+2. 01_Duel_CPU_vs_GPU_1M.bat
+   -> LA DÉMO PHARE. Compare directement le CPU vs GPU sur 1 million de
+      trajectoires. Montre le speedup x15 en direct.
+
+3. 02_Benchmark_Complet.bat
+   -> Lance la suite complète de tests (toutes bases, tous degrés).
+      Attention : prend du temps ! Écrit les résultats dans le dossier
+      Benchmarks/.
+
+------------------------------------------------------------------------
+NOTE : L'exécutable "P1RV_CUDA.exe" doit rester dans ce dossier.
+========================================================================

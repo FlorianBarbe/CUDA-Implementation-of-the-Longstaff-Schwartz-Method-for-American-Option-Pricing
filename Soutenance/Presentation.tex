@@ -1,0 +1,759 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Thème et couleurs
+\usetheme{default}
+\usecolortheme{default}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{eurosym}
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes, positioning}
+\usepackage{xcolor}
+\usepackage{multicol}
+
+% Couleurs personnalisées
+\definecolor{ecnblue}{RGB}{0,51,102}
+\definecolor{ecnred}{RGB}{153,0,0}
+\definecolor{ecngreen}{RGB}{0,102,51}
+
+% Configuration Beamer
+\setbeamercolor{frametitle}{fg=ecnblue}
+\setbeamercolor{title}{fg=ecnblue}
+\setbeamercolor{structure}{fg=ecnblue}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{
+    \leavevmode%
+    \hbox{%
+        \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}%
+            \hspace*{2ex}\insertshortauthor
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.5ex,dp=1ex,center]{title in head/foot}%
+            \insertshorttitle
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.5ex,dp=1ex,center]{date in head/foot}%
+            \insertshortdate
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.5ex,dp=1ex,right]{page number in head/foot}%
+            \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+        \end{beamercolorbox}%
+    }%
+    \vskip0pt%
+}
+
+% Informations du document
+\title[L'IA avant le DL : Pricing d'Options]{L'IA avant le Deep Learning : Évaluation d'Options Américaines avec l'Algorithme de Longstaff-Schwartz}
+\subtitle{Projet P1RV -- Centrale Nantes}
+\author{F. Barbe, N. El Manssouri}
+\date{Janvier 2026}
+
+\begin{document}
+
+% ==============================================================================
+% Slide 1 : Page de titre
+% ==============================================================================
+\begin{frame}
+    \titlepage
+    \begin{center}
+        \Acrobatmenu{FullScreen}{\beamerbutton{Lancer le Diaporama}}
+    \end{center}
+\end{frame}
+
+% ==============================================================================
+% Slide 2 : Sommaire
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Sommaire}}
+    \tableofcontents
+\end{frame}
+
+% ==============================================================================
+% Slide : L'IA avant le Deep Learning
+% ==============================================================================
+\section{1. L’IA avant le Deep Learning : Pourquoi ce choix ?}
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{1. L’IA avant le Deep Learning : Pourquoi ce choix ?}}
+    
+    \begin{columns}[T]
+        \begin{column}{0.6\textwidth}
+            \textbf{Positionnement du projet :}
+            \begin{itemize}
+                \item \textbf{LSMC} = \textit{Machine Learning} Supervisé (Régression).
+                \item Avant l'ère du Deep Learning (Réseaux de Neurones).
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Comparaison :}
+            \begin{itemize}
+                \item \textbf{Approche Classique (LSMC)} :
+                \begin{itemize}
+                    \item Feature Engineering explicite (Polynômes).
+                    \item Modèle linéaire, interprétable.
+                    \item Solution analytique (Moindres Carrés).
+                \end{itemize}
+                \item \textbf{Deep Learning} :
+                \begin{itemize}
+                    \item "Black Box", apprentissage de caractéristiques.
+                    \item Optimisation stochastique (Descente de gradient).
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \begin{beamercolorbox}[wd=\textwidth,sep=0.2cm,rounded=true,shadow=true]{block body}
+                \centering
+                \textbf{Pourquoi ce retour aux sources ?}
+                
+                \vspace{0.2cm}
+                
+                Comprendre les fondements mathématiques de l'approximation avant d'utiliser des boîtes noires.
+            \end{beamercolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{2. Le Problème de l’Option Américaine}
+
+% ==============================================================================
+% Slide : Contexte - Options Américaines
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{2.1. Options Américaines : Définition}}
+    
+    \begin{columns}[T]
+        \begin{column}{0.55\textwidth}
+            \textbf{Qu'est-ce qu'une option américaine ?}
+            \begin{itemize}
+                \item Droit d'acheter (Call) ou vendre (Put) un actif
+                \item À un prix fixé \textbf{(Strike $K$)}
+                \item \textcolor{ecnred}{\textbf{À tout moment}} avant maturité $T$
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Différence avec les options européennes :}
+            \begin{itemize}
+                \item Européenne : exercice uniquement à $T$
+                \item Américaine : flexibilité $\rightarrow$ prime supplémentaire
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth, height=0.55\textheight, keepaspectratio]{images/exercise_boundary.png}
+                
+                \footnotesize Frontière d'exercice optimal \\
+                \textit{\tiny (Axe X : Prix Sous-jacent $S_t$ | Axe Y : Valeur Option $V_t$)}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ==============================================================================
+% Slide : Modélisation Financière
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{2.2. Modélisation : Mouvement Brownien Géométrique}}
+    
+    \textbf{Mouvement Brownien Géométrique (GBM) :}
+    
+    \vspace{0.2cm}
+    
+    $$\mathrm{d}S_t = r S_t\,\mathrm{d}t + \sigma S_t\,\mathrm{d}W_t$$
+    
+    \vspace{0.2cm}
+    
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \textbf{Paramètres :}
+            \begin{itemize}
+                \item $S_0$ : Prix initial
+                \item $r$ : Taux sans risque
+                \item $\sigma$ : Volatilité
+                \item $W_t$ : Processus de Wiener
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.52\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth, height=0.5\textheight, keepaspectratio]{images/gbm_paths.png}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ==============================================================================
+% Slide : Le Problème
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{2.3. Le Problème Mathématique : Exercice Optimal}}
+    
+    \textbf{\textcolor{ecnred}{Problème}} : À chaque instant, faut-il exercer l'option ou attendre ?
+    
+    \vspace{0.4cm}
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{beamercolorbox}[wd=\textwidth,sep=0.3cm,rounded=true]{block body}
+                \textbf{Valeur intrinsèque}
+                $$\Phi(S_t) = \max(K - S_t, 0)$$
+                \small (pour un Put)
+            \end{beamercolorbox}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{beamercolorbox}[wd=\textwidth,sep=0.3cm,rounded=true]{block body}
+                \textbf{Valeur de continuation}
+                $$C(t, S_t) = \mathbb{E}[e^{-r\Delta t} V_{t+1} | S_t]$$
+                \small (espérance conditionnelle)
+            \end{beamercolorbox}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.4cm}
+    
+    \begin{center}
+        \textbf{Décision :} Exercer si $\Phi(S_t) \geq C(t, S_t)$
+        
+        \vspace{0.2cm}
+        
+        $\rightarrow$ \textcolor{ecnblue}{\textbf{Pas de solution analytique !}} $\rightarrow$ Méthodes numériques
+    \end{center}
+\end{frame}
+
+\section{3. L’Algorithme Longstaff-Schwartz (LSMC)}
+
+% ==============================================================================
+% Slide : L'Algorithme Longstaff-Schwartz (LSMC)
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{3.1. Principe de l'Algorithme LSMC}}
+    
+    \begin{columns}[T]
+        \begin{column}{0.55\textwidth}
+            \small
+            \textbf{Approche hybride Simulation / Régression :}
+            
+            \vspace{0.2cm}
+            
+            \begin{enumerate}
+                \item \textbf{Phase Forward (Simulation)} :
+                \newline On lance des milliers de trajectoires aléatoires du prix de l’actif. C’est la phase \textit{"Monte Carlo"}.
+                
+                \vspace{0.2cm}
+                
+                \item \textbf{Phase Backward (Apprentissage)} :
+                \newline \textit{C’est là que l’intelligence opère.} On remonte le temps, de la fin vers le début.
+                \begin{itemize}
+                    \item \textbf{Dilemme} : Comparer gain immédiat (connu) vs espérance de gain futur (inconnue).
+                    \item \textbf{Régression} : On utilise toutes les trajectoires pour construire une courbe (polynôme) qui prédit cette espérance.
+                    \item \textbf{Décision} : Si Gain immédiat $>$ Courbe $\rightarrow$ On exerce.
+                \end{itemize}
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.43\textwidth}
+            \begin{center}
+                \includegraphics[height=0.78\textheight]{images/Distributed-LSMC-algorithm-flow-chart.png}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ==============================================================================
+% Slide : Illustration LSMC
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{3.2. Illustration Visuelle du LSMC}}
+    \begin{center}
+        \includegraphics[width=\textwidth, height=0.8\textheight, keepaspectratio]{images/risks-11-00145-g001.png}
+        
+        \vspace{0.2cm}
+        \small\textit{Source : Visualisation des trajectoires et de la frontière d'exercice}
+    \end{center}
+\end{frame}
+
+\section{4. L’Interface Utilisateur}
+
+% ==============================================================================
+% Slide : Interface Utilisateur
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{4. L'Interface Utilisateur (GUI)}}
+    
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \textbf{Fonctionnalités principales :}
+            \vspace{0.5cm}
+            \begin{itemize}
+                \item Paramétrage complet ($S_0$, $K$, $r$, $\sigma$, $T$)
+                \item Console intégrée avec logs
+                \item Visualisation intuitive (100 trajectoires)
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth, height=0.7\textheight, keepaspectratio]{images/python_gui_1.jpg}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{4. L'Interface Utilisateur (GUI)}}
+    
+    \begin{center}
+        \includegraphics[width=0.8\textwidth, height=0.7\textheight, keepaspectratio]{images/python_gui_2.jpg}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Test de charge :} Visualisation fluide de 3000 trajectoires simultanées.
+    \end{center}
+\end{frame}
+
+\section{5. Architecture \& Implémentation}
+
+% ==============================================================================
+% Slide : Du CPU au GPU
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{5.1. Du CPU Séquentiel au GPU Massif}}
+    
+    \textbf{Approche incrémentale :}
+    
+    \begin{columns}[T]
+        \begin{column}{0.55\textwidth}
+            \begin{enumerate}
+                \item \textbf{CPU C++} : Valider la logique ("Vérité Terrain")
+                \item \textbf{OpenMP} : Parallélisme multi-cœurs
+                \item \textbf{CUDA (GPU)} : Parallélisme massif
+            \end{enumerate}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Pourquoi le GPU ?}
+            \begin{itemize}
+                \item Monte Carlo = \textit{"Embarrassingly Parallel"}
+                \item Chaque trajectoire est indépendante
+                \item 3072 cœurs CUDA (RTX 4060)
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \small
+            \textbf{Architecture logicielle :}
+            \begin{itemize}
+                \item Backend : C++/CUDA
+                \item Build : CMake
+                \item Frontend : GUI Python
+                \item Visualisation en temps réel
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ==============================================================================
+% Slide : Validations Linéarité
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{5.2. Validation de la Linéarité (Cohérence)}}
+    
+    \textbf{Vérification de la complexité algorithmique $O(N)$ :}
+    \vspace{0.2cm}
+    
+    \begin{columns}[T]
+        \begin{column}{0.33\textwidth}
+            \centering
+            \textbf{CPU Séquentiel}
+            \includegraphics[width=\textwidth]{images/linearity_paths.png}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \centering
+            \textbf{OpenMP}
+            \includegraphics[width=\textwidth]{images/linearity_paths_omp.png}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \centering
+            \textbf{GPU CUDA}
+            \includegraphics[width=\textwidth]{images/linearity_paths_gpu.png}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.3cm}
+    \small
+    \begin{itemize}
+        \item \textbf{Cohérence} : Temps d'exécution proportionnel au nombre de trajectoires (lignes droites).
+        \item Validation des 3 implémentations avant optimisation poussée.
+        \item \textbf{Amélioration} : Le coefficient directeur est de plus en plus petit $\rightarrow$ On valide l'accélération effective du calcul.
+    \end{itemize}
+\end{frame}
+
+\section{6. Le défi du GPU (Difficultés rencontrées)}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{6.1. Architecture GPU (Ada Lovelace)}}
+    
+    \begin{columns}[T]
+        \begin{column}{0.25\textwidth}
+            \tiny
+            \textbf{Streaming Multiprocessor (SM) :}
+            \vspace{0.2cm}
+            \begin{itemize}
+                \item \textbf{Unités de Calcul} :
+                \begin{itemize}
+                    \item Cœurs FP32/INT32.
+                    \item Tensor Cores (N/A).
+                \end{itemize}
+                
+                \item \textbf{Ordonnancement} :
+                \begin{itemize}
+                    \item \textbf{Warps} (32 threads).
+                    \item SIMT.
+                \end{itemize}
+                
+                \item \textbf{Mémoire} :
+                \begin{itemize}
+                    \item Registres (16K).
+                    \item Cache L1 (128 KB).
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.74\textwidth}
+            \begin{center}
+                \includegraphics[width=\linewidth, height=0.95\textheight, keepaspectratio]{images/ada_sm_architecture.png}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ==============================================================================
+% Slide : Le Défi du GPU
+% ==============================================================================
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{6.2. Le Défi du GPU (Difficultés rencontrées)}}
+    
+    \textbf{1. Le Paradoxe Algorithmique :}
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+             \textbf{\textcolor{ecngreen}{Parallélisme Spatial (OK)}}
+             \begin{itemize}
+                 \item Simulation "Embarrassingly Parallel"
+                 \item 1M de chemins simultanés (Force du GPU)
+             \end{itemize}
+        \end{column}
+        \begin{column}{0.50\textwidth}
+             \textbf{\textcolor{ecnred}{Dépendance Temporelle (Bloquant)}}
+             \begin{itemize}
+                 \item Backward Induction séquentiel ($t \rightarrow t-1$)
+                 \item Impossible de traiter $t-1$ avant la fin de $t$
+             \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.2cm}
+    
+    \begin{center}
+    \begin{tikzpicture}[scale=0.8]
+        % Axe temps
+        \draw[->, thick, gray] (0,0) -- (10,0) node[right] {\small Temps};
+        
+        % Trajectoires Parallèles
+        \foreach \y in {0.3,0.6,0.9} {
+            \draw[blue!60, thick] (0.5,\y) -- (4.9,\y);
+            \draw[blue!60, thick] (5.1,\y) -- (9.5,\y);
+        }
+        
+        % Barrière rouge
+        \draw[red, ultra thick] (5,-0.2) -- (5,1.2);
+        \node[red, font=\bfseries] at (5, 1.5) {Synchronisation};
+        
+        % Annotations
+        \node[blue!80, font=\footnotesize] at (2.5, 1.1) {Calcul Parallèle};
+        \node[blue!80, font=\footnotesize] at (7.5, 1.1) {Calcul Parallèle};
+        \node[black, font=\footnotesize, align=center] at (5, -0.6) {Régression Globale\\(Arrêt obligatoire)};
+    \end{tikzpicture}
+    \end{center}
+    
+    \vspace{0.1cm}
+    
+    \textbf{2. Difficulté Technique (Outillage) :}
+    \begin{itemize}
+        \item Échec intégration CUDA dans Visual Studio $\rightarrow$ Migration vers \textbf{CMake} (Plus robuste).
+    \end{itemize}
+\end{frame}
+
+\section{7. Résultats \& Performances}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{7.1. Comparaison des Performances}}
+    
+    \begin{center}
+    \small
+    \begin{tabular}{|l|c|c|c|r|r|}
+    \hline
+    \textbf{Mode} & \textbf{Pas (N)} & \textbf{Trajectoires (M)} & \textbf{Prix (\euro)} & \textbf{Temps (ms)} & \textbf{Écart/FDM} \\
+    \hline
+    FDM Implicite & 1000 & - & 6.067 & 0.67 & Ref \\
+    FDM Explicite & 1000 & - & 6.079 & 60.18 & +0.012 \\
+    FDM RK4 & 1000 & - & 6.079 & 231.88 & +0.012 \\
+    \hline
+    CPU Séquentiel & 50 & 100,000 & 6.057 & 559.91 & -0.010 \\
+    OpenMP & 50 & 100,000 & 6.057 & 540.23 & -0.010 \\
+    \textbf{GPU CUDA} & 50 & 100,000 & 6.070 & \textbf{41.96} & +0.003 \\
+    \hline
+    CPU Séquentiel & 50 & 1,000,000 & 6.059 & 6914.19 & -0.008 \\
+    OpenMP & 50 & 1,000,000 & 6.059 & 6562.99 & -0.008 \\
+    \textbf{GPU CUDA} & 50 & 1,000,000 & 6.047 & \textbf{455.63} & -0.020 \\
+    \hline
+    CPU Séquentiel & 50 & 5,000,000 & 6.057 & 35352.25 & -0.010 \\
+    \hline
+    \end{tabular}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \textbf{Speedup GPU :} $\times 15$ pour 1M trajectoires (455ms vs 6914ms)
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{7.2. Analyse des Résultats}}
+    
+    \begin{enumerate}
+        \item \textbf{Validité (Cohérence Mathématique)} :
+        \begin{itemize}
+            \item Convergence vers les prix déterministes (Différences Finies).
+            \item Écart minime (quelques centimes), validant la justesse de l'algorithme.
+        \end{itemize}
+        
+        \vspace{0.4cm}
+        
+        \item \textbf{Performance (Scalabilité)} :
+        \begin{itemize}
+            \item \textbf{Faible charge} : CPU suffisant pour peu de trajectoires.
+            \item \textbf{Haute charge (1M trajectoires)} : 
+            \begin{itemize}
+                \item CPU : $\approx 7$ secondes (Lent).
+                \item GPU : $\mathbf{0.45}$ \textbf{seconde} (Quasi-instantané).
+            \end{itemize}
+            \item \textbf{Facteur d'accélération : $\times 15$}.
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{7.3. Influence du choix de la base de régression linéaire (Graphique)}}
+    \begin{center}
+        \includegraphics[width=\textwidth, height=0.85\textheight, keepaspectratio]{images/precision_convergence_full.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{7.4. Influence du choix de la base de régression linéaire (Analyse)}}
+    
+
+    \begin{itemize}
+        \item \textbf{Comparaison des Bases} :
+        Test de 4 familles de polynômes (Monomiale, Laguerre, Hermite, Chebyshev).
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{Impact du Degré (2 à 9)} :
+        \begin{itemize}
+            \item \textbf{Stabilité} : Le prix calculé reste cohérent quel que soit le degré choisi.
+            \item Pas de sur-apprentissage notable ("Overfitting") observé ici.
+        \end{itemize}
+        
+        \item \textbf{Conclusion} : La méthode est robuste au choix des fonctions de base.
+        
+        \item \textbf{Contradiction Théorique} :
+        \textit{"Le temps devrait décroître en allure avec le degré"} (Théorie). Ce n'est pas observé, signalant une anomalie.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{7.5. Synthèse des Difficultés Rencontrées}}
+
+    \begin{itemize}
+        \item \textbf{Complexité Théorique} :
+        \begin{itemize}
+            \item Compréhension fine de l'\textit{Arrêt Optimal} (Exercice Anticipé).
+            \item Choix délicat de la base de régression (Compromis Biais-Variance, Phénomène de Runge).
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Défis Techniques} :
+        \begin{itemize}
+            \item \textbf{Intégration CUDA} : Échec sous Visual Studio $\rightarrow$ Migration complète vers \textbf{CMake}.
+            \item \textbf{Synchronisation GPU} : Barrière temporelle inévitable de la \textit{Backward Induction} (limite de la loi d'Amdahl).
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Méthodologie \& Apprentissage} :
+        \begin{itemize}
+            \item \textbf{Documentation Technique} : Investissement temps important pour maîtriser la documentation NVIDIA (Modèle mémoire, Warps) et CMake.
+            \item Refonte de l'architecture logicielle pour séparer proprement CPU (Logique) et GPU (Calcul).
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{7.6. Organisation \& Bilan Personnel}}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Chronologie du Projet ($5$ Phases) :}
+            \small
+            \begin{enumerate}
+                \item \textbf{Octobre} : Étude théorique LSMC \& Prototype CPU Séquentiel.
+                \item \textbf{Novembre} : Restructuration (Classes), Parallélisme OpenMP.
+                \item \textbf{Décembre} : Interface Python (GUI), Validation, Migration CMake, Implémentation CUDA ("Cœur Calcul").
+                \item \textbf{Janvier} : Optimisation fine, Benchmarks \& Rédaction.
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Investissement Personnel :}
+            
+            \vspace{0.2cm}
+            
+            \begin{itemize}
+                \item \textbf{Florian Barbe ($\approx$ 40h)} :
+                \begin{itemize}
+                    \item Architecture Technique (C++/CUDA).
+                    \item Optimisation Mémoire \& GPU.
+                    \item Gestion Build (CMake) \& Git.
+                \end{itemize}
+                
+                \vspace{0.2cm}
+                
+                \item \textbf{Narjisse El Manssouri ($\approx$ 35h)} :
+                \begin{itemize}
+                    \item Analyse Mathématique \& Modèle.
+                    \item Conception Interface Utilisateur (Python).
+                    \item Validation Théorique \& Rédaction.
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{8. Apports \& Perspectives (Conclusion)}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{8. Apports et Perspectives}}
+    
+    \small
+    \begin{itemize}
+        \item \textbf{Bilan Performance} :
+        \begin{itemize}
+            \item \textbf{Succès} : Validation d'un pricer performant ($\times 15$ sur GPU).
+            \item \textbf{Constat} : Gains OpenMP limités (Bande passante mémoire, cf. Annexes).
+        \end{itemize}
+
+        \vspace{0.1cm}
+
+        \item \textbf{Conclusion Structurelle (LSMC)} :
+        \begin{itemize}
+            \item \textbf{Paradoxe} : Parallélisme spatial excellent vs Blocage temporel inévitable.
+            \item L'accélération est intrinsèquement bornée par la \textit{backward induction} séquentielle.
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        
+        \item \textbf{Perspectives d'Avenir} :
+        \begin{itemize}
+            \item \textbf{HPC} : Approches hybrides (Batching d'options) pour saturer le GPU et contourner la barrière séquentielle.
+            \item \textbf{Comparaison} : Confrontation avec d'autres méthodes (Arbres de décision, Transformées de Fourier).
+            \item \textbf{IA Haute Dimension} : Remplacement des polynômes par des Réseaux de Neurones (Deep Learning) pour gérer les paniers d'actifs (50+).
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \Huge \textcolor{ecnblue}{\textbf{Merci de votre attention !}}
+        
+        \vspace{1cm}
+        
+        \Large \textit{Avez-vous des questions ?}
+    \end{center}
+\end{frame}
+
+% ==============================================================================
+% ANNEXES
+% ==============================================================================
+\appendix
+
+\section{Annexes}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Illustration LSMC}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/risks-11-00145-g001.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Convergence du Prix}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/precision_convergence_full.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Scalabilité OpenMP (N=1000)}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/openmp_scaling_1000.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Scalabilité OpenMP (N=10000)}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/openmp_scaling_10000.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Scalabilité OpenMP (N=100000)}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/openmp_scaling_100000.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Scalabilité OpenMP (N=1000000)}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/openmp_scaling_1000000.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Scalabilité OpenMP Raw (N=1000)}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/openmp_scaling_1000_raw.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe : Photo Projet}}
+    \begin{center}
+        \includegraphics[height=0.75\textheight]{images/Narjisse - 2026-01-11 09.59.30.jpg}
+    \end{center}
+\end{frame}
+
+\section*{Annexes}
+
+\begin{frame}
+    \frametitle{\textcolor{ecnblue}{Annexe A. Diagramme de Classes Simplifié}}
+    \centering
+    % Diagramme remplacé par version Mermaid (voir diagramme_classes.mermaid)
+    \begin{center}
+        \textit{(Voir fichier \texttt{diagramme\_classes.md} pour le diagramme de classes)}
+    \end{center}
+    % \begin{tikzpicture} ... \end{tikzpicture} (Code TikZ supprimé pour clarté)
+\end{frame}
+
+\end{document}

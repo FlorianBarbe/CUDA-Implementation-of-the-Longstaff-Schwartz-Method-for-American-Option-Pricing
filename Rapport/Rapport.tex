@@ -634,10 +634,6 @@ Lorsque le nombre de trajectoires augmente, la variance de l’estimateur décro
 conformément au taux théorique $\mathcal{O}(1/\sqrt{N_{\text{paths}}})$, ce qui
 confirme la bonne implémentation de l’algorithme LSMC sur les trois architectures.
 
-\paragraph{Analyse de la convergence.}
-Les résultats présentés plus tard dans la figure~\ref{fig:degree_convergence_full} tenteront d'illustrer l'impact du choix de la base de régression sur la précision de l'estimation,
-par rapport au prix RK4 de référence. Nous veillerons à mettre cette dynamique en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{Benguigui}).
-
 
 \subsection{Performances CPU séquentiel}
 
@@ -908,7 +904,7 @@ Afin d'affiner la capture de la valeur de continuation, nous avons étendu l'imp
 \end{enumerate}
 
 
-La figure 21 illustre l'impact du choix de la base de régression sur la précision de l'estimation.
+La figure~\ref{fig:degree_convergence_full} illustre l'impact du choix de la base de régression sur la précision de l'estimation.
 
 \begin{figure}[H]
     \centering
@@ -926,22 +922,17 @@ La figure 21 illustre l'impact du choix de la base de régression sur la précis
 
 \paragraph{Analyse de la convergence (Figure~\ref{fig:degree_convergence_full}).}
 
-\begin{itemize}
-    \item \textbf{Phénomène de Runge} : L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Benguigui}. Cependant, les degrés utilisés ici allant jusqu'à 10, ce phénomène reste modéré pour expliquer à lui seul les variations observées.
-    \item \textbf{Conditionnement de la matrice} : Pour des degrés élevés ($d > 5$), la matrice de Gram $A^T A$ devient mal conditionnée, en particulier pour la base Monomiale, ce qui amplifie les erreurs numériques lors de la résolution du système linéaire. Bien que les bases orthogonales (Laguerre, Hermite) soient censées atténuer ce problème, le bruit de Monte Carlo semble ici dominer les gains théoriques.
-    \item \textbf{Compromis Biais-Variance} : Augmenter le degré réduit le biais de modélisation (capacité à fitter la "vraie" fonction de continuation) mais augmente la variance de l'estimateur, car le modèle capture le bruit statistique des trajectoires (sur-apprentissage).
-\end{itemize}
-
 Les résultats présentés en figure~\ref{fig:degree_convergence_full} montrent l'évolution de l'erreur relative par rapport au prix RK4 de référence. Cette dynamique peut être mise en perspective avec la Figure~\ref{fig:basis_comparison} (issue de \cite{ArealParallelMethods}) qui illustre les attentes théoriques de convergence.
 Contrairement à l'intuition théorique qui suggère une amélioration monotone, les courbes observées ne présentent pas une décroissance régulière.
 Plusieurs facteurs peuvent expliquer ce comportement mitigé et "non concluant" sur ce cas test spécifique :
+
 \begin{itemize}
     \item \textbf{Phénomène de Runge :} L'utilisation de bases polynomiales de degré élevé sur des points non uniformément répartis (les trajectoires stochastiques) peut induire de fortes oscillations aux bords du domaine (valeurs extrêmes de $S_t$), dégradant la qualité globale de la régression \cite{Glasserman}.
     \item \textbf{Conditionnement de la matrice :} Pour des degrés élevés ($d > 5$), la matrice de Gram $A^T A$ devient mal conditionnée, en particulier pour la base Monomiale, ce qui amplifie les erreurs numériques lors de la résolution du système linéaire. Bien que les bases orthogonales (Laguerre, Hermite) soient censées atténuer ce problème, le bruit de Monte Carlo semble ici dominer les gains théoriques.
     \item \textbf{Compromis Biais-Variance :} Augmenter le degré réduit le biais de modélisation (capacité à fitter la "vraie" fonction de continuation) mais augmente la variance de l'estimateur, car le modèle capture le bruit statistique des trajectoires (sur-apprentissage).
-\item \textbf{Changement de référence :} Il serait également pertinent de comparer ces résultats avec des schémas d'Euler explicite ou implicite, la méthode RK4 pouvant présenter des instabilités dans certains régimes stochastiques.
-
+    \item \textbf{Changement de référence :} Il serait également pertinent de comparer ces résultats avec des schémas d'Euler explicite ou implicite, la méthode RK4 pouvant présenter des instabilités dans certains régimes stochastiques.
 \end{itemize}
+
 Ces observations soulignent la difficulté pratique d'obtenir une convergence "parfaite" avec des méthodes de régression globale sur des degrés élevés sans un nombre de trajectoires extrêmement grand ($N \gg 10^5$).
 
 
@@ -962,16 +953,29 @@ Le travail réalisé dans le cadre de ce projet a permis de mettre en œuvre une
 
 \subsection{Améliorations algorithmiques}
 
-Une première piste d’amélioration concerne le choix des fonctions de base utilisées pour l’approximation de la valeur de continuation. Dans ce projet, une base polynomiale simple de degré deux a été retenue pour des raisons de simplicité et de stabilité numérique. Il serait possible d’explorer :
+Une première piste d’amélioration concerne non pas le degré de la base polynomiale,
+mais la nature même de l’approximation utilisée pour estimer la valeur de
+continuation. Bien que différentes bases polynomiales aient été explorées au cours
+du projet, celles-ci montrent des gains limités au-delà d’un certain degré, ce qui
+suggère une limite structurelle des approximations globales dans un contexte
+stochastique bruité.
+
+Dans cette optique, plusieurs extensions méthodologiques pourraient être envisagées :
 \begin{itemize}
-    \item l'utilisation de méthodes de \textbf{Monte Carlo Multi-Niveaux (MLMC)} \cite{Ghodssi} pour réduire la variance et le coût de calcul;
-    \item la mise en œuvre de \textbf{régressions locales} (Local Least Squares) \cite{Detra}, permettant une meilleure capture des non-linéarités de la fonction de continuation;
-    \item l'exploration d'approches de \textbf{parallélisation temporelle} (type Parareal) \cite{Parareal} afin de surmonter la contrainte séquentielle de la backward induction.
+    \item l’intégration de méthodes de \textbf{Monte Carlo Multi-Niveaux (MLMC)}~\cite{Ghodssi}, permettant de réduire la variance et le coût de calcul en combinant des simulations de différentes résolutions temporelles ;
+    \item la mise en œuvre de \textbf{régressions locales} (Local Least Squares)~\cite{Detra}, plus adaptées à la capture de non-linéarités locales de la fonction de continuation ;
+    \item l’exploration d’approches de \textbf{parallélisation temporelle}, telles que les méthodes de type Parareal~\cite{Parareal}, visant à atténuer la contrainte séquentielle imposée par la backward induction, bien que leur intégration dans le cadre du LSMC reste non triviale.
 \end{itemize}
 
-Ces choix peuvent améliorer la précision de l’estimation de la valeur de continuation, au prix d’un coût de calcul plus élevé et d’un risque accru de sur-apprentissage.
+Ces approches offrent un potentiel d’amélioration de la précision et de l’efficacité
+de l’estimation de la valeur de continuation, au prix d’une complexité algorithmique
+accrue et d’un risque plus élevé de sur-apprentissage.
 
-Par ailleurs, l’utilisation de techniques de réduction de variance (antithetic variates, control variates, stratified sampling) pourrait significativement améliorer la convergence statistique de la méthode de Monte Carlo, en réduisant le nombre de trajectoires nécessaires pour atteindre une précision donnée.
+Par ailleurs, l’utilisation de techniques classiques de réduction de variance
+(antithetic variates, control variates, stratified sampling) constitue une piste
+complémentaire pertinente pour améliorer la convergence statistique de la méthode
+de Monte Carlo, en réduisant le nombre de trajectoires nécessaires pour atteindre
+une précision donnée.
 
 \subsection{Extensions du modèle financier}
 
@@ -1009,7 +1013,7 @@ Une telle approche permettrait de réduire encore les coûts de communication et
 
 \subsection{Perspectives méthodologiques}
 
-Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines. Comme illustré par la Figure~\ref{fig:binomial_tree}, il serait intéressant de confronter les performances du LSMC à :
+Enfin, ce projet ouvre la voie à des comparaisons plus larges entre différentes approches numériques pour le pricing d’options américaines, notamment :
 \begin{itemize}
     \item \textbf{les méthodes par arbres} (Binomiaux, Trinômiaux) : très utilisées pour leur flexibilité sur les options américaines (simple dimension);
     \item \textbf{les méthodes itératives} (Différences Finies) : qui résolvent l'EDP de Black-Scholes-Merton avec condition de frontière libre ($P \ge (K-S)^+$);
@@ -1076,9 +1080,19 @@ l’historique du dépôt Git :
 Cette approche incrémentale a permis de maintenir un code fonctionnel à chaque
 étape tout en introduisant progressivement des optimisations plus complexes.
 
-Dans la phase initiale du projet (dépôt \texttt{lsmc-openmp}), une interface graphique expérimentale a été développée en Python pour faciliter l'appropriation du modèle et le débogage visuel. Elle permettait de paramétrer la simulation ($S_0, K, r, \sigma, T$), de lancer l'exécutable C++ en arrière-plan et de visualiser dynamiquement les trajectoires exportées (Figure~\ref{fig:python_gui}).
+Dans une phase avancée du projet (dépôt \texttt{lsmc-openmp}), une interface graphique
+utilisateur a été développée en Python afin de faciliter la visualisation des
+résultats et la compréhension des mécanismes sous-jacents à l’algorithme LSMC.
+Cette interface permet de paramétrer la simulation (\(S_0, K, r, \sigma, T\)),
+de lancer l’exécutable C++ en arrière-plan et de visualiser dynamiquement les
+trajectoires Monte Carlo exportées (Figure~\ref{fig:python_gui}).
 
-Bien qu'abandonnée pour les benchmarks finaux au profit de scripts CLI plus adaptés au calcul haute performance, cette interface a joué un rôle pédagogique crucial pour valider notre compréhension de la diffusion du sous-jacent et du mécanisme de Monte Carlo.
+Conçue comme un outil d’aide à l’analyse et à la compréhension, cette interface
+ne vise pas à remplacer les scripts en ligne de commande utilisés pour les
+benchmarks de performance, mais constitue un support pédagogique essentiel.
+Elle a permis de valider le comportement de la diffusion du sous-jacent, d’explorer
+l’influence des paramètres du modèle et d’illustrer concrètement le fonctionnement
+des méthodes de Monte Carlo et de l’exercice anticipé.
 
 \begin{figure}[H]
     \centering

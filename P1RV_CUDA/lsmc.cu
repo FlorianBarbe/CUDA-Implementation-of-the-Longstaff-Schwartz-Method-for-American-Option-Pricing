@@ -440,6 +440,92 @@ double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
   return price;
 }
 
+double LSMC::priceAmericanPutGPU(double S0, double K, double r, double sigma,
+                                 double T, int N_steps, int N_paths,
+                                 float *h_paths_out, RegressionBasis basis,
+                                 int poly_degree, int block_size) {
+  GbmParams params;
+  params.S0 = (float)S0;
+  params.r = (float)r;
+  params.sigma = (float)sigma;
+  params.T = (float)T;
+  params.nSteps = N_steps;
+  params.nPaths = N_paths;
+
+  size_t nbPoints = (size_t)(N_steps + 1) * (size_t)N_paths;
+  float *d_paths = nullptr, *d_payoff = nullptr, *d_cashflows = nullptr;
+  double *d_sums = nullptr, *d_beta = nullptr;
+
+  CUDA_CHECK(cudaMalloc(&d_paths, nbPoints * sizeof(float)));
+  CUDA_CHECK(cudaMalloc(&d_payoff, nbPoints * sizeof(float)));
+  CUDA_CHECK(cudaMalloc(&d_cashflows, N_paths * sizeof(float)));
+  CUDA_CHECK(cudaMalloc(&d_sums, 80 * sizeof(double)));
+  CUDA_CHECK(cudaMalloc(&d_beta, 11 * sizeof(double)));
+
+  cudaStream_t stream = 0;
+  simulate_gbm_paths_cuda(params, RNGType::PseudoPhilox, d_paths, 1234ULL,
+                          stream);
+
+  // NEW: Copy paths back if requested
+  if (h_paths_out != nullptr) {
+    CUDA_CHECK(cudaMemcpy(h_paths_out, d_paths, nbPoints * sizeof(float),
+                          cudaMemcpyDeviceToHost));
+  }
+
+  int block = block_size;
+  int gridPay = (N_paths + block - 1) / block;
+  payoff_kernel<<<gridPay, block>>>(d_paths, d_payoff, (float)K, N_steps,
+                                    N_paths);
+  init_cashflows_kernel<<<gridPay, block>>>(d_payoff, d_cashflows, N_steps,
+                                            N_paths);
+
+  float dt = (float)T / (float)N_steps;
+  float discount = expf(-(float)r * dt);
+
+  int b_type = 0;
+  if (basis == RegressionBasis::Hermite)
+    b_type = 1;
+  else if (basis == RegressionBasis::Laguerre)
+    b_type = 2;
+  else if (basis == RegressionBasis::Chebyshev)
+    b_type = 3;
+
+  double min_S_hack = 0.0, max_S_hack = 1.0;
+
+  for (int t = N_steps - 1; t >= 1; --t) {
+    computeRegressionSumsGPU_ptr(d_paths, d_payoff, d_cashflows, t, N_steps,
+                                 N_paths, discount, d_sums, basis, poly_degree);
+
+    solve_system_kernel<<<1, 1>>>(d_sums, d_beta, poly_degree + 1);
+
+    update_cashflows_kernel_resident<<<gridPay, block>>>(
+        d_paths, d_payoff, d_cashflows, d_beta, discount, t, N_steps, N_paths,
+        b_type, poly_degree, min_S_hack, max_S_hack);
+  }
+
+  double *d_totalSum = nullptr;
+  CUDA_CHECK(cudaMalloc(&d_totalSum, sizeof(double)));
+  CUDA_CHECK(cudaMemset(d_totalSum, 0, sizeof(double)));
+
+  int gridRed = (N_paths + 256 - 1) / 256;
+  sum_reduce_kernel<<<gridRed, 256>>>(d_cashflows, d_totalSum, N_paths);
+
+  double totalSum = 0.0;
+  CUDA_CHECK(cudaMemcpy(&totalSum, d_totalSum, sizeof(double),
+                        cudaMemcpyDeviceToHost));
+
+  double price = (totalSum / (double)N_paths) * std::exp(-r * dt);
+
+  CUDA_CHECK(cudaFree(d_paths));
+  CUDA_CHECK(cudaFree(d_payoff));
+  CUDA_CHECK(cudaFree(d_cashflows));
+  CUDA_CHECK(cudaFree(d_sums));
+  CUDA_CHECK(cudaFree(d_beta));
+  CUDA_CHECK(cudaFree(d_totalSum));
+
+  return price;
+}
+
 // LEGACY WRAPPERS
 void computeRegressionSumsGPU(const float *d_paths, const float *d_payoff,
                               const float *d_cashflows, int t, int N_steps,

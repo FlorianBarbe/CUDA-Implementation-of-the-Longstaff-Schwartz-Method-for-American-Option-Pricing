@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  11 JAN 2026 13:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.10)  12 JAN 2026 18:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -247,6 +247,18 @@ Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 \c@LT@chunks=\count318
 \LT@p@ftn=\toks30
 )
+(C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box65
+\beforetitleunit=\skip60
+\aftertitleunit=\skip61
+\ttl@plus=\dimen173
+\ttl@minus=\dimen174
+\ttl@toksa=\toks31
+\titlewidth=\dimen175
+\titlewidthlast=\dimen176
+\titlewidthfirst=\dimen177
+)
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
 Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
 
@@ -304,7 +316,7 @@ ty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\@linkdim=\dimen173
+\@linkdim=\dimen178
 \Hy@linkcounter=\count321
 \Hy@pagecounter=\count322
  (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
@@ -334,7 +346,7 @@ Package hyperref Info: Bookmarks ON on input line 4462.
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4801.
-\XeTeXLinkMargin=\dimen174
+\XeTeXLinkMargin=\dimen179
 
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -345,8 +357,8 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
 \Fld@menulength=\count325
-\Field@Width=\dimen175
-\Fld@charsize=\dimen176
+\Field@Width=\dimen180
+\Fld@charsize=\dimen181
 Package hyperref Info: Hyper figures OFF on input line 6078.
 Package hyperref Info: Link nesting OFF on input line 6083.
 Package hyperref Info: Hyper index ON on input line 6086.
@@ -376,9 +388,9 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 84.
 )
-\Hy@SectionHShift=\skip60
+\Hy@SectionHShift=\skip62
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 28.
+Package hyperref Info: Option `colorlinks' set `true' on input line 30.
 
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
@@ -387,39 +399,39 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (Rapport.aux)
 \openout1 = `Rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count332
-\scratchdimen=\dimen177
-\scratchbox=\box65
+\scratchdimen=\dimen182
+\scratchbox=\box66
 \nofMPsegments=\count333
 \nofMParguments=\count334
-\everyMPshowfont=\toks31
+\everyMPshowfont=\toks32
 \MPscratchCnt=\count335
-\MPscratchDim=\dimen178
+\MPscratchDim=\dimen183
 \MPnumerator=\count336
 \makeMPintoPDFobject=\count337
-\everyMPtoPDFconversion=\toks32
+\everyMPtoPDFconversion=\toks33
 )
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -475,7 +487,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 Package color Info: Driver file: pdftex.def on input line 149.
 (C:\Users\flole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 )
-Package hyperref Info: Link coloring ON on input line 31.
+Package hyperref Info: Link coloring ON on input line 33.
  (Rapport.out) (Rapport.out)
 \@outlinefile=\write3
 \openout3 = `Rapport.out'.
@@ -497,48 +509,48 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.53 ...©solution de l'EDS du GBM}{31}{appendix.A}
+l.53 ...entsline {section}{Annexes}{36}{section.8}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `Rapport.toc'.
 
  [2] [3]
-Underfull \hbox (badness 5970) in paragraph at lines 104--105
+Underfull \hbox (badness 5970) in paragraph at lines 106--107
 []\T1/cmr/m/n/9 Tient stricte-ment (marché ef-fi-
  []
 
-<images/exercise_boundary.png, id=352, 632.3625pt x 410.53375pt>
+<images/exercise_boundary.png, id=350, 632.3625pt x 410.53375pt>
 File: images/exercise_boundary.png Graphic file (type png)
 <use images/exercise_boundary.png>
-Package pdftex.def Info: images/exercise_boundary.png  used on input line 119.
+Package pdftex.def Info: images/exercise_boundary.png  used on input line 121.
 (pdftex.def)             Requested size: 330.42041pt x 214.51237pt.
 [4 <./images/exercise_boundary.png>]
-<images/mouvement_brownien.png, id=366, 246.6816pt x 246.6816pt>
+<images/mouvement_brownien.png, id=364, 246.6816pt x 246.6816pt>
 File: images/mouvement_brownien.png Graphic file (type png)
 <use images/mouvement_brownien.png>
-Package pdftex.def Info: images/mouvement_brownien.png  used on input line 146.
+Package pdftex.def Info: images/mouvement_brownien.png  used on input line 148.
 
 (pdftex.def)             Requested size: 236.01561pt x 236.02118pt.
  [5 <./images/mouvement_brownien.png>]
-<images/gbm_paths.png, id=394, 853.1875pt x 549.05125pt>
+<images/gbm_paths.png, id=393, 853.1875pt x 549.05125pt>
 File: images/gbm_paths.png Graphic file (type png)
 <use images/gbm_paths.png>
-Package pdftex.def Info: images/gbm_paths.png  used on input line 175.
+Package pdftex.def Info: images/gbm_paths.png  used on input line 177.
 (pdftex.def)             Requested size: 330.42041pt x 212.63786pt.
 
 [6 <./images/gbm_paths.png>]
-Overfull \hbox (1.02188pt too wide) in paragraph at lines 218--219
+Overfull \hbox (1.02188pt too wide) in paragraph at lines 220--221
 []\T1/cmr/bx/n/10 Polynômes de Cheby-shev \T1/cmr/m/n/10 : Re-con-nus pour min-
 imiser l'erreur d'interpolation (phénomène de Runge),
  []
 
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 232.
+put line 234.
 [7] [8]
 <images/risks-11-00145-g001.png, id=433, 216.3282pt x 518.05545pt>
 File: images/risks-11-00145-g001.png Graphic file (type png)
 <use images/risks-11-00145-g001.png>
-Package pdftex.def Info: images/risks-11-00145-g001.png  used on input line 255
+Package pdftex.def Info: images/risks-11-00145-g001.png  used on input line 257
 .
 (pdftex.def)             Requested size: 204.42462pt x 489.52966pt.
  [9
@@ -549,12 +561,12 @@ Package pdftex.def Info: images/risks-11-00145-g001.png  used on input line 255
 File: images/Distributed-LSMC-algorithm-flow-chart.png Graphic file (type png)
 <use images/Distributed-LSMC-algorithm-flow-chart.png>
 Package pdftex.def Info: images/Distributed-LSMC-algorithm-flow-chart.png  used
- on input line 263.
+ on input line 265.
 (pdftex.def)             Requested size: 181.631pt x 489.52966pt.
  [10
 
  <./images/Distributed-LSMC-algorithm-flow-chart.png>]
-Overfull \hbox (5.71321pt too wide) in paragraph at lines 293--296
+Overfull \hbox (5.71321pt too wide) in paragraph at lines 295--298
 \T1/cmr/m/n/10 com-pat-i-ble CUDA. Les ex-péri-ences ont été con-duites en priv
 -ilé-giant la re-pro-ductibil-ité et la sta-bil-ité numérique. 
  []
@@ -562,257 +574,217 @@ Overfull \hbox (5.71321pt too wide) in paragraph at lines 293--296
 <images/openmp_fork_join.png, id=448, 853.1875pt x 461.725pt>
 File: images/openmp_fork_join.png Graphic file (type png)
 <use images/openmp_fork_join.png>
-Package pdftex.def Info: images/openmp_fork_join.png  used on input line 334.
+Package pdftex.def Info: images/openmp_fork_join.png  used on input line 336.
 (pdftex.def)             Requested size: 330.42041pt x 178.81795pt.
 [11]
 <images/gpu_memory_architecture.png, id=458, 475.7775pt x 750.805pt>
 File: images/gpu_memory_architecture.png Graphic file (type png)
 <use images/gpu_memory_architecture.png>
 Package pdftex.def Info: images/gpu_memory_architecture.png  used on input line
- 374.
-(pdftex.def)             Requested size: 377.62642pt x 595.94771pt.
- [12 <./images/openmp_fork_join.png>] [13 <./images/gpu_memory_architecture.png
->] [14] [15] [16] [17]
-<images/linearity_paths.png, id=513, 505.89pt x 361.35pt>
+ 376.
+(pdftex.def)             Requested size: 283.22162pt x 446.95792pt.
+ [12 <./images/openmp_fork_join.png>]
+<images/ada_sm_architecture.png, id=472, 1027.84pt x 578.16pt>
+File: images/ada_sm_architecture.png Graphic file (type png)
+<use images/ada_sm_architecture.png>
+Package pdftex.def Info: images/ada_sm_architecture.png  used on input line 383
+.
+(pdftex.def)             Requested size: 566.43604pt x 318.62416pt.
+
+Overfull \hbox (94.4048pt too wide) in paragraph at lines 383--384
+ [][] 
+ []
+
+[13 <./images/gpu_memory_architecture.png>] [14 <./images/ada_sm_architecture.p
+ng>] [15] [16] [17] [18]
+<images/linearity_paths.png, id=522, 505.89pt x 361.35pt>
 File: images/linearity_paths.png Graphic file (type png)
 <use images/linearity_paths.png>
-Package pdftex.def Info: images/linearity_paths.png  used on input line 634.
+Package pdftex.def Info: images/linearity_paths.png  used on input line 657.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps.png, id=514, 505.89pt x 361.35pt>
+<images/linearity_steps.png, id=523, 505.89pt x 361.35pt>
 File: images/linearity_steps.png Graphic file (type png)
 <use images/linearity_steps.png>
-Package pdftex.def Info: images/linearity_steps.png  used on input line 641.
+Package pdftex.def Info: images/linearity_steps.png  used on input line 664.
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_paths_omp.png, id=515, 505.89pt x 361.35pt>
+<images/linearity_paths_omp.png, id=524, 505.89pt x 361.35pt>
 File: images/linearity_paths_omp.png Graphic file (type png)
 <use images/linearity_paths_omp.png>
-Package pdftex.def Info: images/linearity_paths_omp.png  used on input line 666
+Package pdftex.def Info: images/linearity_paths_omp.png  used on input line 689
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps_omp.png, id=516, 505.89pt x 361.35pt>
+<images/linearity_steps_omp.png, id=525, 505.89pt x 361.35pt>
 File: images/linearity_steps_omp.png Graphic file (type png)
 <use images/linearity_steps_omp.png>
-Package pdftex.def Info: images/linearity_steps_omp.png  used on input line 673
+Package pdftex.def Info: images/linearity_steps_omp.png  used on input line 696
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
- [18 <./images/linearity_paths.png> <./images/linearity_steps.png> <./images/li
-nearity_paths_omp.png> <./images/linearity_steps_omp.png>]
-<images/linearity_paths_gpu.png, id=531, 505.89pt x 361.35pt>
+ [19 <./images/linearity_paths.png> <./images/linearity_steps.png>]
+<images/openmp_scaling_1000.png, id=535, 722.7pt x 433.62pt>
+File: images/openmp_scaling_1000.png Graphic file (type png)
+<use images/openmp_scaling_1000.png>
+Package pdftex.def Info: images/openmp_scaling_1000.png  used on input line 722
+.
+(pdftex.def)             Requested size: 151.05345pt x 90.63281pt.
+<images/openmp_scaling_10000.png, id=536, 722.7pt x 433.62pt>
+File: images/openmp_scaling_10000.png Graphic file (type png)
+<use images/openmp_scaling_10000.png>
+Package pdftex.def Info: images/openmp_scaling_10000.png  used on input line 72
+8.
+(pdftex.def)             Requested size: 151.05345pt x 90.63281pt.
+<images/openmp_scaling_100000.png, id=537, 722.7pt x 433.62pt>
+File: images/openmp_scaling_100000.png Graphic file (type png)
+<use images/openmp_scaling_100000.png>
+Package pdftex.def Info: images/openmp_scaling_100000.png  used on input line 7
+34.
+(pdftex.def)             Requested size: 151.05345pt x 90.63281pt.
+<images/openmp_scaling_1000000.png, id=538, 722.7pt x 433.62pt>
+File: images/openmp_scaling_1000000.png Graphic file (type png)
+<use images/openmp_scaling_1000000.png>
+Package pdftex.def Info: images/openmp_scaling_1000000.png  used on input line 
+740.
+(pdftex.def)             Requested size: 226.57297pt x 135.9426pt.
+ [20 <./images/linearity_paths_omp.png> <./images/linearity_steps_omp.png>]
+<images/linearity_paths_gpu.png, id=550, 505.89pt x 361.35pt>
 File: images/linearity_paths_gpu.png Graphic file (type png)
 <use images/linearity_paths_gpu.png>
-Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 707
+Package pdftex.def Info: images/linearity_paths_gpu.png  used on input line 762
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
-<images/linearity_steps_gpu.png, id=532, 505.89pt x 361.35pt>
+<images/linearity_steps_gpu.png, id=551, 505.89pt x 361.35pt>
 File: images/linearity_steps_gpu.png Graphic file (type png)
 <use images/linearity_steps_gpu.png>
-Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 714
+Package pdftex.def Info: images/linearity_steps_gpu.png  used on input line 769
 .
 (pdftex.def)             Requested size: 226.57297pt x 161.83958pt.
- [19 <./images/linearity_paths_gpu.png> <./images/linearity_steps_gpu.png>] [20
-]
-Overfull \hbox (24.14883pt too wide) in paragraph at lines 790--790
+ [21 <./images/openmp_scaling_1000.png> <./images/openmp_scaling_10000.png> <./
+images/openmp_scaling_100000.png> <./images/openmp_scaling_1000000.png>]
+<images/gpu_block_size_scaling.png, id=564, 722.7pt x 433.62pt>
+File: images/gpu_block_size_scaling.png Graphic file (type png)
+<use images/gpu_block_size_scaling.png>
+Package pdftex.def Info: images/gpu_block_size_scaling.png  used on input line 
+811.
+(pdftex.def)             Requested size: 377.62642pt x 226.57542pt.
+ [22 <./images/linearity_paths_gpu.png> <./images/linearity_steps_gpu.png>]
+[23 <./images/gpu_block_size_scaling.png>] [24]
+Overfull \hbox (24.14883pt too wide) in paragraph at lines 859--859
 [][][][][]$\T1/cmtt/m/n/8 https : / / github . com / FlorianBarbe / CUDA-[]Impl
 ementation-[]of-[]the-[]Longstaff-[]Schwartz-[]Method-[]for-[]American-[]Option
 -[]Pricing$[][]| 
  []
 
-[21]
-<images/precision_convergence_full.png, id=561, 1078.7502pt x 571.6557pt>
+[25]
+<images/precision_convergence_full.png, id=599, 1078.7502pt x 571.6557pt>
 File: images/precision_convergence_full.png Graphic file (type png)
 <use images/precision_convergence_full.png>
 Package pdftex.def Info: images/precision_convergence_full.png  used on input l
-ine 842.
+ine 911.
 (pdftex.def)             Requested size: 472.03123pt x 250.14236pt.
-<images/Capture d'Ã©cran 2026-01-10 160639.png, id=562, 980.91469pt x 412.54124
-pt>
-File: images/Capture d'Ã©cran 2026-01-10 160639.png Graphic file (type png)
-<use images/Capture d'Ã©cran 2026-01-10 160639.png>
-Package pdftex.def Info: images/Capture d'Ã©cran 2026-01-10 160639.png  used on
- input line 849.
+<images/convergence_theorique_areal.png, id=600, 980.91469pt x 412.54124pt>
+File: images/convergence_theorique_areal.png Graphic file (type png)
+<use images/convergence_theorique_areal.png>
+Package pdftex.def Info: images/convergence_theorique_areal.png  used on input 
+line 918.
 (pdftex.def)             Requested size: 472.03123pt x 198.52113pt.
- [22 <./images/precision_convergence_full.png>] [23 <./images/Capture d'Ã©cran 
-2026-01-10 160639.png>]
-
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.884     \item l
-                 'utilisation de mÃ©thodes de \textbf{Monte Carlo Multi-Nive...
-
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \hbox (badness 10000) detected at line 884
-[][]
- []
-
-
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.885     \item l
-                 a mise en Å“uvre de \textbf{rÃ©gressions locales} (Local Le...
-
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \hbox (badness 10000) detected at line 885
-[][]
- []
-
-
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.886     \item l
-                 'exploration d'approches de \textbf{parallÃ©lisation tempor...
-
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \hbox (badness 10000) detected at line 886
-[][]
- []
-
-
-! LaTeX Error: \begin{document} ended by \end{itemize}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.887 \end{itemize}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Extra \endgroup.
-\end  ...end#1\endcsname \@checkend {#1}\endgroup 
-                                                  \UseHook {env/#1/after}\if...
-l.887 \end{itemize}
-                   
-Things are pretty mixed up, but I think the worst is over.
-
-[24]
-
-LaTeX Warning: Reference `fig:methods_comparison' on page 25 undefined on input
- line 929.
-
-<images/binomial_tree.png, id=602, 551.05875pt x 283.0575pt>
+ [26 <./images/precision_convergence_full.png>] [27 <./images/convergence_theor
+ique_areal.png>] [28]
+<images/binomial_tree.png, id=639, 551.05875pt x 283.0575pt>
 File: images/binomial_tree.png Graphic file (type png)
 <use images/binomial_tree.png>
-Package pdftex.def Info: images/binomial_tree.png  used on input line 938.
+Package pdftex.def Info: images/binomial_tree.png  used on input line 1025.
 (pdftex.def)             Requested size: 330.42041pt x 169.73213pt.
-[25 <./images/binomial_tree.png>]
-<images/python_gui_1.jpg, id=610, 1027.84pt x 539.01375pt>
+ [29 <./images/binomial_tree.png>]
+<images/python_gui_1.jpg, id=647, 1027.84pt x 539.01375pt>
 File: images/python_gui_1.jpg Graphic file (type jpg)
 <use images/python_gui_1.jpg>
-Package pdftex.def Info: images/python_gui_1.jpg  used on input line 1002.
+Package pdftex.def Info: images/python_gui_1.jpg  used on input line 1099.
 (pdftex.def)             Requested size: 472.03123pt x 247.53809pt.
- [26]
-<images/python_gui_2.jpg, id=616, 1027.84pt x 531.9875pt>
+ [30]
+<images/python_gui_2.jpg, id=654, 1027.84pt x 531.9875pt>
 File: images/python_gui_2.jpg Graphic file (type jpg)
 <use images/python_gui_2.jpg>
-Package pdftex.def Info: images/python_gui_2.jpg  used on input line 1009.
+Package pdftex.def Info: images/python_gui_2.jpg  used on input line 1106.
 (pdftex.def)             Requested size: 472.03123pt x 244.31134pt.
- [27 <./images/python_gui_1.jpg> <./images/python_gui_2.jpg>] [28] [29]
-Overfull \hbox (4.66158pt too wide) in paragraph at lines 1109--1110
+ [31 <./images/python_gui_1.jpg> <./images/python_gui_2.jpg>] [32] [33] [34]
+Overfull \hbox (4.66158pt too wide) in paragraph at lines 1206--1207
 []\T1/cmr/m/n/10 La val-i-da-tion croisée avec des méth-odes déter-min-istes de
  dif-férences finies a con-firmé la co-hérence numérique
  []
 
-[30] [31
+[35] [36
 
-] [32
-
-]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1237.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1237.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1237.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1245.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1245.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1245.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1253.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1253.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1253.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1261.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1261.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1261.
-
-[33
+] [37
 
 ]
-ignored error: Infinite glue shrinkage found in box being split [34
 
-] [35]
-[36
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1336.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1336.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1336.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1344.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1344.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1344.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1352.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1352.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1352.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1360.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1360.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1360.
+
+[38
+
+]
+ignored error: Infinite glue shrinkage found in box being split [39
+
+] [40]
+[41
 
 ] (Rapport.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `Rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 3440DDB360C9D777051C101F7AC930CB;15868.
+(rerunfilecheck)             Checksum: 2B839CD3E86D018A3B2B048D5E96E2A9;15673.
  ) 
 Here is how much of TeX's memory you used:
- 12850 strings out of 467871
- 196658 string characters out of 5418376
- 638375 words of memory out of 5000000
- 41361 multiletter control sequences out of 15000+600000
+ 13205 strings out of 467871
+ 202446 string characters out of 5418376
+ 643336 words of memory out of 5000000
+ 41703 multiletter control sequences out of 15000+600000
  650872 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,10n,79p,778b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -862,9 +834,9 @@ s/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/flole/AppData/Local/Programs/MiK
 TeX/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/flole/AppData/Local/Progra
 ms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/flole/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Rapport.pdf (37 pages, 3451545 bytes).
+Output written on Rapport.pdf (42 pages, 4376170 bytes).
 PDF statistics:
- 1619 PDF objects out of 1728 (max. 8388607)
- 183 named destinations out of 1000 (max. 500000)
- 603 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1664 PDF objects out of 1728 (max. 8388607)
+ 192 named destinations out of 1000 (max. 500000)
+ 633 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,9 @@
+build/
+.vscode/
+.clangd/
+__pycache__/
+*.suo
+*.user
+*.pdb
+*.obj
+*.exe

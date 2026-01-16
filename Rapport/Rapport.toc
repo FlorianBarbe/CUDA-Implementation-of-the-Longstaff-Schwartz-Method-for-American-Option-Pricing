@@ -14,55 +14,56 @@
 \contentsline {subsection}{\numberline {3.3}Parallélisation CPU avec OpenMP}{11}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Accélération GPU avec CUDA}{12}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Méthodes de Différences Finies (FDM) pour comparaison}{14}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{14}{subsection.3.6}%
-\contentsline {section}{\numberline {4}Résultats et analyse des performances}{15}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Configuration matérielle}{15}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Première approche : comparaison des méthodes de parallélisme}{15}{subsection.4.2}%
-\contentsline {paragraph}{Analyse des résultats :}{15}{section*.2}%
-\contentsline {subsection}{\numberline {4.3}Pour aller plus loin : analyse de l'impact de la base de régression}{15}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Validation numérique}{17}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1}Analyse de la convergence (Figure 14)}{17}{subsubsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.5}Performances CPU séquentiel}{17}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Accélération par parallélisation CPU avec OpenMP}{18}{subsection.4.6}%
-\contentsline {subsection}{\numberline {4.7}Accélération GPU avec CUDA}{19}{subsection.4.7}%
-\contentsline {subsection}{\numberline {4.8}Comparaison globale des architectures}{20}{subsection.4.8}%
-\contentsline {subsection}{\numberline {4.9}Discussion sur les limites du parallélisme}{20}{subsection.4.9}%
-\contentsline {section}{\numberline {5}Analyse Critique et Limitations}{21}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{21}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Échec de l'intégration CUDA dans Visual Studio}{21}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{21}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{21}{subsection.5.4}%
-\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{22}{section*.3}%
-\contentsline {paragraph}{Extensions et bases avancées.}{22}{section*.4}%
-\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{23}{section*.5}%
-\contentsline {subsection}{\numberline {5.5}Compromis précision--performance}{23}{subsection.5.5}%
-\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{24}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{24}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{24}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{24}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{25}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{25}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Organisation du travail}{25}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Découpage du projet}{26}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{26}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{27}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Retours d'expérience et témoignages}{28}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Outils et environnement collaboratif}{29}{subsection.7.5}%
-\contentsline {subsection}{\numberline {7.6}Gestion du temps et avancement}{29}{subsection.7.6}%
-\contentsline {section}{\numberline {8}Conclusion}{30}{section.8}%
-\contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{31}{appendix.A}%
-\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{32}{appendix.B}%
-\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{32}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{32}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{32}{subsection.B.3}%
-\contentsline {section}{\numberline {C}Propriétés des Bases Polynomiales et Relations de Récurrence}{33}{appendix.C}%
-\contentsline {subsection}{\numberline {C.1}Base Canonique (Monomiale)}{33}{subsection.C.1}%
-\contentsline {subsection}{\numberline {C.2}Polynômes de Laguerre $L_n(x)$}{33}{subsection.C.2}%
-\contentsline {subsection}{\numberline {C.3}Polynômes d'Hermite $H_n(x)$}{33}{subsection.C.3}%
-\contentsline {subsection}{\numberline {C.4}Polynômes de Legendre $P_n(x)$}{33}{subsection.C.4}%
-\contentsline {subsection}{\numberline {C.5}Polynômes de Chebyshev (1ère espèce) $T_n(x)$}{33}{subsection.C.5}%
-\contentsline {section}{\numberline {D}Notations et Conventions}{34}{appendix.D}%
-\contentsline {subsection}{\numberline {D.1}Probabilités et Processus Stochastiques}{34}{subsection.D.1}%
-\contentsline {subsection}{\numberline {D.2}Modélisation Financière}{34}{subsection.D.2}%
-\contentsline {subsection}{\numberline {D.3}Méthodes Numériques (LSMC)}{34}{subsection.D.3}%
-\contentsline {subsection}{\numberline {D.4}Implémentation et Architecture}{35}{subsection.D.4}%
+\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{15}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Résultats et analyse des performances}{16}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Configuration matérielle}{16}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Première approche : comparaison des méthodes de parallélisme}{16}{subsection.4.2}%
+\contentsline {paragraph}{Analyse des résultats :}{16}{paragraph*.1}%
+\contentsline {subsection}{\numberline {4.3}Pour aller plus loin : analyse de l'impact de la base de régression}{17}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Validation numérique}{18}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Performances CPU séquentiel}{18}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Accélération par parallélisation CPU avec OpenMP}{19}{subsection.4.6}%
+\contentsline {paragraph}{Analyse du passage à l'échelle selon la taille du problème.}{20}{paragraph*.2}%
+\contentsline {subsection}{\numberline {4.7}Accélération GPU avec CUDA}{21}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Comparaison globale des architectures}{23}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Discussion sur les limites du parallélisme}{23}{subsection.4.9}%
+\contentsline {section}{\numberline {5}Analyse Critique et Limitations}{25}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{25}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Échec de l'intégration CUDA dans Visual Studio}{25}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{25}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{26}{subsection.5.4}%
+\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{26}{paragraph*.3}%
+\contentsline {paragraph}{Extensions et bases avancées.}{26}{paragraph*.4}%
+\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{27}{paragraph*.5}%
+\contentsline {subsection}{\numberline {5.5}Compromis précision--performance}{27}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{28}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{28}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{28}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{28}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{29}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{29}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Organisation du travail}{30}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Découpage du projet}{30}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{30}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{32}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Retours d'expérience et témoignages}{32}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Outils et environnement collaboratif}{33}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Gestion du temps et avancement}{33}{subsection.7.6}%
+\contentsline {section}{\numberline {8}Conclusion}{35}{section.8}%
+\contentsline {section}{Annexes}{36}{section.8}%
+\contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{36}{appendix.A}%
+\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{37}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{37}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{37}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{37}{subsection.B.3}%
+\contentsline {section}{\numberline {C}Propriétés des Bases Polynomiales et Relations de Récurrence}{38}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Base Canonique (Monomiale)}{38}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Polynômes de Laguerre $L_n(x)$}{38}{subsection.C.2}%
+\contentsline {subsection}{\numberline {C.3}Polynômes d'Hermite $H_n(x)$}{38}{subsection.C.3}%
+\contentsline {subsection}{\numberline {C.4}Polynômes de Legendre $P_n(x)$}{38}{subsection.C.4}%
+\contentsline {subsection}{\numberline {C.5}Polynômes de Chebyshev (1ère espèce) $T_n(x)$}{38}{subsection.C.5}%
+\contentsline {section}{\numberline {D}Notations et Conventions}{39}{appendix.D}%
+\contentsline {subsection}{\numberline {D.1}Probabilités et Processus Stochastiques}{39}{subsection.D.1}%
+\contentsline {subsection}{\numberline {D.2}Modélisation Financière}{39}{subsection.D.2}%
+\contentsline {subsection}{\numberline {D.3}Méthodes Numériques (LSMC)}{39}{subsection.D.3}%
+\contentsline {subsection}{\numberline {D.4}Implémentation et Architecture}{40}{subsection.D.4}%

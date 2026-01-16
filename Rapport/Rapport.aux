@@ -19,6 +19,7 @@
 \pp@pagectr{footnote}{3}{7}{6}
 \pp@pagectr{footnote}{4}{7}{6}
 \pp@pagectr{footnote}{5}{7}{6}
+\pp@pagectr{footnote}{6}{7}{6}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Exemples de trajectoires de Mouvement Brownien Géométrique.}}{6}{figure.3}\protected@file@percent }
 \newlabel{fig:gbm_paths}{{3}{6}{Exemples de trajectoires de Mouvement Brownien Géométrique}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Discrétisation temporelle}{6}{subsubsection.2.2.2}\protected@file@percent }
@@ -32,7 +33,7 @@
 \newlabel{fig:lsmc_diagram_new}{{4}{9}{Illustration schématique de la méthode LSMC : Régression sur les trajectoires In-The-Money}{figure.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Flux de l'algorithme LSMC : Simulation parallèle vs Régression séquentielle.}}{10}{figure.5}\protected@file@percent }
 \newlabel{fig:lsmc_flow}{{5}{10}{Flux de l'algorithme LSMC : Simulation parallèle vs Régression séquentielle}{figure.5}{}}
-\pp@pagectr{footnote}{6}{11}{10}
+\pp@pagectr{footnote}{7}{11}{10}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Travail réalisé : implémentation et méthodologie}{11}{section.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Environnement de développement}{11}{subsection.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Implémentation CPU séquentielle}{11}{subsection.3.2}\protected@file@percent }
@@ -42,107 +43,119 @@
 \citation{Benguigui}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Illustration du modèle d'exécution Fork-Join utilisé par OpenMP (Source : Fork-Join model for OpenMP parallelisation).}}{12}{figure.6}\protected@file@percent }
 \newlabel{fig:openmp_fork_join}{{6}{12}{Illustration du modèle d'exécution Fork-Join utilisé par OpenMP (Source : Fork-Join model for OpenMP parallelisation)}{figure.6}{}}
-\pp@pagectr{footnote}{7}{13}{12}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Accélération GPU avec CUDA}{12}{subsection.3.4}\protected@file@percent }
 \pp@pagectr{footnote}{8}{13}{12}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Accélération GPU avec CUDA}{12}{subsection.3.4}\protected@file@percent }
+\pp@pagectr{footnote}{9}{13}{12}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Découpage logique de la mémoire et des threads d'un GPU (Architecture CUDA) \cite  {Benguigui}.}}{13}{figure.7}\protected@file@percent }
 \newlabel{fig:gpu_memory}{{7}{13}{Découpage logique de la mémoire et des threads d'un GPU (Architecture CUDA) \cite {Benguigui}}{figure.7}{}}
 \citation{Hull}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Architecture d'un Streaming Multiprocessor (SM) Ada Lovelace. Chaque SM contient 4 partitions avec des unités FP32/INT32, des Tensor Cores de 4ème génération, 128 Ko de cache L1/mémoire partagée, et un RT Core de 3ème génération.}}{14}{figure.8}\protected@file@percent }
+\newlabel{fig:ada_sm}{{8}{14}{Architecture d'un Streaming Multiprocessor (SM) Ada Lovelace. Chaque SM contient 4 partitions avec des unités FP32/INT32, des Tensor Cores de 4ème génération, 128 Ko de cache L1/mémoire partagée, et un RT Core de 3ème génération}{figure.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Méthodes de Différences Finies (FDM) pour comparaison}{14}{subsection.3.5}\protected@file@percent }
-\pp@pagectr{footnote}{9}{15}{14}
 \pp@pagectr{footnote}{10}{15}{14}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{14}{subsection.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Résultats et analyse des performances}{15}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Configuration matérielle}{15}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Première approche : comparaison des méthodes de parallélisme}{15}{subsection.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma =0.2, T=1$). (Matériel : i7-13620H + RTX 4060)}}{15}{table.2}\protected@file@percent }
-\newlabel{tab:results}{{2}{15}{Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma =0.2, T=1$). (Matériel : i7-13620H + RTX 4060)}{table.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Analyse des résultats :}{15}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Pour aller plus loin : analyse de l'impact de la base de régression}{15}{subsection.4.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Benchmarks "Boosted" complets : Impact du choix de la base et de l'architecture. (Matériel : i7-13620H + RTX 4060)}}{16}{table.3}\protected@file@percent }
-\newlabel{tab:boosted}{{3}{16}{Benchmarks "Boosted" complets : Impact du choix de la base et de l'architecture. (Matériel : i7-13620H + RTX 4060)}{table.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Comparaison de performance : Nouveau Solveur GPU "Full" vs Standard (N=100k)}}{16}{table.4}\protected@file@percent }
-\newlabel{tab:perf_resident}{{4}{16}{Comparaison de performance : Nouveau Solveur GPU "Full" vs Standard (N=100k)}{table.4}{}}
+\pp@pagectr{footnote}{11}{16}{15}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Structure du code et organisation des fichiers}{15}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Résultats et analyse des performances}{16}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Configuration matérielle}{16}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Spécifications techniques du GPU RTX 4060 utilisé pour les benchmarks.}}{16}{table.2}\protected@file@percent }
+\newlabel{tab:gpu_specs}{{2}{16}{Spécifications techniques du GPU RTX 4060 utilisé pour les benchmarks}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Première approche : comparaison des méthodes de parallélisme}{16}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma =0.2, T=1$). (Matériel : i7-13620H + RTX 4060)}}{16}{table.3}\protected@file@percent }
+\newlabel{tab:results}{{3}{16}{Comparaison des temps de calcul et précision pour un Put Américain ($S_0=100, K=100, r=0.05, \sigma =0.2, T=1$). (Matériel : i7-13620H + RTX 4060)}{table.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Analyse des résultats :}{16}{paragraph*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Pour aller plus loin : analyse de l'impact de la base de régression}{17}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmarks "Boosted" complets : Impact du choix de la base et de l'architecture. (Matériel : i7-13620H + RTX 4060)}}{17}{table.4}\protected@file@percent }
+\newlabel{tab:boosted}{{4}{17}{Benchmarks "Boosted" complets : Impact du choix de la base et de l'architecture. (Matériel : i7-13620H + RTX 4060)}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Comparaison de performance : Nouveau Solveur GPU "Full" vs Standard (N=100k)}}{18}{table.5}\protected@file@percent }
+\newlabel{tab:perf_resident}{{5}{18}{Comparaison de performance : Nouveau Solveur GPU "Full" vs Standard (N=100k)}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Validation numérique}{18}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Performances CPU séquentiel}{18}{subsection.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Temps vs $N_{paths}$ (CPU Séquentiel)}}{19}{figure.9}\protected@file@percent }
+\newlabel{fig:linearity_paths}{{9}{19}{Temps vs $N_{paths}$ (CPU Séquentiel)}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Temps vs $N_{steps}$ (CPU Séquentiel)}}{19}{figure.10}\protected@file@percent }
+\newlabel{fig:linearity_steps}{{10}{19}{Temps vs $N_{steps}$ (CPU Séquentiel)}{figure.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Accélération par parallélisation CPU avec OpenMP}{19}{subsection.4.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Temps vs $N_{paths}$ (OpenMP 4 threads)}}{20}{figure.11}\protected@file@percent }
+\newlabel{fig:linearity_paths_omp}{{11}{20}{Temps vs $N_{paths}$ (OpenMP 4 threads)}{figure.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Temps vs $N_{steps}$ (OpenMP 4 threads)}}{20}{figure.12}\protected@file@percent }
+\newlabel{fig:linearity_steps_omp}{{12}{20}{Temps vs $N_{steps}$ (OpenMP 4 threads)}{figure.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Analyse du passage à l'échelle selon la taille du problème.}{20}{paragraph*.2}\protected@file@percent }
 \citation{Benguigui}
-\citation{Benguigui}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Validation numérique}{17}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}Analyse de la convergence (Figure 14)}{17}{subsubsection.4.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Performances CPU séquentiel}{17}{subsection.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Temps vs $N_{paths}$ (CPU Séquentiel)}}{18}{figure.8}\protected@file@percent }
-\newlabel{fig:linearity_paths}{{8}{18}{Temps vs $N_{paths}$ (CPU Séquentiel)}{figure.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Temps vs $N_{steps}$ (CPU Séquentiel)}}{18}{figure.9}\protected@file@percent }
-\newlabel{fig:linearity_steps}{{9}{18}{Temps vs $N_{steps}$ (CPU Séquentiel)}{figure.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Accélération par parallélisation CPU avec OpenMP}{18}{subsection.4.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Temps vs $N_{paths}$ (OpenMP 4 threads)}}{18}{figure.10}\protected@file@percent }
-\newlabel{fig:linearity_paths_omp}{{10}{18}{Temps vs $N_{paths}$ (OpenMP 4 threads)}{figure.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Temps vs $N_{steps}$ (OpenMP 4 threads)}}{18}{figure.11}\protected@file@percent }
-\newlabel{fig:linearity_steps_omp}{{11}{18}{Temps vs $N_{steps}$ (OpenMP 4 threads)}{figure.11}{}}
-\citation{Benguigui}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Accélération GPU avec CUDA}{19}{subsection.4.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Temps vs $N_{paths}$ (GPU CUDA)}}{19}{figure.12}\protected@file@percent }
-\newlabel{fig:linearity_paths_gpu}{{12}{19}{Temps vs $N_{paths}$ (GPU CUDA)}{figure.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Temps vs $N_{steps}$ (GPU CUDA)}}{19}{figure.13}\protected@file@percent }
-\newlabel{fig:linearity_steps_gpu}{{13}{19}{Temps vs $N_{steps}$ (GPU CUDA)}{figure.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Comparaison globale des architectures}{20}{subsection.4.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Discussion sur les limites du parallélisme}{20}{subsection.4.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Analyse Critique et Limitations}{21}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{21}{subsection.5.1}\protected@file@percent }
-\pp@pagectr{footnote}{11}{22}{21}
-\pp@pagectr{footnote}{12}{22}{21}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Échec de l'intégration CUDA dans Visual Studio}{21}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{21}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{21}{subsection.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces *}}{21}{figure.13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces *}}{21}{figure.14}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces *}}{21}{figure.15}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces *}}{21}{figure.16}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Passage à l'échelle OpenMP selon la taille du problème (moyenne lissée sur 10 exécutions, min/max exclus). L'accélération est négligeable pour les petits problèmes mais devient significative pour N$\geq $100\,000, avant de plafonner à cause de la bande passante mémoire.}}{21}{figure.17}\protected@file@percent }
+\newlabel{fig:openmp_scaling_mosaic}{{17}{21}{Passage à l'échelle OpenMP selon la taille du problème (moyenne lissée sur 10 exécutions, min/max exclus). L'accélération est négligeable pour les petits problèmes mais devient significative pour N$\geq $100\,000, avant de plafonner à cause de la bande passante mémoire}{figure.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Accélération GPU avec CUDA}{21}{subsection.4.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Temps vs $N_{paths}$ (GPU CUDA)}}{22}{figure.18}\protected@file@percent }
+\newlabel{fig:linearity_paths_gpu}{{18}{22}{Temps vs $N_{paths}$ (GPU CUDA)}{figure.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Temps vs $N_{steps}$ (GPU CUDA)}}{22}{figure.19}\protected@file@percent }
+\newlabel{fig:linearity_steps_gpu}{{19}{22}{Temps vs $N_{steps}$ (GPU CUDA)}{figure.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Impact de la taille des blocs GPU sur le temps d'exécution (N=1\,000\,000 trajectoires, 50 pas). Moyenne lissée sur 10 exécutions (min/max exclus).}}{23}{figure.20}\protected@file@percent }
+\newlabel{fig:gpu_block_size}{{20}{23}{Impact de la taille des blocs GPU sur le temps d'exécution (N=1\,000\,000 trajectoires, 50 pas). Moyenne lissée sur 10 exécutions (min/max exclus)}{figure.20}{}}
+\newlabel{sec:gpu_block_benchmark}{{4.7}{23}{Accélération GPU avec CUDA}{figure.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Comparaison globale des architectures}{23}{subsection.4.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Discussion sur les limites du parallélisme}{23}{subsection.4.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Analyse Critique et Limitations}{25}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Organisation du projet et évolution des dépôts}{25}{subsection.5.1}\protected@file@percent }
+\pp@pagectr{footnote}{12}{26}{25}
+\pp@pagectr{footnote}{13}{26}{25}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Échec de l'intégration CUDA dans Visual Studio}{25}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Complexité de l’exercice anticipé}{25}{subsection.5.3}\protected@file@percent }
 \citation{Hull}
 \citation{LSM2001}
 \citation{ArealParallelMethods}
 \citation{ArealParallelMethods}
-\@writefile{toc}{\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{22}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Extensions et bases avancées.}{22}{section*.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Comparaison de la convergence de l'erreur relative selon le nombre de trajectoires ($N=10^4, 10^5$) et l'architecture.}}{22}{figure.14}\protected@file@percent }
-\newlabel{fig:degree_convergence_full}{{14}{22}{Comparaison de la convergence de l'erreur relative selon le nombre de trajectoires ($N=10^4, 10^5$) et l'architecture}{figure.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Choix, stabilité et extensions de la régression}{26}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Étude initiale : Bases quadratiques.}{26}{paragraph*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Extensions et bases avancées.}{26}{paragraph*.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Comparaison de la convergence de l'erreur relative selon le nombre de trajectoires ($N=10^4, 10^5$) et l'architecture.}}{26}{figure.21}\protected@file@percent }
+\newlabel{fig:degree_convergence_full}{{21}{26}{Comparaison de la convergence de l'erreur relative selon le nombre de trajectoires ($N=10^4, 10^5$) et l'architecture}{figure.21}{}}
 \citation{ArealParallelMethods}
 \citation{Glasserman}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Évolution théorique attendue de la précision (Source: \cite  {ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}}{23}{figure.15}\protected@file@percent }
-\newlabel{fig:basis_comparison}{{15}{23}{Évolution théorique attendue de la précision (Source: \cite {ArealParallelMethods}). Voici ce que l'on devrait observer idéalement}{figure.15}{}}
-\@writefile{toc}{\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{23}{section*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Compromis précision--performance}{23}{subsection.5.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Évolution théorique attendue de la précision (Source : \cite  {ArealParallelMethods}). Voici ce que l'on devrait observer idéalement.}}{27}{figure.22}\protected@file@percent }
+\newlabel{fig:basis_comparison}{{22}{27}{Évolution théorique attendue de la précision (Source : \cite {ArealParallelMethods}). Voici ce que l'on devrait observer idéalement}{figure.22}{}}
+\@writefile{toc}{\contentsline {paragraph}{Analyse de la convergence (Figure~\ref {fig:degree_convergence_full}).}{27}{paragraph*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Compromis précision--performance}{27}{subsection.5.5}\protected@file@percent }
 \citation{Ghodssi}
 \citation{Detra}
 \citation{Parareal}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{24}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{24}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{24}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{24}{subsection.6.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{25}{subsection.6.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{25}{subsection.6.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Illustration d'un arbre binomial pour la valorisation d'options.}}{25}{figure.16}\protected@file@percent }
-\newlabel{fig:binomial_tree}{{16}{25}{Illustration d'un arbre binomial pour la valorisation d'options}{figure.16}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Organisation du travail}{25}{section.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Découpage du projet}{26}{subsection.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{26}{subsection.7.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Interface de paramétrage et de lancement (Projet Initial \texttt  {lsmc-openmp}).}}{27}{figure.17}\protected@file@percent }
-\newlabel{fig:python_gui}{{17}{27}{Interface de paramétrage et de lancement (Projet Initial \texttt {lsmc-openmp})}{figure.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Visualisation des trajectoires Monte Carlo et du prix estimé via l'interface Python.}}{27}{figure.18}\protected@file@percent }
-\newlabel{fig:python_gui_2}{{18}{27}{Visualisation des trajectoires Monte Carlo et du prix estimé via l'interface Python}{figure.18}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{27}{subsection.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Retours d'expérience et témoignages}{28}{subsection.7.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Outils et environnement collaboratif}{29}{subsection.7.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.6}Gestion du temps et avancement}{29}{subsection.7.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{30}{section.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{31}{appendix.A}\protected@file@percent }
-\newlabel{appendix:eds}{{A}{31}{Résolution de l'EDS du GBM}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{32}{appendix.B}\protected@file@percent }
-\newlabel{appendix:brownian}{{B}{32}{Rappels de Probabilités et propriétés du Mouvement Brownien}{appendix.B}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{32}{subsection.B.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{32}{subsection.B.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{32}{subsection.B.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {C}Propriétés des Bases Polynomiales et Relations de Récurrence}{33}{appendix.C}\protected@file@percent }
-\newlabel{appendix:polys}{{C}{33}{Propriétés des Bases Polynomiales et Relations de Récurrence}{appendix.C}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Base Canonique (Monomiale)}{33}{subsection.C.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Polynômes de Laguerre $L_n(x)$}{33}{subsection.C.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Polynômes d'Hermite $H_n(x)$}{33}{subsection.C.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Polynômes de Legendre $P_n(x)$}{33}{subsection.C.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Polynômes de Chebyshev (1ère espèce) $T_n(x)$}{33}{subsection.C.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Perspectives et améliorations possibles}{28}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Améliorations algorithmiques}{28}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Extensions du modèle financier}{28}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Optimisations CPU avancées}{28}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Optimisation et généralisation de l’implémentation GPU}{29}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Perspectives méthodologiques}{29}{subsection.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Illustration d'un arbre binomial pour la valorisation d'options.}}{29}{figure.23}\protected@file@percent }
+\newlabel{fig:binomial_tree}{{23}{29}{Illustration d'un arbre binomial pour la valorisation d'options}{figure.23}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Organisation du travail}{30}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Découpage du projet}{30}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Organisation du développement et itérations}{30}{subsection.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Interface de paramétrage et de lancement (Projet Initial \texttt  {lsmc-openmp}).}}{31}{figure.24}\protected@file@percent }
+\newlabel{fig:python_gui}{{24}{31}{Interface de paramétrage et de lancement (Projet Initial \texttt {lsmc-openmp})}{figure.24}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Visualisation des trajectoires Monte Carlo et du prix estimé via l'interface Python.}}{31}{figure.25}\protected@file@percent }
+\newlabel{fig:python_gui_2}{{25}{31}{Visualisation des trajectoires Monte Carlo et du prix estimé via l'interface Python}{figure.25}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Répartition des tâches et binôme}{32}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Retours d'expérience et témoignages}{32}{subsection.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Outils et environnement collaboratif}{33}{subsection.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6}Gestion du temps et avancement}{33}{subsection.7.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{35}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Annexes}{36}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Résolution de l'EDS du GBM}{36}{appendix.A}\protected@file@percent }
+\newlabel{appendix:eds}{{A}{36}{Résolution de l'EDS du GBM}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Rappels de Probabilités et propriétés du Mouvement Brownien}{37}{appendix.B}\protected@file@percent }
+\newlabel{appendix:brownian}{{B}{37}{Rappels de Probabilités et propriétés du Mouvement Brownien}{appendix.B}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Définition et propriétés du Mouvement Brownien}{37}{subsection.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Propriétés des incréments}{37}{subsection.B.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Loi des Grands Nombres et Monte Carlo}{37}{subsection.B.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C}Propriétés des Bases Polynomiales et Relations de Récurrence}{38}{appendix.C}\protected@file@percent }
+\newlabel{appendix:polys}{{C}{38}{Propriétés des Bases Polynomiales et Relations de Récurrence}{appendix.C}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Base Canonique (Monomiale)}{38}{subsection.C.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Polynômes de Laguerre $L_n(x)$}{38}{subsection.C.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Polynômes d'Hermite $H_n(x)$}{38}{subsection.C.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Polynômes de Legendre $P_n(x)$}{38}{subsection.C.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Polynômes de Chebyshev (1ère espèce) $T_n(x)$}{38}{subsection.C.5}\protected@file@percent }
 \gdef \LT@i {\LT@entry 
     {1}{56.60718pt}\LT@entry 
     {1}{353.43306pt}}
@@ -152,15 +165,15 @@
 \gdef \LT@iii {\LT@entry 
     {1}{68.48131pt}\LT@entry 
     {1}{353.43306pt}}
-\@writefile{toc}{\contentsline {section}{\numberline {D}Notations et Conventions}{34}{appendix.D}\protected@file@percent }
-\newlabel{appendix:notations}{{D}{34}{Notations et Conventions}{appendix.D}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Probabilités et Processus Stochastiques}{34}{subsection.D.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Modélisation Financière}{34}{subsection.D.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.3}Méthodes Numériques (LSMC)}{34}{subsection.D.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {D}Notations et Conventions}{39}{appendix.D}\protected@file@percent }
+\newlabel{appendix:notations}{{D}{39}{Notations et Conventions}{appendix.D}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Probabilités et Processus Stochastiques}{39}{subsection.D.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Modélisation Financière}{39}{subsection.D.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.3}Méthodes Numériques (LSMC)}{39}{subsection.D.3}\protected@file@percent }
 \gdef \LT@iv {\LT@entry 
     {1}{56.60718pt}\LT@entry 
     {1}{353.43306pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.4}Implémentation et Architecture}{35}{subsection.D.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.4}Implémentation et Architecture}{40}{subsection.D.4}\protected@file@percent }
 \bibcite{LSM2001}{1}
 \bibcite{Hull}{2}
 \bibcite{Glasserman}{3}
@@ -173,4 +186,4 @@
 \bibcite{Detra}{10}
 \bibcite{Ghodssi}{11}
 \bibcite{Parareal}{12}
-\gdef \@abspage@last{37}
+\gdef \@abspage@last{42}
