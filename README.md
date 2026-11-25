@@ -88,3 +88,13 @@ Deux modes CLI sont disponibles dans `P1RV_CUDA/main.cu` :
 - **Précision et mémoire GPU** : les trajectoires GPU sont stockées en simple précision (`float`), tandis que les sommes normales sont accumulées en double précision (`double`) ; le stockage complet $M \times (N+1)$ borne la taille des simulations à la mémoire GPU disponible et les polynômes de degré élevé restent sensibles au conditionnement.
 - **État actuel de `P1RV_CUDA/main.cu`** : les options CLI ne permettent pas encore de choisir la base ou le degré depuis la ligne de commande (fixés à `Monomial`, degré 3 en mode `--` et degré 2 en mode positionnel), l'argument `--seed` est lu mais non transmis au solveur, et la boucle du mode benchmark par défaut (sans argument) est actuellement tronquée dans `main.cu`.
 - **Artefacts historiques** : le dépôt conserve un dossier `build/` issu de la compilation Windows/Visual Studio utilisée lors de la soutenance ; utiliser un dossier séparé (`build-varprox`) pour toute nouvelle compilation.
+
+## Vérification sous Ubuntu
+
+Compilation et exécution GPU vérifiées sous Ubuntu 26.04.1 LTS avec CUDA 13.1, GCC 15.2 et une NVIDIA GeForce RTX 4060 Laptop.
+
+Cas exécuté : 10 000 trajectoires et 50 pas de temps.
+
+    ./build-varprox/P1RV_CUDA --N_steps 50 --N_paths 10000 --mode gpu --block_size 256
+
+Ce test confirme la compilation et l'exécution ; il ne constitue pas une nouvelle mesure d'accélération CPU/GPU.
